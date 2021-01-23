@@ -16,16 +16,16 @@
     }
   },
   "types": "./lib/index.d.ts",
+  "mangle": {
+    "regex": "^_"
+  },
   "sideEffects": false,
-  "files": [
-    "lib"
-  ],
   "scripts": {
-    "test": "yarn clean && eslint --ext ts,tsx src && jest --no-cache src",
-    "build": "microbundle --jsx React.createElement --jsxFragment React.Fragment",
-    "prepack": "yarn clean && yarn build",
-    "prepublishOnly": "yarn test",
-    "clean": "del-cli lib coverage"
+    "test": "del-cli coverage && eslint --ext ts,tsx src && jest --no-cache src",
+    "build": "del-cli lib && microbundle --jsx React.createElement --jsxFragment React.Fragment",
+    "clean": "del-cli lib coverage",
+    "prepack": "yarn build",
+    "prepublishOnly": "yarn test"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
