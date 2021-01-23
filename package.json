@@ -1,6 +1,6 @@
 {
   "name": "react-css-in-js",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Minimal React css-in-js styled components.",
   "author": "Chris Ackerman <chris@topher.land>",
   "license": "ISC",
