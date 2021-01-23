@@ -6,6 +6,7 @@ Minimal React css-in-js styled components.
 - SCSS-like ampersand (`&`) parent selectors.
 - Supports all CSS at-rules (e.g. `@media`).
 - Supports server side rendering with zero configuration.
+- Supports class and functional React components.
 - Theming with Typescript typed themes.
 - Zero dependencies.
 - Tiny bundle size.
@@ -61,7 +62,7 @@ ReactDOM.render(
 ```tsx
 import { createTheme } from 'react-css-in-js';
 
-export const [useTheme, ThemeProvider] = createTheme({
+export const [useTheme, ThemeProvider, ThemeConsumer] = createTheme({
   color: 'red',
 });
 ```

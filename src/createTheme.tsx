@@ -6,13 +6,18 @@ export interface IThemeProviderProps<T> {
   children?: React.ReactNode;
 }
 
+export interface IThemeConsumerProps<T> {
+  children: (theme: T) => React.ReactNode;
+}
+
 export type UseTheme<T> = () => T;
 export type ThemeProvider<T> = React.VFC<IThemeProviderProps<T>>;
+export type ThemeConsumer<T> = React.VFC<IThemeConsumerProps<T>>;
 
 /**
  * Create a theme hook and provider with the given default theme values.
  */
-export function createTheme<T extends ITheme>(defaultTheme: T): [UseTheme<T>, ThemeProvider<T>] {
+export function createTheme<T extends ITheme>(defaultTheme: T): [UseTheme<T>, ThemeProvider<T>, ThemeConsumer<T>] {
   const Context = createContext<T>(JSON.parse(JSON.stringify(defaultTheme)));
 
   function useTheme() {
@@ -27,5 +32,11 @@ export function createTheme<T extends ITheme>(defaultTheme: T): [UseTheme<T>, Th
     return <Context.Provider value={value}>{children}</Context.Provider>;
   };
 
-  return [useTheme, ThemeProvider];
+  const ThemeConsumer: ThemeConsumer<T> = ({ children }) => {
+    const theme = useTheme();
+
+    return <>{children(theme)}</>;
+  };
+
+  return [useTheme, ThemeProvider, ThemeConsumer];
 }
