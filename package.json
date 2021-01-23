@@ -19,8 +19,8 @@
   ],
   "scripts": {
     "test": "yarn clean && eslint --ext ts,tsx src && jest --no-cache src",
-    "build": "yarn clean && microbundle --jsx React.createElement --jsxFragment React.Fragment",
-    "prepack": "yarn build",
+    "build": "microbundle --jsx React.createElement --jsxFragment React.Fragment",
+    "prepack": "yarn clean && yarn build",
     "prepublishOnly": "yarn test",
     "clean": "del-cli lib coverage"
   },

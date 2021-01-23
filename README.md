@@ -13,6 +13,8 @@ Minimal React css-in-js styled components.
 - Stable class names (configurable).
 - Pretty or minimal CSS formatting (configurable).
 
+Try it on [codesandbox.io](https://codesandbox.io/s/react-css-in-js-iup6f).
+
 ## Create a styled component
 
 ```tsx
