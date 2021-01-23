@@ -1,6 +1,6 @@
 {
   "name": "react-css-in-js",
-  "version": "0.1.0-prerelease",
+  "version": "0.1.0-prerelease.0",
   "description": "Minimal React css-in-js styled components.",
   "author": "Chris Ackerman <chris@topher.land>",
   "license": "ISC",
@@ -52,5 +52,6 @@
   "peerDependencies": {
     "react": ">=16.14.0"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "repository": "https://github.com/ChrisAckerman/react-css-in-js"
 }
