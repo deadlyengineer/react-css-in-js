@@ -16,9 +16,6 @@
     }
   },
   "types": "./lib/index.d.ts",
-  "mangle": {
-    "regex": "^_"
-  },
   "sideEffects": false,
   "files": [
     "lib"
