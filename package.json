@@ -1,6 +1,6 @@
 {
   "name": "react-css-in-js",
-  "version": "0.1.0-prerelease.0",
+  "version": "0.1.2-prerelease",
   "description": "Minimal React css-in-js styled components.",
   "author": "Chris Ackerman <chris@topher.land>",
   "license": "ISC",
@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "test": "yarn clean && eslint --ext ts,tsx src && jest --no-cache src",
-    "build": "yarn clean && microbundle",
+    "build": "yarn clean && microbundle --jsx React.createElement",
     "prepack": "yarn build",
     "prepublishOnly": "yarn test",
     "clean": "del-cli lib coverage"
