@@ -4,7 +4,7 @@ export interface IConfig {
    */
   pretty: boolean;
   /**
-   * Get a unique class name given a base class name and style text.
+   * Get a unique class name given a style name and a style string.
    */
-  getClassName: (className: string, style: string) => string;
+  getClassName: (name: string, style: string) => string;
 }

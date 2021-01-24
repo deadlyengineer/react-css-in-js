@@ -15,7 +15,7 @@ export type ThemeProvider<T> = React.VFC<IThemeProviderProps<T>>;
 export type ThemeConsumer<T> = React.VFC<IThemeConsumerProps<T>>;
 
 /**
- * Create a theme hook and provider with the given default theme values.
+ * Create a theme hook, provider, and consumer, with the given default theme values.
  */
 export function createTheme<T extends ITheme>(defaultTheme: T): [UseTheme<T>, ThemeProvider<T>, ThemeConsumer<T>] {
   const Context = createContext<T>(JSON.parse(JSON.stringify(defaultTheme)));
