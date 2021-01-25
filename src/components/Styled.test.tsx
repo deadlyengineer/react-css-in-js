@@ -24,7 +24,7 @@ it('should render to string', () => {
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"foo:shgm5m\\">
+    "<style data-rcij=\\"foo/shgm5m\\">
       .foo--rcij-shgm5m {
         color: red;
       }
@@ -74,18 +74,18 @@ it('should allow for style overrides using Styled wrappers', () => {
   };
 
   expect(pretty(ReactDOM.renderToString(<C className={'render'} />))).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"baz:mmkps7\\">
+    "<style data-rcij=\\"baz/mmkps7\\">
       .baz--rcij-mmkps7 {
         color: blue;
       }
     </style>
-    <style data-rcij=\\"bar:3e3m74\\">
+    <style data-rcij=\\"bar/3e3m74\\">
       .bar--rcij-3e3m74 {
         color: green;
         color: blue;
       }
     </style>
-    <style data-rcij=\\"foo:k8ih2n\\">
+    <style data-rcij=\\"foo/k8ih2n\\">
       .foo--rcij-k8ih2n {
         color: red;
         color: green;
