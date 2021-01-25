@@ -6,6 +6,10 @@ import { IStyleConfig } from './IStyleConfig';
  * configuration.
  */
 export function configure(options: Partial<IStyleConfig> = {}): IStyleConfig {
+  if (_config._locked) {
+    console.warn('The configure() method should be called before using react-css-in-js.');
+  }
+
   const prev = { ..._config._current };
 
   Object.keys(options).forEach((key) => {
