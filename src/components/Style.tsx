@@ -25,5 +25,5 @@ export const Style: React.VFC<IStyleProps> = ({ css, rootSelector }) => {
     return [hash, cssText];
   }, [css, rootSelector]);
 
-  return _useCache(hash, cssText) ? null : <style {...{ [_styleAttributeName]: `${name}:${hash}` }}>{cssText}</style>;
+  return _useCache(hash, cssText) ? null : <style {...{ [_styleAttributeName]: hash }}>{cssText}</style>;
 };

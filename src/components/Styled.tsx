@@ -43,12 +43,11 @@ export const Styled: React.VFC<IStyledProps> = ({ name, className = [], css, chi
 
     return [hash, cssText, styledClassName];
   }, [name, css, childStyleText, childClassName]);
+  const key = `${name}/${hash}`;
 
   return (
     <>
-      {_useCache(`${name}:${hash}`, cssText) || (
-        <style {...{ [_styleAttributeName]: `${name}:${hash}` }}>{cssText}</style>
-      )}
+      {_useCache(key, cssText) || <style {...{ [_styleAttributeName]: key }}>{cssText}</style>}
       {React.cloneElement(children, { className: styledClassName })}
     </>
   );
