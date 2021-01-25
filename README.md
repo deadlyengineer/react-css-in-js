@@ -1,26 +1,31 @@
 # React CSS-in-JS
 
+[![Version](https://badgen.net/npm/v/react-css-in-js)](https://www.npmjs.com/package/react-css-in-js)
+[![Size](https://badgen.net/bundlephobia/minzip/react-css-in-js)](https://bundlephobia.com/result?p=react-css-in-js)
+[![Deps](https://badgen.net/bundlephobia/dependency-count/react-css-in-js)](https://bundlephobia.com/result?p=react-css-in-js)
+[![TreeShaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js)](https://bundlephobia.com/result?p=react-css-in-js)
+
 Minimal React css-in-js styled components.
 
 - Write styles using tagged template strings.
 - Style any component that accepts a `className` property.
 - Theme with type-safety.
+- Small bundle size (smaller than both [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react)).
 - Zero dependencies.
-- Tiny bundle size (less than 2KB gzipped).
 - Class names are stable (and configurable).
 - Supports SCSS-like ampersand (`&`) parent selectors.
 - Supports _all_ CSS at-rules.
-- Supports server side rendering with zero configuration.
+- Supports zero-configuration server-side rendering.
 
 Try it on [codesandbox.io](https://codesandbox.io/s/react-css-in-js-iup6f).
 
 ## In comparison to other libraries
 
-It's like Emotion's `css` property, but you don't have to use a special JSX pragma or worry about element cloning gotchas.
+Like Emotion's `css` property, but you don't have to use a special JSX pragma or worry about element cloning gotchas.
 
-It's like the styled-components pattern, except you have direct control over how component props become HTML element attributes, and you don't have to create multiple components to add "internal" children.
+Like the styled-components pattern, except you have direct control over how component props become HTML element attributes, and you don't have to create multiple components to add "internal" children.
 
-It's a little more verbose than Emotion or styled-components, but in return you get less magic and the full flexibility and simplicity of basic React components.
+A little more verbose than Emotion or styled-components, but in return you get less magic and the full flexibility and simplicity of plain React.
 
 ## Create a styled component
 

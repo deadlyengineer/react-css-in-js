@@ -1,24 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom/server';
+import pretty from 'pretty';
 import { Styled } from './Styled';
 import { css } from '../css';
 import { cx } from '../cx';
 
+jest.mock('../private/_getCache', () => ({
+  _getCache: jest.fn().mockReturnValue([null, new Map()]),
+}));
+
 it('should render to string', () => {
   expect(
-    ReactDOM.renderToString(
-      <Styled
-        name={'foo'}
-        css={css`
-          color: red;
-        `}
-      >
-        <div />
-      </Styled>
+    pretty(
+      ReactDOM.renderToString(
+        <Styled
+          name={'foo'}
+          css={css`
+            color: red;
+          `}
+        >
+          <div />
+        </Styled>
+      )
     )
-  ).toMatchInlineSnapshot(
-    `"<style>.foo--rcijs-18pidyi{color: red;}</style><div class=\\"foo--rcijs-18pidyi\\"></div>"`
-  );
+  ).toMatchInlineSnapshot(`
+    "<style data-rcij=\\"foo:shgm5m\\">
+      .foo--rcij-shgm5m {
+        color: red;
+      }
+    </style>
+    <div class=\\"foo--rcij-shgm5m\\"></div>"
+  `);
 });
 
 it('should allow for style overrides using Styled wrappers', () => {
@@ -61,7 +73,25 @@ it('should allow for style overrides using Styled wrappers', () => {
     );
   };
 
-  expect(ReactDOM.renderToString(<C className={'render'} />)).toMatchInlineSnapshot(
-    `"<style>.baz--rcijs-mmkps7{color: blue;}</style><style>.bar--rcijs-3e3m74{color: green;color: blue;}</style><style>.foo--rcijs-k8ih2n{color: red;color: green;color: blue;}</style><div class=\\"a b c render foo--rcijs-k8ih2n\\"></div>"`
-  );
+  expect(pretty(ReactDOM.renderToString(<C className={'render'} />))).toMatchInlineSnapshot(`
+    "<style data-rcij=\\"baz:mmkps7\\">
+      .baz--rcij-mmkps7 {
+        color: blue;
+      }
+    </style>
+    <style data-rcij=\\"bar:3e3m74\\">
+      .bar--rcij-3e3m74 {
+        color: green;
+        color: blue;
+      }
+    </style>
+    <style data-rcij=\\"foo:k8ih2n\\">
+      .foo--rcij-k8ih2n {
+        color: red;
+        color: green;
+        color: blue;
+      }
+    </style>
+    <div class=\\"a b c render foo--rcij-k8ih2n\\"></div>"
+  `);
 });

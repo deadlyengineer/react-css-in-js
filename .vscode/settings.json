@@ -1,8 +1,7 @@
 {
   "git.ignoreLimitWarning": true,
   "cSpell.words": [
-    "microbundle",
-    "rcijs"
+    "rcij"
   ],
   "javascript.suggestionActions.enabled": false
 }

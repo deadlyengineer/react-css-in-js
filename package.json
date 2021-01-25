@@ -1,6 +1,6 @@
 {
   "name": "react-css-in-js",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "Minimal React css-in-js styled components.",
   "repository": "https://github.com/ChrisAckerman/react-css-in-js",
   "author": "Chris Ackerman <chris@topher.land>",
@@ -25,11 +25,13 @@
     "build": "del-cli lib && microbundle --jsx React.createElement --jsxFragment React.Fragment",
     "clean": "del-cli lib coverage",
     "prepack": "yarn build",
-    "prepublishOnly": "yarn test"
+    "prepublishOnly": "yarn test",
+    "prerelease": "yarn publish --prerelease --preid=prerelease --tag prerelease"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
     "@types/prettier": "^2.1.6",
+    "@types/pretty": "^2.0.0",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-test-renderer": "^17.0.0",
@@ -43,6 +45,7 @@
     "jest": "^26.6.3",
     "microbundle": "^0.13.0",
     "prettier": "^2.2.1",
+    "pretty": "^2.0.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-test-renderer": "^17.0.1",
