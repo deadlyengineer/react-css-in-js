@@ -1,9 +1,9 @@
 import { useEffect } from 'react';
 import { _getCache } from './_getCache';
 
-const cache = _getCache();
-
 export function _useCache(key: string, cssText: string): boolean {
+  const cache = _getCache();
+
   useEffect(() => {
     const refCount = cache.refCounts.get(key) ?? 0;
 

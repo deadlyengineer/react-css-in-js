@@ -1,15 +1,11 @@
-import { IStyleConfig } from './IStyleConfig';
 import { _config } from './private/_config';
+import { IStyleConfig } from './IStyleConfig';
 
 /**
  * Set configuration options for react-css-in-js. Returns the _previous_
  * configuration.
  */
 export function configure(options: Partial<IStyleConfig> = {}): IStyleConfig {
-  if (_config._locked) {
-    console.warn('Configure should be called before using react-css-in-js.');
-  }
-
   const prev = { ..._config._current };
 
   Object.keys(options).forEach((key) => {

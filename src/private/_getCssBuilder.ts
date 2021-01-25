@@ -1,12 +1,13 @@
-import { ICssBlock } from './ICssBlock';
-import { ICssBuilder } from './ICssBuilder';
-import { _config } from './_config';
+import { _getConfig } from './_getConfig';
 import { _getSelectors } from './_getSelectors';
 import { _printerDefault } from './_printerDefault';
 import { _printerPretty } from './_printerPretty';
+import { ICssBlock } from './ICssBlock';
+import { ICssBuilder } from './ICssBuilder';
 
 export function _getCssBuilder(rootSelector = ':root'): ICssBuilder {
-  const printer = _config._current.pretty ? _printerPretty : _printerDefault;
+  const { pretty } = _getConfig();
+  const printer = pretty ? _printerPretty : _printerDefault;
   const blocks: ICssBlock[] = [];
 
   let result = '';

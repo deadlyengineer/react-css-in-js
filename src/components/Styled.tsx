@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { cx } from '../cx';
-import { _config } from '../private/_config';
-import { _getCssText } from '../private/_getCssText';
-import { _getStyledClassName, StyledClassName } from '../private/_getStyledClassName';
 import { _styleAttributeName } from '../private/_styleAttributeName';
 import { _useCache } from '../private/_useCache';
+import { _getCssText } from '../private/_getCssText';
+import { _getStyledClassName, StyledClassName } from '../private/_getStyledClassName';
+import { _getConfig } from '../private/_getConfig';
 
 export interface IStyledProps {
   /**
@@ -30,8 +30,9 @@ export const Styled: React.VFC<IStyledProps> = ({ name, className = [], css, chi
   const childClassName = cx(...className, children.props.className) as StyledClassName;
   const childStyleText = childClassName?.styled?.styleText ?? '';
   const [hash, cssText, styledClassName] = useMemo((): [string, string, string] => {
+    const { getHash } = _getConfig();
     const styleText = css + childStyleText;
-    const hash = _config._current.getHash(styleText);
+    const hash = getHash(styleText);
     const hashedClassName = `${name}--rcij-${hash}`;
     const styledClassName = _getStyledClassName(
       styleText,
@@ -39,6 +40,7 @@ export const Styled: React.VFC<IStyledProps> = ({ name, className = [], css, chi
       childClassName?.styled?.simpleClassName ?? childClassName
     );
     const cssText = _getCssText(styleText, `.${hashedClassName}`);
+
     return [hash, cssText, styledClassName];
   }, [name, css, childStyleText, childClassName]);
 
