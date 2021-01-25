@@ -1,6 +1,6 @@
 {
   "name": "react-css-in-js",
-  "version": "0.4.2",
+  "version": "0.5.0",
   "description": "Minimal React css-in-js styled components.",
   "repository": "https://github.com/ChrisAckerman/react-css-in-js",
   "author": "Chris Ackerman <chris@topher.land>",
@@ -26,7 +26,7 @@
     "clean": "del-cli lib coverage",
     "prepack": "yarn build",
     "prepublishOnly": "yarn test",
-    "prerelease": "yarn publish --prerelease --preid=prerelease --tag prerelease"
+    "prerelease": "yarn publish --prerelease --preid=prerelease --tag=prerelease "
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
