@@ -31,7 +31,7 @@ it('should render simple css', () => {
 
 it('should include un-terminated rules', () => {
   expect(
-    _getCssText(css`
+    _getCssText(`
     .foo {
       color: blue`)
   ).toMatchInlineSnapshot(`
