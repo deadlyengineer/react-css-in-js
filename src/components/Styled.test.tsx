@@ -6,7 +6,7 @@ import { css } from '../css';
 import { cx } from '../cx';
 
 jest.mock('../private/_getCache', () => ({
-  _getCache: jest.fn().mockReturnValue([null, new Map()]),
+  _getCache: jest.fn().mockReturnValue({ manager: null, refCounts: new Map() }),
 }));
 
 it('should render to string', () => {

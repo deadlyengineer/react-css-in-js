@@ -1,10 +1,12 @@
-import { useEffect } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { _getCache } from './_getCache';
 
 export function _useCache(key: string, cssText: string): boolean {
-  const cache = _getCache();
+  const cache = useMemo(() => _getCache(), []);
+  const keyRef = useRef('');
+  const cssTextRef = useRef('');
 
-  useEffect(() => {
+  if (keyRef.current !== key || cssTextRef.current !== cssText) {
     const refCount = cache.refCounts.get(key) ?? 0;
 
     cache.refCounts.set(key, refCount + 1);
@@ -12,8 +14,11 @@ export function _useCache(key: string, cssText: string): boolean {
     if (refCount === 0) {
       cache.manager?.register(key, cssText);
     }
+  }
 
-    return () => {
+  useEffect(
+    () => () => {
+      const key = keyRef.current;
       const newRefCount = (cache.refCounts.get(key) ?? 0) - 1;
 
       if (newRefCount <= 0) {
@@ -22,8 +27,9 @@ export function _useCache(key: string, cssText: string): boolean {
       } else {
         cache.refCounts.set(key, newRefCount);
       }
-    };
-  }, [key, cssText]);
+    },
+    []
+  );
 
   return cache.manager != null;
 }

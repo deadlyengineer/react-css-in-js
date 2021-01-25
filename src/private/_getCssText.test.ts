@@ -1,13 +1,15 @@
 import { css } from '../css';
-import { configure } from '../configure';
 import { _getCssText } from './_getCssText';
 
-beforeEach(() => {
-  configure({ pretty: true });
-});
+const initialConfig = { ...jest.requireActual('./_getConfig')._getConfig(), pretty: true };
+let config = { ...initialConfig };
+
+jest.mock('./_getConfig', () => ({
+  _getConfig: jest.fn().mockImplementation(() => config),
+}));
 
 afterEach(() => {
-  configure({ pretty: false });
+  config = { ...initialConfig };
 });
 
 it('should render simple css', () => {
@@ -195,7 +197,8 @@ it('should nest at-rules', () => {
 });
 
 it('should print a single line if "pretty" option is unset', () => {
-  configure({ pretty: false });
+  config.pretty = false;
+
   expect(
     _getCssText(css`
       @media screen {
