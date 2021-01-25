@@ -11,6 +11,10 @@ export interface IStyleConfig {
    */
   styleManager: IStyleManager | 'default' | 'none';
   /**
+   * Override the default "is-browser" environment detection.
+   */
+  isBrowser: boolean;
+  /**
    * Get a hash for the given string (must be CSS class name safe).
    */
   getHash: (value: string) => string;

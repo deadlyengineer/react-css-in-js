@@ -1,6 +1,5 @@
 import { _config } from './_config';
 import { _styleManagerDefault } from './_styleManagerDefault';
-import { _getIsBrowser } from './_getIsBrowser';
 import { _styleAttributeName } from './_styleAttributeName';
 import { IStyleManager } from '../IStyleManager';
 import { IStyleDehydrated } from '../IStyleDehydrated';
@@ -13,6 +12,8 @@ export function _getCache(): ICache {
     return cache;
   }
 
+  _config._locked = true;
+
   const configStyleManager = _config._current.styleManager;
   const refCounts = new Map();
 
@@ -20,14 +21,14 @@ export function _getCache(): ICache {
 
   if (typeof configStyleManager !== 'string') {
     manager = configStyleManager;
-  } else if (configStyleManager !== 'none' && _getIsBrowser()) {
+  } else if (configStyleManager !== 'none' && _config._current.isBrowser) {
     manager = _styleManagerDefault;
   } else {
     manager = null;
   }
 
   if (manager) {
-    const styles = [...document.querySelectorAll<HTMLStyleElement>(`body style[${_styleAttributeName}]`)].reduce<
+    const styles = Array.from(document.querySelectorAll<HTMLStyleElement>(`body style[${_styleAttributeName}]`)).reduce<
       IStyleDehydrated[]
     >((acc, element) => {
       const key = element.getAttribute(_styleAttributeName);

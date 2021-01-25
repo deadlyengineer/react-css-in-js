@@ -1,12 +1,10 @@
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { cx } from '../cx';
 import { _config } from '../private/_config';
 import { _getCssText } from '../private/_getCssText';
 import { _getStyledClassName, StyledClassName } from '../private/_getStyledClassName';
-import { _getCache } from '../private/_getCache';
 import { _styleAttributeName } from '../private/_styleAttributeName';
-
-const cache = _getCache();
+import { _useCache } from '../private/_useCache';
 
 export interface IStyledProps {
   /**
@@ -44,31 +42,11 @@ export const Styled: React.VFC<IStyledProps> = ({ name, className = [], css, chi
     return [hash, cssText, styledClassName];
   }, [name, css, childStyleText, childClassName]);
 
-  useEffect(() => {
-    const key = `${name}:${hash}`;
-    const refCount = cache.refCounts.get(key) ?? 0;
-
-    cache.refCounts.set(key, refCount + 1);
-
-    if (refCount === 0) {
-      cache.manager?.register(key, cssText);
-    }
-
-    return () => {
-      const newRefCount = (cache.refCounts.get(key) ?? 0) - 1;
-
-      if (newRefCount <= 0) {
-        cache.refCounts.delete(key);
-        cache.manager?.unregister(key);
-      } else {
-        cache.refCounts.set(key, newRefCount);
-      }
-    };
-  }, [name, hash, cssText]);
-
   return (
     <>
-      {!cache.manager && <style {...{ [_styleAttributeName]: `${name}:${hash}` }}>{cssText}</style>}
+      {_useCache(`${name}:${hash}`, cssText) || (
+        <style {...{ [_styleAttributeName]: `${name}:${hash}` }}>{cssText}</style>
+      )}
       {React.cloneElement(children, { className: styledClassName })}
     </>
   );
