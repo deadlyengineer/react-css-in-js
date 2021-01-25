@@ -10,10 +10,10 @@ Minimal React css-in-js styled components.
 - Write styles using tagged template strings.
 - Style any component that accepts a `className` property.
 - Theme with type-safety.
-- Small bundle size (smaller than both [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react)).
+- Small bundle size (much smaller than both [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react)).
 - Zero dependencies.
-- Class names are stable (and configurable).
-- Supports SCSS-like ampersand (`&`) parent selectors.
+- Class names are stable and include an additional `name` prefix to avoid collisions.
+- Supports SCSS-like nesting with parent (`&`) selectors.
 - Supports _all_ CSS at-rules.
 - Supports zero-configuration server-side rendering.
 
@@ -21,17 +21,17 @@ Try it on [codesandbox.io](https://codesandbox.io/s/react-css-in-js-iup6f).
 
 ## In comparison to other libraries
 
-Like Emotion's `css` property, but you don't have to use a special JSX pragma or worry about element cloning gotchas.
+Like Emotion's `css` property, but you don't have to use a special JSX pragma or worry about [css property gotchas](https://emotion.sh/docs/css-prop#gotchas).
 
-Like the styled-components pattern, except you have direct control over how component props become HTML element attributes, and you don't have to create multiple components to add "internal" children.
+Like the styled-components pattern, except you have direct control over how component props become HTML element attributes, you don't have to create multiple components to add "internal" children. All the patterns you can use with styled components are still there, but now they're visible. Need an `as` prop? Give your component an `as` prop. It's not automatic, and that's a good thing.
 
-A little more verbose than Emotion or styled-components, but in return you get less magic and the full flexibility and simplicity of plain React.
+It is a little more verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.
 
 ## Create a styled component
 
 ```tsx
 import React from 'react';
-import { Styled, css, cx } from 'react-css-in-js';
+import { Styled, css } from 'react-css-in-js';
 
 export const Foo: React.FC<{ className?: string }> = (props) => {
   return (
@@ -44,13 +44,13 @@ export const Foo: React.FC<{ className?: string }> = (props) => {
         }
       `}
     >
-      <div className={cx('foo__root', props.className)}>{props.children}</div>
+      <div className={['foo__root', props.className]}>{props.children}</div>
     </Styled>
   );
 };
 ```
 
-The `<Styled>` component will inject a dynamic class name into the child element, merging with any class names the child already has.
+The `<Styled>` component will inject a dynamic class name into the child element, merging with any class names the child already has. A `name` property value is required because it reduces the risk of hash collisions. Hashes only have to be unique within the scope of that name, instead of across your whole application.
 
 You can also _override_ a styled component's styles by wrapping it with another `<Styled>` component.
 
@@ -63,13 +63,13 @@ export const Bar: React.FC<{ className: string }> = (props) => {
         color: orange;
       `}
     >
-      <Foo className={cx('bar__root', props.className)}>{props.children}</Foo>
+      <Foo className={['bar_root', props.className]}>{props.children}</Foo>
     </Styled>
   );
 };
 ```
 
-The `cx` utility merges class names, and correctly allows outer styled components to override the styles of inner styled components.
+The `cx` utility merges class names, and correctly allows outer styled components to override the styles of inner styled components. You should _always_ use this function to combine classes instead of simple string templates or concatenation, because simple string manipulation will lose any styled data attached to the substring.
 
 ## Inject a global style
 

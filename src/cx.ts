@@ -6,7 +6,7 @@ import { _getStyledClassName, StyledClassName } from './private/_getStyledClassN
  */
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function cx(...classNames: any[]): string;
-export function cx(...classNames: (StyledClassName | undefined)[]): string {
+export function cx(...classNames: (StyledClassName | 0 | false | null | undefined)[]): StyledClassName {
   const simpleClassNames: string[] = [];
   let hashedClassName: string | undefined;
   let styleText = '';
