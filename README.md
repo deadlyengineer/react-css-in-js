@@ -1,8 +1,8 @@
 # React CSS-in-JS
 
 [![Version](https://badgen.net/npm/v/react-css-in-js)](https://www.npmjs.com/package/react-css-in-js)
-[![Size](https://badgen.net/bundlephobia/minzip/react-css-in-js)](https://bundlephobia.com/result?p=react-css-in-js)
-[![Deps](https://badgen.net/bundlephobia/dependency-count/react-css-in-js)](https://bundlephobia.com/result?p=react-css-in-js)
+[![Size](https://badgen.net/bundlephobia/minzip/react-css-in-js@latest)](https://bundlephobia.com/result?p=react-css-in-js)
+[![Deps](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@latest)](https://bundlephobia.com/result?p=react-css-in-js)
 [![TreeShaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js)](https://bundlephobia.com/result?p=react-css-in-js)
 
 Minimal React css-in-js styled components.
@@ -33,7 +33,7 @@ _It is less than half the size of both the [styled-components](https://bundlepho
 
 ```tsx
 import React from 'react';
-import { Styled, css } from 'react-css-in-js';
+import { cx, css, Styled } from 'react-css-in-js';
 
 export const Foo: React.FC<{ className?: string }> = (props) => {
   return (
@@ -41,12 +41,9 @@ export const Foo: React.FC<{ className?: string }> = (props) => {
       name={'foo'}
       css={css`
         color: red;
-        &:hover {
-          color: blue;
-        }
       `}
     >
-      <div className={['foo__root', props.className]}>{props.children}</div>
+      <div className={cx('foo__root', props.className)}>{props.children}</div>
     </Styled>
   );
 };
@@ -54,18 +51,24 @@ export const Foo: React.FC<{ className?: string }> = (props) => {
 
 The `<Styled>` component will inject a dynamic class name into the child element, merging with any class names the child already has. A `name` property value is required because it reduces the risk of hash collisions. Hashes only have to be unique within the scope of that name, instead of across your whole application.
 
-You can also _override_ a styled component's styles by wrapping it with another `<Styled>` component.
+You can also _extend/override_ a styled component's styles by wrapping it with another `<Styled>` component.
 
 ```tsx
+import React from 'react';
+import { cx, css, Styled } from 'react-css-in-js';
+import { Foo } from './Foo';
+
 export const Bar: React.FC<{ className: string }> = (props) => {
   return (
     <Styled
       name={'bar'}
       css={css`
-        color: orange;
+        &:hover {
+          color: orange;
+        }
       `}
     >
-      <Foo className={['bar_root', props.className]}>{props.children}</Foo>
+      <Foo className={cx('bar_root', props.className)}>{props.children}</Foo>
     </Styled>
   );
 };
@@ -78,7 +81,7 @@ The `cx` utility merges class names, and correctly allows outer styled component
 ```tsx
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Style, css } from 'react-css-in-js';
+import { css, Style } from 'react-css-in-js';
 
 ReactDOM.render(
   <Style
@@ -104,11 +107,11 @@ export const [useTheme, ThemeProvider, ThemeConsumer] = createTheme({
 });
 ```
 
-## Create a custom reusable styled wrapper
+## Create a reusable styled wrapper
 
 ```tsx
 import React from 'react';
-import { Styled, StyledFC } from 'react-css-in-js';
+import { css, Styled, StyledFC } from 'react-css-in-js';
 
 export const FooStyled: StyledFC = ({ className, children }) => {
   return (
@@ -120,6 +123,46 @@ export const FooStyled: StyledFC = ({ className, children }) => {
       `}
     >
       {children}
+    </Styled>
+  );
+};
+```
+
+Notice that the `Styled` component also accepts a `className` property which it passes on to it's child element. This is to support specifically this scenario, when the child component isn't known. When you _can_ pass the class name directly to the child element, that is the recommended pattern.
+
+## Create a style helper
+
+**Helper File (`hover.ts`)**
+
+```tsx
+import { css } from 'react-css-in-js';
+
+export const hover = (color: string): string => css`
+  &:hover {
+    color: ${color};
+  }
+`;
+```
+
+The `css` function is an alias for `String.raw`, which returns a simple string with escape sequences intact. The alias is just shorter, and allows IDE syntax checking/highlighting.
+
+**Component File**
+
+```tsx
+import React from 'react';
+import { css, Styled } from 'react-css-in-js';
+import { hover } from './hover';
+
+export const Foo: React.FC<{ className?: string }> = (props) => {
+  return (
+    <Styled
+      name={'foo'}
+      css={css`
+        color: blue;
+        ${hover('red')}
+      `}
+    >
+      <div className={cx('foo__root', props.className)}>{props.children}</div>
     </Styled>
   );
 };
