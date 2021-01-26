@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
+import { cx } from '../cx';
 import { _styleAttributeName } from '../private/_styleAttributeName';
 import { _getCssText } from '../private/_getCssText';
 import { _getStyledClassName, StyledClassName } from '../private/_getStyledClassName';
 import { _useStyle } from '../private/_useStyle';
 import { _useHash } from '../private/_useHash';
+import { ICustomStyledProps } from '../types/ICustomStyledProps';
 
-export interface IStyledProps {
+export interface IStyledProps extends ICustomStyledProps {
   /**
    * A style name which will be used to prefix the dynamic class name. This is
    * required to help prevent class name collisions which may result from
@@ -16,11 +18,10 @@ export interface IStyledProps {
    * Style tagged template value.
    */
   css?: string;
-  children: React.ReactElement;
 }
 
-export const Styled: React.VFC<IStyledProps> = ({ name, css = '', children }) => {
-  const childClassName = children.props.className as StyledClassName;
+export const Styled: React.VFC<IStyledProps> = ({ name, className, css = '', children }) => {
+  const childClassName = cx(children.props.className, className) as StyledClassName;
   const parent = childClassName?.styled;
   const styleText = css + (parent?.styleText ?? '');
   const hash = _useHash(styleText);

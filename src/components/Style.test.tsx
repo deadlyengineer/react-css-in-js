@@ -1,17 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom/server';
+/* eslint-disable @typescript-eslint/no-var-requires */
 import pretty from 'pretty';
-import { Style } from './Style';
 import { css } from '../css';
 
-jest.mock('../private/_styleManager', () => ({
-  _styleManager: null,
-}));
+const documentDesc = Object.getOwnPropertyDescriptor(global, 'document') as PropertyDescriptor;
 
-it('should render to string', () => {
+beforeEach(() => {
+  jest.resetModules();
+  Object.defineProperty(global, 'document', { configurable: true, value: undefined });
+});
+
+afterEach(() => {
+  Object.defineProperty(global, 'document', documentDesc);
+});
+
+it('should render to string', async () => {
+  const React = await import('react');
+  const ReactDOMServer = await import('react-dom/server');
+  const { Style } = await import('./Style');
+
   expect(
     pretty(
-      ReactDOM.renderToString(
+      ReactDOMServer.renderToString(
         <Style
           css={css`
             color: red;

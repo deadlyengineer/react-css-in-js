@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { ITheme } from './ITheme';
+import { ITheme } from './types/ITheme';
 
 export interface IThemeProviderProps<T> {
   theme: T | ((current: T) => void);

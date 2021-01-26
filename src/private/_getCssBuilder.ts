@@ -2,8 +2,8 @@ import { _getConfig } from './_getConfig';
 import { _getSelectors } from './_getSelectors';
 import { _printerDefault } from './_printerDefault';
 import { _printerPretty } from './_printerPretty';
-import { ICssBlock } from './ICssBlock';
-import { ICssBuilder } from './ICssBuilder';
+import { ICssBlock } from './types/ICssBlock';
+import { ICssBuilder } from './types/ICssBuilder';
 
 export function _getCssBuilder(rootSelector = ':root'): ICssBuilder {
   const { pretty } = _getConfig();

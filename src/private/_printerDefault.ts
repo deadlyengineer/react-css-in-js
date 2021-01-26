@@ -1,4 +1,4 @@
-import { ICssPrinter } from './ICssPrinter';
+import { ICssPrinter } from './types/ICssPrinter';
 
 export const _printerDefault: ICssPrinter = {
   _identifier: (_indent, values) => values.join(','),

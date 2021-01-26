@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react';
-import { _styleManager } from './_styleManager';
+import { _getConfig } from './_getConfig';
 import { _styleRefCounts } from './_styleRefCounts';
 
 export function _useStyle(key: string, cssText: string): boolean {
+  const { styleManager } = _getConfig();
   const keyRef = useRef('');
   const cssTextRef = useRef('');
 
@@ -14,7 +15,7 @@ export function _useStyle(key: string, cssText: string): boolean {
     _styleRefCounts.set(key, refCount + 1);
 
     if (refCount === 0) {
-      _styleManager?.register(key, cssText);
+      styleManager?.register(key, cssText);
     }
   }
 
@@ -25,7 +26,7 @@ export function _useStyle(key: string, cssText: string): boolean {
 
       if (newRefCount <= 0) {
         _styleRefCounts.delete(key);
-        _styleManager?.unregister(key);
+        styleManager?.unregister(key);
       } else {
         _styleRefCounts.set(key, newRefCount);
       }
@@ -33,5 +34,5 @@ export function _useStyle(key: string, cssText: string): boolean {
     []
   );
 
-  return _styleManager != null;
+  return styleManager != null;
 }

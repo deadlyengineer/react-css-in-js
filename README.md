@@ -23,7 +23,7 @@ Try it on [codesandbox.io](https://codesandbox.io/s/react-css-in-js-iup6f).
 
 Like Emotion's `css` property, but you don't have to use a special JSX pragma or worry about [css property gotchas](https://emotion.sh/docs/css-prop#gotchas).
 
-Like the styled-components pattern, except you have direct control over how component props become HTML element attributes, you don't have to create multiple components to add "internal" children. All the patterns you can use with styled components are still there, but now they're visible. Need an `as` prop? Give your component an `as` prop. It's not automatic, and that's a good thing.
+Like the styled-components pattern, except you have direct control over how component props become HTML element attributes, and you don't have to create multiple components to add integral children. All the patterns you can use with styled components are still there, but now they're visible. Need an `as` prop? Give your component an `as` prop. It's not automatic, _and that's a good thing._
 
 It is a little more verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.
 
@@ -100,4 +100,25 @@ import { createTheme } from 'react-css-in-js';
 export const [useTheme, ThemeProvider, ThemeConsumer] = createTheme({
   color: 'red',
 });
+```
+
+## Create a custom reusable styled wrapper
+
+```tsx
+import React from 'react';
+import { Styled, StyledFC } from 'react-css-in-js';
+
+export const FooStyled: StyledFC = ({ className, children }) => {
+  return (
+    <Styled
+      name={'my-style'}
+      className={className}
+      css={css`
+        color: red;
+      `}
+    >
+      {children}
+    </Styled>
+  );
+};
 ```

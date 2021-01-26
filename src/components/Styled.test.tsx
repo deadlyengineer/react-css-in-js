@@ -1,15 +1,25 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
+/* eslint-disable @typescript-eslint/no-var-requires */
 import pretty from 'pretty';
-import { Styled } from './Styled';
 import { css } from '../css';
 import { cx } from '../cx';
+import type { StyledFC } from '../types/StyledFC';
 
-jest.mock('../private/_styleManager', () => ({
-  _styleManager: null,
-}));
+const documentDesc = Object.getOwnPropertyDescriptor(global, 'document') as PropertyDescriptor;
 
-it('should render to string', () => {
+beforeEach(() => {
+  jest.resetModules();
+  Object.defineProperty(global, 'document', { configurable: true, value: undefined });
+});
+
+afterEach(() => {
+  Object.defineProperty(global, 'document', documentDesc);
+});
+
+it('should render to string', async () => {
+  const React = await import('react');
+  const ReactDOMServer = await import('react-dom/server');
+  const { Styled } = await import('../');
+
   expect(
     pretty(
       ReactDOMServer.renderToString(
@@ -33,7 +43,11 @@ it('should render to string', () => {
   `);
 });
 
-it('should allow for style overrides using Styled wrappers', () => {
+it('should allow for style overrides using Styled wrappers', async () => {
+  const React = await import('react');
+  const ReactDOMServer = await import('react-dom/server');
+  const { Styled } = await import('../');
+
   const A: React.VFC<{ className?: string }> = ({ className }) => {
     return (
       <Styled
@@ -93,5 +107,78 @@ it('should allow for style overrides using Styled wrappers', () => {
       }
     </style>
     <div class=\\"a b c render foo--rcij-ezbhyn\\"></div>"
+  `);
+});
+
+it('should includes styles when directly nested', async () => {
+  const React = await import('react');
+  const ReactDOMServer = await import('react-dom/server');
+  const { Styled, cx } = await import('../');
+
+  const AStyled: StyledFC = ({ className, children }) => {
+    return (
+      <Styled
+        name={'a'}
+        className={cx('a-styled', className)}
+        css={css`
+          color: blue;
+        `}
+      >
+        {children}
+      </Styled>
+    );
+  };
+
+  const BStyled: StyledFC = ({ className, children }) => {
+    return (
+      <Styled
+        name={'b'}
+        className={cx('b-styled', className)}
+        css={css`
+          color: green;
+        `}
+      >
+        {children}
+      </Styled>
+    );
+  };
+
+  expect(
+    pretty(
+      ReactDOMServer.renderToString(
+        <AStyled>
+          <BStyled>
+            <Styled
+              name={'c'}
+              css={css`
+                color: red;
+              `}
+            >
+              <div className={'c-styled'} />
+            </Styled>
+          </BStyled>
+        </AStyled>
+      )
+    )
+  ).toMatchInlineSnapshot(`
+    "<style data-rcij=\\"a/cilhif\\">
+      .a--rcij-cilhif {
+        color: blue;
+      }
+    </style>
+    <style data-rcij=\\"b/1dmttsw\\">
+      .b--rcij-1dmttsw {
+        color: green;
+        color: blue;
+      }
+    </style>
+    <style data-rcij=\\"c/ezbhyn\\">
+      .c--rcij-ezbhyn {
+        color: red;
+        color: green;
+        color: blue;
+      }
+    </style>
+    <div class=\\"c-styled b-styled a-styled c--rcij-ezbhyn\\"></div>"
   `);
 });

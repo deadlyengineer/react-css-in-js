@@ -1,7 +1,54 @@
 import { _config } from './_config';
-import { IStyleConfig } from '../IStyleConfig';
+import { _styleManagerDefault } from './_styleManagerDefault';
+import { _styleAttributeName } from './_styleAttributeName';
+import { _styleRefCounts } from './_styleRefCounts';
+import { IStyleConfig } from '../types/IStyleConfig';
+import { IStyleDehydrated } from '../types/IStyleDehydrated';
+
+function isBrowser() {
+  return typeof document !== 'undefined';
+}
+
+let dehydrated: IStyleDehydrated[] | undefined;
+
+if (isBrowser()) {
+  dehydrated = Array.from(document.querySelectorAll<HTMLStyleElement>(`style[${_styleAttributeName}]`)).reduce<
+    IStyleDehydrated[]
+  >((acc, element) => {
+    const key = element.getAttribute(_styleAttributeName) as string;
+    const refCount = _styleRefCounts.get(key) ?? 0;
+
+    _styleRefCounts.set(key, refCount + 1);
+
+    if (refCount === 0) {
+      acc.push({ key, element });
+    }
+
+    element.remove();
+
+    return acc;
+  }, []);
+}
+
+let config: IStyleConfig | undefined;
 
 export function _getConfig(): Readonly<IStyleConfig> {
-  _config._locked = true;
-  return _config._current;
+  if (!config) {
+    _getConfig._locked = true;
+
+    let { styleManager } = _config;
+
+    if (!styleManager && isBrowser()) {
+      styleManager = _styleManagerDefault;
+    }
+
+    config = { ..._config, styleManager };
+
+    if (dehydrated && styleManager) {
+      styleManager.hydrate(dehydrated);
+    }
+  }
+
+  return config;
 }
+_getConfig._locked = false;

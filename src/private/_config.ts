@@ -1,11 +1,8 @@
 import { _getHash } from './_getHash';
-import { IStyleConfig } from '../IStyleConfig';
+import { IStyleConfig } from '../types/IStyleConfig';
 
-export const _config: { _locked: boolean; _current: IStyleConfig } = {
-  _locked: false,
-  _current: {
-    pretty: false,
-    styleManager: 'default',
-    getHash: _getHash,
-  },
+export const _config: IStyleConfig = {
+  pretty: false,
+  styleManager: null,
+  getHash: _getHash,
 };

@@ -19,7 +19,6 @@ const A: React.VFC = () => {
 };
 
 beforeEach(() => {
-  jest.resetModules();
   jest.useFakeTimers();
 });
 

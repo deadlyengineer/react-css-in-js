@@ -4,26 +4,23 @@ import { css } from './css';
 
 type FC = React.FC<{ styles?: string; className?: string }>;
 
-const document = global.document;
-let html = '';
+const documentDesc = Object.getOwnPropertyDescriptor(global, 'document') as PropertyDescriptor;
 
 beforeEach(() => {
-  Object.defineProperty(global, 'document', {
-    writable: true,
-    configurable: true,
-    enumerable: true,
-    value: undefined,
-  });
   jest.resetModules();
+  Object.defineProperty(global, 'document', { configurable: true, value: undefined });
 });
 
 afterEach(() => {
-  global.document = document;
+  Object.defineProperty(global, 'document', documentDesc);
 });
 
-it('should render styles inline when document is undefined', () => {
-  const ReactDOMServer = require('react-dom/server');
-  const jsx = getJsx();
+let html = '';
+
+it('should render styles inline when document is undefined', async () => {
+  const ReactDOMServer = await import('react-dom/server');
+  const jsx = await getJsx();
+
   html = ReactDOMServer.renderToString(jsx);
 
   expect(pretty(html)).toMatchInlineSnapshot(`
@@ -64,17 +61,32 @@ it('should render styles inline when document is undefined', () => {
   `);
 });
 
-it('should rehydrate inline styles into the head.', () => {
-  Object.defineProperty(global, 'document', {
-    writable: true,
-    configurable: true,
-    enumerable: true,
-    value: document,
-  });
+it('should rehydrate inline styles into the head.', async () => {
+  Object.defineProperty(global, 'document', documentDesc);
+
+  const ReactDOM = await import('react-dom');
+
   jsdom.window.document.body.innerHTML = `<div id="root">${html}</div>`;
-  const ReactDOM = require('react-dom');
-  require('.');
-  ReactDOM.hydrate(getJsx(), document.getElementById('root'));
+  await import('.');
+
+  expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
+    "<!DOCTYPE html>
+    <html>
+
+      <head></head>
+
+      <body>
+        <div id=\\"root\\">
+          <div class=\\"a--rcij-35ggvc\\">foo</div>
+          <div class=\\"a--rcij-cilhif\\">bar</div>
+          <div class=\\"a--rcij-g0zrt6\\">baz</div>
+        </div>
+      </body>
+
+    </html>"
+  `);
+
+  ReactDOM.hydrate(await getJsx(), document.getElementById('root'));
 
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
     "<!DOCTYPE html>
@@ -121,10 +133,10 @@ it('should rehydrate inline styles into the head.', () => {
   `);
 });
 
-function getJsx() {
-  const React = require('react');
-  const { Style } = require('./components/Style');
-  const { Styled } = require('./components/Styled');
+async function getJsx() {
+  const React = await import('react');
+  const { Style } = await import('./components/Style');
+  const { Styled } = await import('./components/Styled');
   const A: FC = ({ styles, className, children }) => {
     return (
       <Styled name={'a'} css={styles}>
