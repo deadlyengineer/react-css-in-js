@@ -27,15 +27,15 @@ Like the styled-components pattern, except you have direct control over how comp
 
 More verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.
 
-_It is less than half the size of both the [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react) packages._
+_Less than half the size of both the [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react) packages._
 
 ## Create a styled component
 
 ```tsx
 import React from 'react';
-import { cx, css, Styled } from 'react-css-in-js';
+import { css, Styled } from 'react-css-in-js';
 
-export const Foo: React.FC<{ className?: string }> = (props) => {
+export const Foo: React.FC<{ className?: string }> = ({ className = '', children }) => {
   return (
     <Styled
       name={'foo'}
@@ -43,13 +43,19 @@ export const Foo: React.FC<{ className?: string }> = (props) => {
         color: red;
       `}
     >
-      <div className={cx('foo__root', props.className)}>{props.children}</div>
+      <div className={className}>{children}</div>
     </Styled>
   );
 };
 ```
 
-The `<Styled>` component will inject a dynamic class name into the child element, merging with any class names the child already has. A `name` property value is required because it reduces the risk of hash collisions. Hashes only have to be unique within the scope of that name, instead of across your whole application.
+**Result**
+
+```html
+<div class="foo--rcij-g0zrt6">...</div>
+```
+
+The `<Styled>` component will inject a dynamic class name into the child element, merging with any class names the child already has. A `name` property value is required because it reduces the risk of hash collisions. Hashes only have to be unique within the scope of that name, instead of across your whole application. Using [BEM](http://getbem.com) is the recommended convention for naming.
 
 You can also _extend/override_ a styled component's styles by wrapping it with another `<Styled>` component.
 
@@ -58,7 +64,7 @@ import React from 'react';
 import { cx, css, Styled } from 'react-css-in-js';
 import { Foo } from './Foo';
 
-export const Bar: React.FC<{ className: string }> = (props) => {
+export const Bar: React.FC<{ className: string }> = ({ className, children }) => {
   return (
     <Styled
       name={'bar'}
@@ -68,13 +74,15 @@ export const Bar: React.FC<{ className: string }> = (props) => {
         }
       `}
     >
-      <Foo className={cx('bar_root', props.className)}>{props.children}</Foo>
+      <Foo className={cx('bar', className)}>{children}</Foo>
     </Styled>
   );
 };
 ```
 
-The `cx` utility merges class names, and correctly allows outer styled components to override the styles of inner styled components. You should _always_ use this function to combine classes instead of simple string templates or concatenation, because simple string manipulation will lose any styled data attached to the class names.
+_You should ALWAYS use the `cx` utility to combine classes instead of simple string templates or concatenation!_
+
+The `cx` utility joins non-falsy class names, and correctly allows outer styled components to override the styles of inner styled components. Simple string manipulation may not result in the correct precedence of styles injected from a parent `Styled` wrapper.
 
 ## Inject a global style
 
@@ -128,7 +136,7 @@ export const FooStyled: StyledFC = ({ className, children }) => {
 };
 ```
 
-Notice that the `Styled` component also accepts a `className` property which it passes on to it's child element. This is to support specifically this scenario, when the child component isn't known. When you _can_ pass the class name directly to the child element, that is the recommended pattern.
+Notice that the `Styled` component also accepts a `className` property which is merged with the dynamic class and passed to the child element. This is to support specifically this scenario, when the child element will be injected. When you _can_ pass the class name directly to the child element, that is the recommended pattern.
 
 ## Create a style helper
 
@@ -153,7 +161,7 @@ import React from 'react';
 import { css, Styled } from 'react-css-in-js';
 import { hover } from './hover';
 
-export const Foo: React.FC<{ className?: string }> = (props) => {
+export const Foo: React.VFC = () => {
   return (
     <Styled
       name={'foo'}
@@ -162,8 +170,38 @@ export const Foo: React.FC<{ className?: string }> = (props) => {
         ${hover('red')}
       `}
     >
-      <div className={cx('foo__root', props.className)}>{props.children}</div>
+      <div>Blue by default, and red when hovered.</div>
     </Styled>
   );
 };
 ```
+
+## Advanced configuration
+
+```tsx
+import { configure } from 'react-css-in-js';
+
+configure({
+  // The injected CSS text will be pretty formatted when this option is true.
+  // Defaults to false. This should not be significantly slower to generate,
+  // but may result in larger styles which could increase the transfer size
+  // when using server side rendering. It will not affect class name hashes.
+  pretty: true,
+
+  // A custom style manager can be used to change how styles are injected into
+  // the DOM, or to capture styles during server-side rendering if the default
+  // SSR inline injection behavior isn't suitable for your application.
+  customStyleManager: myCustomStyleManager,
+
+  // A custom hash function can be used for testing, enhanced collision
+  // avoidance, etc.
+  //
+  // The default hash function (https://github.com/darkskyapp/string-hash) is
+  // the same one used by Emotion and styled-components.
+  customHashFunction: myCustomHashFunction,
+});
+```
+
+_The `configure()` method MUST be called before rendering!_
+
+It will have no effect if called after rendering, and a warning will be printed to the console.

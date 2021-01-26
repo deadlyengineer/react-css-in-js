@@ -6,12 +6,13 @@ export interface IStyleConfig {
    */
   pretty: boolean;
   /**
-   * The style manager which adds style elements when styles are registered,
-   * and removes them when they are unregistered.
+   * The style manager adds style elements when styles are registered, and
+   * removes them when they are unregistered.
    */
-  styleManager: IStyleManager | null;
+  customStyleManager: IStyleManager | null;
   /**
-   * Get a hash for the given string (must be CSS class name safe).
+   * The hash function is used to generate the suffix for dynamic class names,
+   * and to generate the style keys passed to style managers.
    */
-  getHash: (value: string) => string;
+  customHashFunction: (value: string) => string;
 }

@@ -36,16 +36,16 @@ export function _getConfig(): Readonly<IStyleConfig> {
   if (!config) {
     _getConfig._locked = true;
 
-    let { styleManager } = _config;
+    let { customStyleManager } = _config;
 
-    if (!styleManager && isBrowser()) {
-      styleManager = _styleManagerDefault;
+    if (!customStyleManager && isBrowser()) {
+      customStyleManager = _styleManagerDefault;
     }
 
-    config = { ..._config, styleManager };
+    config = { ..._config, customStyleManager: customStyleManager };
 
-    if (dehydrated && styleManager) {
-      styleManager.hydrate(dehydrated);
+    if (dehydrated && customStyleManager) {
+      customStyleManager.hydrate(dehydrated);
     }
   }
 

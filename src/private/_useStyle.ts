@@ -3,7 +3,7 @@ import { _getConfig } from './_getConfig';
 import { _styleRefCounts } from './_styleRefCounts';
 
 export function _useStyle(key: string, cssText: string): boolean {
-  const { styleManager } = _getConfig();
+  const { customStyleManager } = _getConfig();
   const keyRef = useRef('');
   const cssTextRef = useRef('');
 
@@ -15,7 +15,7 @@ export function _useStyle(key: string, cssText: string): boolean {
     _styleRefCounts.set(key, refCount + 1);
 
     if (refCount === 0) {
-      styleManager?.register(key, cssText);
+      customStyleManager?.register(key, cssText);
     }
   }
 
@@ -26,7 +26,7 @@ export function _useStyle(key: string, cssText: string): boolean {
 
       if (newRefCount <= 0) {
         _styleRefCounts.delete(key);
-        styleManager?.unregister(key);
+        customStyleManager?.unregister(key);
       } else {
         _styleRefCounts.set(key, newRefCount);
       }
@@ -34,5 +34,5 @@ export function _useStyle(key: string, cssText: string): boolean {
     []
   );
 
-  return styleManager != null;
+  return customStyleManager != null;
 }
