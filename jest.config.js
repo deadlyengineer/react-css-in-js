@@ -7,6 +7,7 @@ module.exports = {
   preset: 'ts-jest',
   clearMocks: true,
   collectCoverage: true,
+  collectCoverageFrom: ['src/**/*.{ts,tsx}', '!**/node_modules/**', '!**/index.{ts,tsx}'],
   coverageDirectory: 'coverage',
   coverageReporters: ['text-summary', 'html'],
   coverageThreshold: {
@@ -17,5 +18,6 @@ module.exports = {
       statements: 80,
     },
   },
+  testEnvironment: 'jest-environment-jsdom-global',
   verbose: true,
 };

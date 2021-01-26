@@ -6,7 +6,6 @@ export const _config: { _locked: boolean; _current: IStyleConfig } = {
   _current: {
     pretty: false,
     styleManager: 'default',
-    isBrowser: typeof document !== 'undefined',
     getHash: _getHash,
   },
 };

@@ -1,29 +1,19 @@
 import React, { useMemo } from 'react';
 import { _styleAttributeName } from '../private/_styleAttributeName';
 import { _getCssText } from '../private/_getCssText';
-import { _useCache } from '../private/_useCache';
-import { _getConfig } from '../private/_getConfig';
+import { _useStyle } from '../private/_useStyle';
+import { _useHash } from '../private/_useHash';
 
 export interface IStyleProps {
   /**
    * Style tagged template value.
    */
   css: string;
-  /**
-   * Root selector used for bare CSS properties which are not contained in a
-   * CSS selector rule block.
-   */
-  rootSelector?: string;
 }
 
-export const Style: React.VFC<IStyleProps> = ({ css, rootSelector }) => {
-  const [hash, cssText] = useMemo((): [string, string] => {
-    const { getHash } = _getConfig();
-    const hash = getHash(css);
-    const cssText = _getCssText(css, rootSelector);
+export const Style: React.VFC<IStyleProps> = ({ css }) => {
+  const hash = _useHash(css);
+  const cssText = useMemo((): string => _getCssText(css), [hash, css]);
 
-    return [hash, cssText];
-  }, [css, rootSelector]);
-
-  return _useCache(hash, cssText) ? null : <style {...{ [_styleAttributeName]: hash }}>{cssText}</style>;
+  return _useStyle(hash, cssText) ? null : <style {...{ [_styleAttributeName]: hash }}>{cssText}</style>;
 };

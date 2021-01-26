@@ -1,8 +1,8 @@
 export type StyledClassName = string & {
   styled?: {
-    styleText: string;
-    hashedClassName: string;
-    simpleClassName: string | undefined;
+    readonly styleText: string;
+    readonly hashedClassName: string;
+    readonly simpleClassName: string | undefined;
   };
 };
 

@@ -6,14 +6,13 @@ export interface IStyleConfig {
    */
   pretty: boolean;
   /**
-   * Set the style manager which will cache and render each style element.
-   * Setting this to `"none"` will force styles to be rendered inline.
+   * The style manager which will render each style element. A value of
+   * `"default"` (the default) uses a default style manager in the browser,
+   * and no style manager on the server, which will allow server-side rendering
+   * to work without any configuration. A value of `"none"` will force styles
+   * to be rendered inline.
    */
   styleManager: IStyleManager | 'default' | 'none';
-  /**
-   * Override the default "is-browser" environment detection.
-   */
-  isBrowser: boolean;
   /**
    * Get a hash for the given string (must be CSS class name safe).
    */

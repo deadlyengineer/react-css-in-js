@@ -1,18 +1,18 @@
 import React from 'react';
-import ReactDOM from 'react-dom/server';
+import ReactDOMServer from 'react-dom/server';
 import pretty from 'pretty';
 import { Styled } from './Styled';
 import { css } from '../css';
 import { cx } from '../cx';
 
-jest.mock('../private/_getCache', () => ({
-  _getCache: jest.fn().mockReturnValue({ manager: null, refCounts: new Map() }),
+jest.mock('../private/_styleManager', () => ({
+  _styleManager: null,
 }));
 
 it('should render to string', () => {
   expect(
     pretty(
-      ReactDOM.renderToString(
+      ReactDOMServer.renderToString(
         <Styled
           name={'foo'}
           css={css`
@@ -24,12 +24,12 @@ it('should render to string', () => {
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"foo/shgm5m\\">
-      .foo--rcij-shgm5m {
+    "<style data-rcij=\\"foo/g0zrt6\\">
+      .foo--rcij-g0zrt6 {
         color: red;
       }
     </style>
-    <div class=\\"foo--rcij-shgm5m\\"></div>"
+    <div class=\\"foo--rcij-g0zrt6\\"></div>"
   `);
 });
 
@@ -73,25 +73,25 @@ it('should allow for style overrides using Styled wrappers', () => {
     );
   };
 
-  expect(pretty(ReactDOM.renderToString(<C className={'render'} />))).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"baz/mmkps7\\">
-      .baz--rcij-mmkps7 {
+  expect(pretty(ReactDOMServer.renderToString(<C className={'render'} />))).toMatchInlineSnapshot(`
+    "<style data-rcij=\\"baz/cilhif\\">
+      .baz--rcij-cilhif {
         color: blue;
       }
     </style>
-    <style data-rcij=\\"bar/3e3m74\\">
-      .bar--rcij-3e3m74 {
+    <style data-rcij=\\"bar/1dmttsw\\">
+      .bar--rcij-1dmttsw {
         color: green;
         color: blue;
       }
     </style>
-    <style data-rcij=\\"foo/k8ih2n\\">
-      .foo--rcij-k8ih2n {
+    <style data-rcij=\\"foo/ezbhyn\\">
+      .foo--rcij-ezbhyn {
         color: red;
         color: green;
         color: blue;
       }
     </style>
-    <div class=\\"a b c render foo--rcij-k8ih2n\\"></div>"
+    <div class=\\"a b c render foo--rcij-ezbhyn\\"></div>"
   `);
 });
