@@ -40,6 +40,7 @@
     "test": "del-cli coverage && eslint --ext ts,tsx src && jest --no-cache src",
     "build": "del-cli lib && microbundle --jsx React.createElement --jsxFragment React.Fragment",
     "clean": "del-cli lib coverage",
+    "postversion": "node ./postversion.js",
     "prepack": "yarn build",
     "prepublishOnly": "yarn test",
     "prerelease": "yarn publish --prerelease --preid=prerelease --tag=prerelease "
