@@ -10,9 +10,9 @@ Minimal React css-in-js styled components.
 - Write styles using tagged template strings.
 - Style any component that accepts a `className` property.
 - Theme with type-safety.
-- Small bundle size (much smaller than both [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react)).
+- Small bundle size.
 - Zero dependencies.
-- Class names are stable and include an additional `name` prefix to avoid collisions.
+- Class names are stable and include a user provided prefix to avoid collisions.
 - Supports SCSS-like nesting with parent (`&`) selectors.
 - Supports _all_ CSS at-rules.
 - Supports zero-configuration server-side rendering.
@@ -25,7 +25,9 @@ Like Emotion's `css` property, but you don't have to use a special JSX pragma or
 
 Like the styled-components pattern, except you have direct control over how component props become HTML element attributes, and you don't have to create multiple components to add integral children. All the patterns you can use with styled components are still there, but now they're visible. Need an `as` prop? Give your component an `as` prop. It's not automatic, _and that's a good thing._
 
-It is a little more verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.
+More verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.
+
+_It is less than half the size of both the [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react) packages._
 
 ## Create a styled component
 
@@ -69,7 +71,7 @@ export const Bar: React.FC<{ className: string }> = (props) => {
 };
 ```
 
-The `cx` utility merges class names, and correctly allows outer styled components to override the styles of inner styled components. You should _always_ use this function to combine classes instead of simple string templates or concatenation, because simple string manipulation will lose any styled data attached to the substring.
+The `cx` utility merges class names, and correctly allows outer styled components to override the styles of inner styled components. You should _always_ use this function to combine classes instead of simple string templates or concatenation, because simple string manipulation will lose any styled data attached to the class names.
 
 ## Inject a global style
 
