@@ -1,8 +1,8 @@
 # React CSS-in-JS
 
-[![Size](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.6-prerelease.3)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6-prerelease.3)
-[![Deps](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.6-prerelease.3)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6-prerelease.3)
-[![TreeShaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.6-prerelease.3)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6-prerelease.3)
+[![Size](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.6-prerelease.4)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6-prerelease.4)
+[![Deps](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.6-prerelease.4)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6-prerelease.4)
+[![TreeShaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.6-prerelease.4)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6-prerelease.4)
 
 Minimal React css-in-js styled components.
 
