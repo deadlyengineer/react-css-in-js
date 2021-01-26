@@ -1,6 +1,6 @@
 {
   "name": "react-css-in-js",
-  "version": "1.0.6-prerelease.1",
+  "version": "1.0.6-prerelease.2",
   "description": "Minimal React css-in-js styled components.",
   "repository": "https://github.com/ChrisAckerman/react-css-in-js",
   "author": "Chris Ackerman <chris@topher.land>",
@@ -40,9 +40,8 @@
     "test": "del-cli coverage && eslint --ext ts,tsx src && jest --no-cache src",
     "build": "del-cli lib && microbundle --jsx React.createElement --jsxFragment React.Fragment",
     "clean": "del-cli lib coverage",
-    "postversion": "node ./postversion.js",
     "prepack": "yarn build",
-    "prepublishOnly": "yarn test",
+    "prepublishOnly": "node ./prepublish.js && yarn test",
     "prerelease": "yarn publish --prerelease --preid=prerelease --tag=prerelease "
   },
   "devDependencies": {
@@ -61,6 +60,7 @@
     "eslint-config-prettier": "^7.2.0",
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
+    "execa": "^5.0.0",
     "jest": "^26.6.3",
     "jest-environment-jsdom": "^26.6.2",
     "jest-environment-jsdom-global": "^2.0.4",
