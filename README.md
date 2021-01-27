@@ -1,16 +1,14 @@
 # React CSS-in-JS
 
-![badge-branches](coverage/badge-branches.svg)
-![badge-functions](coverage/badge-functions.svg)
-![badge-lines](coverage/badge-lines.svg)
-![badge-statements](coverage/badge-statements.svg)
-
-[![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.7-prerelease.2)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.2)
-[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.7-prerelease.2)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.2)
-[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.7-prerelease.2)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.2)
-
-[![npm](https://badgen.net/badge/npm/1.0.7-prerelease.2/red)](https://www.npmjs.com/package/react-css-in-js)
+[![npm](https://badgen.net/badge/npm/1.0.7-prerelease.4/red)](https://www.npmjs.com/package/react-css-in-js)
 [![license](https://badgen.net/badge/license/ISC/orange)](https://opensource.org/licenses/ISC)
+[![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.7-prerelease.4)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.4)
+[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.7-prerelease.4)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.4)
+[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.7-prerelease.4)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.4)
+[![coverage:branches](https://badgen.net/badge/coverage:branches/87%/purple)](https://www.npmjs.com/package/react-css-in-js)
+[![coverage:functions](https://badgen.net/badge/coverage:functions/86%/purple)](https://www.npmjs.com/package/react-css-in-js)
+[![coverage:lines](https://badgen.net/badge/coverage:lines/92%/purple)](https://www.npmjs.com/package/react-css-in-js)
+[![coverage:statements](https://badgen.net/badge/coverage:statements/92%/purple)](https://www.npmjs.com/package/react-css-in-js)
 
 Minimal React css-in-js styled components.
 
