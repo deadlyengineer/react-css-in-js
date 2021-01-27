@@ -13,7 +13,7 @@ let readmeText = fs.readFileSync(readmeFilename, 'utf-8');
 readmeText = readmeText.replace(/(react-css-in-js@|badge\/npm\/)[a-z0-9.-]+/g, `$1${version}`);
 readmeText = readmeText.replace(
   /(badge\/coverage\/)[\d,]+/,
-  `$1$1${Math.floor(statements.pct)},${Math.floor(branches.pct)},${Math.floor(functions.pct)},${Math.floor(lines.pct)}`
+  `$1${Math.floor(statements.pct)},${Math.floor(branches.pct)},${Math.floor(functions.pct)},${Math.floor(lines.pct)}`
 );
 
 fs.writeFileSync(readmeFilename, readmeText);
