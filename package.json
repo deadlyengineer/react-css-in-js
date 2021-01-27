@@ -41,7 +41,7 @@
     "build": "del-cli lib && microbundle --jsx React.createElement --jsxFragment React.Fragment",
     "clean": "del-cli lib coverage",
     "prepack": "yarn build",
-    "prepublishOnly": "node ./prepublish.js && yarn test",
+    "prepublishOnly": "yarn test && node ./prepublish.js",
     "prerelease": "yarn publish --prerelease --preid=prerelease --tag=prerelease "
   },
   "devDependencies": {
