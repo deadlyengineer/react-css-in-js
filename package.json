@@ -37,7 +37,7 @@
   },
   "sideEffects": false,
   "scripts": {
-    "test": "del-cli coverage && eslint --ext ts,tsx src && jest --no-cache src",
+    "test": "del-cli coverage && eslint --ext ts,tsx src && jest --no-cache src && jest-coverage-badges",
     "build": "del-cli lib && microbundle --jsx React.createElement --jsxFragment React.Fragment",
     "clean": "del-cli lib coverage",
     "prepack": "yarn build",
