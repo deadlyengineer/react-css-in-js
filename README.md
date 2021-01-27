@@ -1,8 +1,8 @@
 # React CSS-in-JS
 
-[![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.7-prerelease.1)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.1)
-[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.7-prerelease.1)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.1)
-[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.7-prerelease.1)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.1)
+[![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.7-prerelease.2)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.2)
+[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.7-prerelease.2)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.2)
+[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.7-prerelease.2)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.2)
 ![badge-branches](coverage/badge-branches.svg)
 ![badge-functions](coverage/badge-functions.svg)
 ![badge-lines](coverage/badge-lines.svg)
