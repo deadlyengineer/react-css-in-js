@@ -1,5 +1,6 @@
 # React CSS-in-JS
 
+[![stars](https://badgen.net/github/stars/ChrisAckerman/react-css-in-js)](https://github.com/ChrisAckerman/react-css-in-js)
 [![npm](https://badgen.net/badge/npm/1.0.7/red)](https://www.npmjs.com/package/react-css-in-js)
 [![license](https://badgen.net/badge/license/ISC/orange)](https://opensource.org/licenses/ISC)
 [![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.7)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7)
