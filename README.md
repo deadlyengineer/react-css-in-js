@@ -1,8 +1,12 @@
 # React CSS-in-JS
 
-[![Size](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.6)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6)
-[![Deps](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.6)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6)
-[![TreeShaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.6)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6)
+[![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.6)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6)
+[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.6)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6)
+[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.6)](https://bundlephobia.com/result?p=react-css-in-js@1.0.6)
+![badge-branches](coverage/badge-branches.svg)
+![badge-functions](coverage/badge-functions.svg)
+![badge-lines](coverage/badge-lines.svg)
+![badge-statements](coverage/badge-statements.svg)
 
 Minimal React css-in-js styled components.
 

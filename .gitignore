@@ -1,6 +1,7 @@
 /node_modules/
 /lib/
-/coverage/
+/coverage/*
+!/coverage/badge-*.svg
 /package/
 
 .DS_Store

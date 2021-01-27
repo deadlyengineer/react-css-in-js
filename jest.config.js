@@ -9,7 +9,7 @@ module.exports = {
   collectCoverage: true,
   collectCoverageFrom: ['src/**/*.{ts,tsx}', '!**/node_modules/**', '!**/index.{ts,tsx}'],
   coverageDirectory: 'coverage',
-  coverageReporters: ['text-summary', 'html'],
+  coverageReporters: ['json-summary', 'text-summary', 'html'],
   coverageThreshold: {
     global: {
       branches: 80,
