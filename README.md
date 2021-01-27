@@ -1,12 +1,16 @@
 # React CSS-in-JS
 
-![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.7-prerelease.3)
-![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.7-prerelease.3)
-![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.7-prerelease.3)
 ![badge-branches](coverage/badge-branches.svg)
 ![badge-functions](coverage/badge-functions.svg)
 ![badge-lines](coverage/badge-lines.svg)
 ![badge-statements](coverage/badge-statements.svg)
+
+[![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.7-prerelease.2)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.2)
+[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.7-prerelease.2)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.2)
+[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.7-prerelease.2)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.2)
+
+[![npm](https://badgen.net/badge/npm/1.0.7-prerelease.2/red)](https://www.npmjs.com/package/react-css-in-js)
+[![license](https://badgen.net/badge/license/ISC/orange)](https://opensource.org/licenses/ISC)
 
 Minimal React css-in-js styled components.
 
