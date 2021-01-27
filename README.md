@@ -5,7 +5,7 @@
 [![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.7-prerelease.8)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.8)
 [![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.7-prerelease.8)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.8)
 [![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.7-prerelease.8)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.8)
-![coverage](https://badgen.net/badge/coverage/92,87,86,92/purple?list=|)
+[![coverage](https://badgen.net/badge/coverage/92,87,86,92/purple?list=|)]()
 
 Minimal React css-in-js styled components.
 
