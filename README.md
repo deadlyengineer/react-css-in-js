@@ -5,10 +5,10 @@
 [![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.7-prerelease.6)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.6)
 [![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.7-prerelease.6)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.6)
 [![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.0.7-prerelease.6)](https://bundlephobia.com/result?p=react-css-in-js@1.0.7-prerelease.6)
-![coverage:branches](https://badgen.net/badge/coverage:branches/87&#37;/purple)
-![coverage:functions](https://badgen.net/badge/coverage:functions/86&#37;/purple)
-![coverage:lines](https://badgen.net/badge/coverage:lines/92&#37;/purple)
-![coverage:statements](https://badgen.net/badge/coverage:statements/92&#37;/purple)
+![coverage:branches](https://badgen.net/badge/coverage:branches/87/purple)
+![coverage:functions](https://badgen.net/badge/coverage:functions/86/purple)
+![coverage:lines](https://badgen.net/badge/coverage:lines/92/purple)
+![coverage:statements](https://badgen.net/badge/coverage:statements/92/purple)
 
 Minimal React css-in-js styled components.
 
