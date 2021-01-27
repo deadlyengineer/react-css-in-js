@@ -2,6 +2,7 @@
 
 [![stars](https://badgen.net/github/stars/ChrisAckerman/react-css-in-js)](https://github.com/ChrisAckerman/react-css-in-js)
 [![npm](https://badgen.net/badge/npm/1.0.8/red)](https://www.npmjs.com/package/react-css-in-js)
+[![downloads](https://badgen.net/npm/dw/react-css-in-js)](https://www.npmjs.com/package/react-css-in-js)
 [![license](https://badgen.net/badge/license/ISC/orange)](https://opensource.org/licenses/ISC)
 [![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.0.8)](https://bundlephobia.com/result?p=react-css-in-js@1.0.8)
 [![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.0.8)](https://bundlephobia.com/result?p=react-css-in-js@1.0.8)
