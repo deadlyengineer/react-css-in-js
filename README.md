@@ -13,23 +13,32 @@ Minimal React css-in-js styled components.
 
 - Write styles using tagged template strings.
 - Style any component that accepts a `className` property.
+- Style multiple components at once.
+- Styles are not duplicated when used repeatedly.
+- Styles are removed when unused.
 - Theme with type-safety.
 - Stable class names.
+- Hashes and style element injection can be configured.
 - Supports SCSS-like nesting with parent (`&`) selectors.
 - Supports _all_ CSS at-rules.
 - Supports zero-configuration server-side rendering.
 - Small bundle size.
 - Zero dependencies.
+- No babel plugins or additional compilation required.
 
 Try it on [codesandbox.io](https://codesandbox.io/s/react-css-in-js-iup6f).
 
 ## In comparison to other libraries
 
-Like Emotion's `css` property, but you don't have to use a special JSX pragma or worry about [css property gotchas](https://emotion.sh/docs/css-prop#gotchas).
+Like [@emotion/react](https://www.npmjs.com/package/@emotion/react), but you don't have to use a special JSX pragma or worry about [css property gotchas](https://emotion.sh/docs/css-prop#gotchas).
 
-Like the styled-components pattern, except you have direct control over how component props become HTML element attributes, and you don't have to create multiple components to add integral children. All the patterns you can use with styled components are still there, but now they're visible. Need an `as` prop? Give your component an `as` prop. It's not automatic, _and that's a good thing._
+Like [styled-components](https://styled-components.com) or [@emotion/styled](https://www.npmjs.com/package/@emotion/styled), except you have direct control over how component props become HTML element attributes, and you don't have to create multiple components to add integral children. All the patterns you can use with styled components are still there, but now they're visible. Need an `as` prop? Give your component an `as` prop. It's not automatic, _and that's a good thing._
+
+Like [styled-jsx](https://www.npmjs.com/package/styled-jsx), but you don't need a babel plugin or the `<style jsx>` wrapper around the style. Also, the style more intuitively _precedes_ styled component.
 
 _Slightly_ more verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.
+
+Because no babel plugins or compilation is required, it can be used with any tech stack. Because it's small, has no dependencies, and
 
 _Less than half the size of both the [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react) packages._
 
@@ -207,3 +216,27 @@ configure({
 _The `configure()` method MUST be called before rendering!_
 
 It will have no effect if called after rendering, and a warning will be printed to the console.
+
+## Why no auto-prefixing?
+
+To keep the bundle size small, and to make sure you get exactly the styles you expect.
+
+If you need to prefix and want to avoid repetition, write a helper function.
+
+```tsx
+const transform = (value: string): string => css`
+  -webkit-transform: ${value};
+  -ms-transform: ${value};
+  transform: ${value};
+`;
+
+render(
+  <Styled>
+    {css`
+      color: red;
+      ${transform('rotate(30deg)')}
+    `}
+    <div>I am red and rotated.</div>
+  </Styled>
+);
+```
