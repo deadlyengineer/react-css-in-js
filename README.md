@@ -83,16 +83,15 @@ export const Foo = ({ className }: { className?: string }) => (
 );
 
 render(
-    <Styled
-      css={css`
-        text-decoration: line-through;
-      `}
-    >
-      {/* Foo is still blue, but crossed out. */}
-      <Foo />
-    </Styled>
-  );
-};
+  <Styled
+    css={css`
+      text-decoration: line-through;
+    `}
+  >
+    {/* Foo is still blue, but crossed out. */}
+    <Foo />
+  </Styled>
+);
 ```
 
 You should always use the `cx` utility to combine classes (as in Foo above) instead of simple string templates or concatenation. It maintains the correct style precedence when joining literal class names with a class name injected by a `Styled` wrapper.
