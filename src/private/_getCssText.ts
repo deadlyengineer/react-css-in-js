@@ -1,45 +1,36 @@
 import { _getCssBuilder } from './_getCssBuilder';
+import { _getStyleTokenValues } from './_getStyleTokenValues';
+import { _getStyleTokenProperty } from './_getStyleTokenProperty';
+import { TerminatorToken, Token, Tokens } from './types/Tokens';
 
-export function _getCssText(style: string, rootSelector?: string): string {
-  const builder = _getCssBuilder(rootSelector);
-  const re = /(\s+)|\\.|(\/\*(?:(?:[\s\S]*?)\*\/|[\s\S]*$))|(["'])(?:(?:\\[\s\S]|[\s\S])*?\3|.*$)|[,;{}]/g;
+export function _getCssText(styleTokens: Tokens, className?: string): string {
+  const builder = _getCssBuilder(className);
+  const tokens = [...styleTokens];
+  let token: Token | undefined;
 
-  let match: RegExpExecArray | null;
-  let lastIndex = 0;
+  while (null != (token = tokens.shift())) {
+    if (token instanceof Array) {
+      const isAtRule = token[0] === '@';
+      const terminator = tokens.shift() as TerminatorToken;
 
-  while (null != (match = re.exec(style))) {
-    if (match.index > lastIndex) {
-      builder._word(style.substring(lastIndex, match.index));
-    }
+      if (terminator === ';') {
+        // Property closing
+        if (isAtRule) {
+          builder._property(_getStyleTokenValues(token));
+        } else {
+          const property = _getStyleTokenProperty(token);
 
-    lastIndex = re.lastIndex;
-
-    const [token, space, comment] = match;
-
-    if (space) {
-      builder._space();
-    } else if (!comment) {
-      switch (token) {
-        case '{':
-          builder._openBlock();
-          break;
-        case '}':
-          builder._closeBlock();
-          break;
-        case ';':
-          builder._property();
-          break;
-        case ',':
-          builder._value();
-          break;
-        default:
-          builder._word(token);
+          if (property) {
+            builder._property(property[0], property[1]);
+          }
+        }
+      } else {
+        // Block opening
+        builder._openBlock(_getStyleTokenValues(token));
       }
+    } else {
+      builder._closeBlock();
     }
-  }
-
-  if (lastIndex < style.length) {
-    builder._word(style.substring(lastIndex));
   }
 
   return builder._build();

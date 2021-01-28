@@ -29,7 +29,7 @@ it('should render to string', async () => {
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"g0zrt6\\" data-reactroot=\\"\\">
+    "<style data-rcij=\\"9pvgme\\" data-reactroot=\\"\\">
       :root {
         color: red;
       }

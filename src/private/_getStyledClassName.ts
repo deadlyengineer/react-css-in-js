@@ -1,20 +1,22 @@
+import { Token } from './types/Tokens';
+
 export type StyledClassName = string & {
-  styled?: {
-    readonly styleText: string;
+  readonly styled?: {
+    readonly tokens: Token[];
     readonly hashedClassName: string;
     readonly simpleClassName: string | undefined;
   };
 };
 
 export function _getStyledClassName(
-  styleText: string,
+  tokens: Token[],
   hashedClassName: string,
   simpleClassName?: string
 ): StyledClassName {
-  const className = simpleClassName ? `${simpleClassName} ${hashedClassName}` : hashedClassName;
+  const className = simpleClassName ? simpleClassName + ' ' + hashedClassName : hashedClassName;
 
   return Object.assign(className, {
-    styled: { styleText, hashedClassName, simpleClassName },
+    styled: { tokens, hashedClassName, simpleClassName },
     toString: () => className,
     valueOf: () => className,
   });

@@ -14,12 +14,12 @@ Minimal React css-in-js styled components.
 - Write styles using tagged template strings.
 - Style any component that accepts a `className` property.
 - Theme with type-safety.
-- Small bundle size.
-- Zero dependencies.
-- Class names are stable and include a user provided prefix to avoid collisions.
+- Stable class names.
 - Supports SCSS-like nesting with parent (`&`) selectors.
 - Supports _all_ CSS at-rules.
 - Supports zero-configuration server-side rendering.
+- Small bundle size.
+- Zero dependencies.
 
 Try it on [codesandbox.io](https://codesandbox.io/s/react-css-in-js-iup6f).
 
@@ -36,66 +36,73 @@ _Less than half the size of both the [styled-components](https://bundlephobia.co
 ## Create a styled component
 
 ```tsx
-import React from 'react';
 import { css, Styled } from 'react-css-in-js';
 
-export const Foo: React.FC<{ className?: string }> = ({ className = '', children }) => {
-  return (
-    <Styled
-      name={'foo'}
-      css={css`
-        color: red;
-      `}
-    >
-      <div className={className}>{children}</div>
-    </Styled>
-  );
-};
+render(
+  <Styled
+    css={css`
+      /* @scope foo */
+      padding: 32px;
+      background-color: hotpink;
+      font-size: 24px;
+      border-radius: 4px;
+      &:hover {
+        color: white;
+      }
+    `}
+  >
+    <div className={'bar'}>Hover to change color.</div>
+  </Styled>
+);
 ```
 
 **Result**
 
 ```html
-<div class="foo--rcij-g0zrt6">...</div>
+<div class="bar foo--rcij-vgpg57">Hover to change color.</div>
 ```
 
-The `<Styled>` component will inject a dynamic class name into the child element, merging with any class names the child already has. A `name` property value is required because it reduces the risk of hash collisions. Hashes only have to be unique within the scope of that name, instead of across your whole application. Using [BEM](http://getbem.com) is the recommended convention for naming.
+The `<Styled>` component injected a dynamic class name into the child element. The child element already had a class (`bar`), so the dynamic class was appended to it (`bar foo--rcij-vgpg57`).
 
-You can also _extend/override_ a styled component's styles by wrapping it with another `<Styled>` component.
+The `@scope` pragma is optional, but using it can help reduce the risk of hash collisions. The value is used to prefix the dynamic class name, which means that hashes only have to be unique within the scope, instead of across your whole application. The scope name should be a value that is safe to use in a class name.
+
+## Extend a styled component
 
 ```tsx
-import React from 'react';
 import { cx, css, Styled } from 'react-css-in-js';
-import { Foo } from './Foo';
 
-export const Bar: React.FC<{ className: string }> = ({ className, children }) => {
-  return (
+export const Foo = ({ className }: { className?: string }) => (
+  <Styled
+    css={css`
+      color: blue;
+      text-decoration: underline
+    `}
+  >
+    <div className={cx('foo', className)}>Lorem ipsum</div>
+  </Styled>
+);
+
+render(
     <Styled
-      name={'bar'}
       css={css`
-        &:hover {
-          color: orange;
-        }
+        text-decoration: line-through;
       `}
     >
-      <Foo className={cx('bar', className)}>{children}</Foo>
+      {/* Foo is still blue, but crossed out. */}
+      <Foo />
     </Styled>
   );
 };
 ```
 
-_You should ALWAYS use the `cx` utility to combine classes instead of simple string templates or concatenation!_
-
-The `cx` utility joins non-falsy class names, and correctly allows outer styled components to override the styles of inner styled components. Simple string manipulation may not result in the correct precedence of styles injected from a parent `Styled` wrapper.
+You should always use the `cx` utility to combine classes (as in Foo above) instead of simple string templates or concatenation. It maintains the correct style precedence when joining literal class names with a class name injected by a `Styled` wrapper.
 
 ## Inject a global style
 
 ```tsx
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { css, Style } from 'react-css-in-js';
 
-ReactDOM.render(
+render(
   <Style
     css={css`
       html,
@@ -104,8 +111,7 @@ ReactDOM.render(
         margin: 0;
       }
     `}
-  />,
-  document.getElementById('root')
+  />
 );
 ```
 
@@ -122,29 +128,25 @@ export const [useTheme, ThemeProvider, ThemeConsumer] = createTheme({
 ## Create a reusable styled wrapper
 
 ```tsx
-import React from 'react';
 import { css, Styled, StyledFC } from 'react-css-in-js';
 
-export const FooStyled: StyledFC = ({ className, children }) => {
-  return (
-    <Styled
-      name={'my-style'}
-      className={className}
-      css={css`
-        color: red;
-      `}
-    >
-      {children}
-    </Styled>
-  );
-};
+export const FooStyled: StyledFC = ({ className, children }) => (
+  <Styled
+    className={className}
+    css={css`
+      color: red;
+    `}
+  >
+    {children}
+  </Styled>
+);
 ```
 
-Notice that the `Styled` component also accepts a `className` property which is merged with the dynamic class and passed to the child element. This is to support specifically this scenario, when the child element will be injected. When you _can_ pass the class name directly to the child element, that is the recommended pattern.
+Notice that the `Styled` component also accepts a `className` property. It's value will be merged with the dynamic class and passed to the child element. This is to support specifically this scenario, where the child element will be injected. If you _can_ pass the class name directly to the child element, that is the recommended pattern.
 
 ## Create a style helper
 
-**Helper File (`hover.ts`)**
+Helper file: `helper.ts`
 
 ```tsx
 import { css } from 'react-css-in-js';
@@ -156,28 +158,21 @@ export const hover = (color: string): string => css`
 `;
 ```
 
-The `css` function is an alias for `String.raw`, which returns a simple string with escape sequences intact. The alias is just shorter, and allows IDE syntax checking/highlighting.
-
-**Component File**
+Then use the helper like a regular template string value.
 
 ```tsx
-import React from 'react';
-import { css, Styled } from 'react-css-in-js';
 import { hover } from './hover';
 
-export const Foo: React.VFC = () => {
-  return (
-    <Styled
-      name={'foo'}
-      css={css`
-        color: blue;
-        ${hover('red')}
-      `}
-    >
-      <div>Blue by default, and red when hovered.</div>
-    </Styled>
-  );
-};
+render(
+  <Styled
+    css={css`
+      color: blue;
+      ${hover('red')}
+    `}
+  >
+    <div>Blue by default, and red when hovered.</div>
+  </Styled>
+);
 ```
 
 ## Advanced configuration
@@ -186,22 +181,24 @@ export const Foo: React.VFC = () => {
 import { configure } from 'react-css-in-js';
 
 configure({
-  // The injected CSS text will be pretty formatted when this option is true.
-  // Defaults to false. This should not be significantly slower to generate,
-  // but may result in larger styles which could increase the transfer size
-  // when using server side rendering. It will not affect class name hashes.
+  // The injected CSS text will be pretty formatted when this option
+  // is true. Defaults to false. This should not be significantly
+  // slower to generate, but may result in larger styles which could
+  // increase the transfer size when using server side rendering. It
+  // will not affect class name hashes.
   pretty: true,
 
-  // A custom style manager can be used to change how styles are injected into
-  // the DOM, or to capture styles during server-side rendering if the default
-  // SSR inline injection behavior isn't suitable for your application.
+  // A custom style manager can be used to change how styles are
+  // injected into the DOM, or to capture styles during server-side
+  // rendering if the default SSR inline injection behavior isn't
+  // suitable for your application.
   customStyleManager: myCustomStyleManager,
 
-  // A custom hash function can be used for testing, enhanced collision
-  // avoidance, etc.
+  // A custom hash function can be used for testing, enhanced
+  // collision avoidance, etc.
   //
-  // The default hash function (https://github.com/darkskyapp/string-hash) is
-  // the same one used by Emotion and styled-components.
+  // The default hash function is the same one used by Emotion and
+  // styled-components ((https://github.com/darkskyapp/string-hash).
   customHashFunction: myCustomHashFunction,
 });
 ```

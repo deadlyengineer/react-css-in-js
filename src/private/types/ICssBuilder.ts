@@ -1,9 +1,6 @@
 export interface ICssBuilder {
-  _word(value: string): void;
-  _space(): void;
-  _value(): void;
-  _openBlock(): void;
+  _openBlock(selectors: string[]): void;
   _closeBlock(): void;
-  _property(): void;
+  _property(keys: string[], values?: string[]): void;
   _build(): string;
 }

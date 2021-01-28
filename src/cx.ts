@@ -1,3 +1,4 @@
+import { Token } from './private/types/Tokens';
 import { _getStyledClassName, StyledClassName } from './private/_getStyledClassName';
 
 /**
@@ -8,8 +9,8 @@ import { _getStyledClassName, StyledClassName } from './private/_getStyledClassN
 export function cx(...classNames: any[]): string;
 export function cx(...classNames: (StyledClassName | 0 | false | null | undefined)[]): StyledClassName {
   const simpleClassNames: string[] = [];
+  const tokens: Token[] = [];
   let hashedClassName: string | undefined;
-  let styleText = '';
 
   classNames.forEach((className) => {
     if (!className) return;
@@ -25,7 +26,7 @@ export function cx(...classNames: (StyledClassName | 0 | false | null | undefine
         hashedClassName = styled.hashedClassName;
       }
 
-      styleText += styled.styleText;
+      tokens.push(...styled.tokens);
     } else {
       simpleClassNames.push(className);
     }
@@ -33,5 +34,5 @@ export function cx(...classNames: (StyledClassName | 0 | false | null | undefine
 
   const simpleClassName = simpleClassNames.join(' ');
 
-  return hashedClassName ? _getStyledClassName(styleText, hashedClassName, simpleClassName) : simpleClassName;
+  return hashedClassName ? _getStyledClassName(tokens, hashedClassName, simpleClassName) : simpleClassName;
 }

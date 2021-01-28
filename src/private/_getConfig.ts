@@ -12,7 +12,7 @@ function isBrowser() {
 let dehydrated: IStyleDehydrated[] | undefined;
 
 if (isBrowser()) {
-  dehydrated = Array.from(document.querySelectorAll<HTMLStyleElement>(`style[${_styleAttributeName}]`)).reduce<
+  dehydrated = Array.from(document.querySelectorAll<HTMLStyleElement>('style[' + _styleAttributeName + ']')).reduce<
     IStyleDehydrated[]
   >((acc, element) => {
     const key = element.getAttribute(_styleAttributeName) as string;

@@ -8,8 +8,8 @@ import { Styled } from './components/Styled';
 const A: React.VFC = () => {
   return (
     <Styled
-      name={'a'}
       css={css`
+        /* @scope a */
         color: red;
       `}
     >
@@ -43,8 +43,8 @@ it('should gc unused styles', async () => {
     <html>
 
       <head>
-        <style data-rcij=\\"a/g0zrt6\\">
-          .a--rcij-g0zrt6 {
+        <style data-rcij=\\"a/9pvgme\\">
+          .a--rcij-9pvgme {
             color: red;
           }
         </style>
@@ -52,7 +52,7 @@ it('should gc unused styles', async () => {
 
       <body>
         <div id=\\"root\\">
-          <div class=\\"a--rcij-g0zrt6\\"></div>
+          <div class=\\"a--rcij-9pvgme\\"></div>
         </div>
       </body>
 
@@ -73,8 +73,8 @@ it('should gc unused styles', async () => {
     <html>
 
       <head>
-        <style data-rcij=\\"a/g0zrt6\\">
-          .a--rcij-g0zrt6 {
+        <style data-rcij=\\"a/9pvgme\\">
+          .a--rcij-9pvgme {
             color: red;
           }
         </style>
@@ -82,8 +82,8 @@ it('should gc unused styles', async () => {
 
       <body>
         <div id=\\"root\\">
-          <div class=\\"a--rcij-g0zrt6\\"></div>
-          <div class=\\"a--rcij-g0zrt6\\"></div>
+          <div class=\\"a--rcij-9pvgme\\"></div>
+          <div class=\\"a--rcij-9pvgme\\"></div>
         </div>
       </body>
 
@@ -103,8 +103,8 @@ it('should gc unused styles', async () => {
     <html>
 
       <head>
-        <style data-rcij=\\"a/g0zrt6\\">
-          .a--rcij-g0zrt6 {
+        <style data-rcij=\\"a/9pvgme\\">
+          .a--rcij-9pvgme {
             color: red;
           }
         </style>
@@ -112,7 +112,7 @@ it('should gc unused styles', async () => {
 
       <body>
         <div id=\\"root\\">
-          <div class=\\"a--rcij-g0zrt6\\"></div>
+          <div class=\\"a--rcij-9pvgme\\"></div>
         </div>
       </body>
 

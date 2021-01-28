@@ -17,28 +17,28 @@ it('should insert styles into the head', () => {
     <html>
 
       <head>
-        <style data-rcij=\\"1m7siiq\\">
+        <style data-rcij=\\"8vcj72\\">
           :root {
             color: green;
           }
         </style>
-        <style data-rcij=\\"a/cilhif\\">
-          .a--rcij-cilhif {
+        <style data-rcij=\\"a/1bg8z9n\\">
+          .a--rcij-1bg8z9n {
             color: blue;
           }
         </style>
-        <style data-rcij=\\"a/35ggvc\\">
-          .a--rcij-35ggvc {
+        <style data-rcij=\\"a/edkdb8\\">
+          .a--rcij-edkdb8 {
             color: red;
             color: blue;
           }
         </style>
-        <style data-rcij=\\"a/g0zrt6\\">
-          .a--rcij-g0zrt6 {
+        <style data-rcij=\\"a/9pvgme\\">
+          .a--rcij-9pvgme {
             color: red;
           }
         </style>
-        <style data-rcij=\\"37imqm\\">
+        <style data-rcij=\\"d1z182\\">
           :root {
             color: black;
           }
@@ -47,9 +47,9 @@ it('should insert styles into the head', () => {
 
       <body>
         <div id=\\"root\\">
-          <div class=\\"a--rcij-35ggvc\\">foo</div>
-          <div class=\\"a--rcij-cilhif\\">bar</div>
-          <div class=\\"a--rcij-g0zrt6\\">baz</div>
+          <div class=\\"a--rcij-edkdb8\\">foo</div>
+          <div class=\\"a--rcij-1bg8z9n\\">bar</div>
+          <div class=\\"a--rcij-9pvgme\\">baz</div>
         </div>
       </body>
 
@@ -60,11 +60,12 @@ it('should insert styles into the head', () => {
 function getJsx() {
   const A: FC = ({ styles, className, children }) => {
     return (
-      <Styled name={'a'} css={styles}>
+      <Styled css={styles}>
         <div className={className}>{children}</div>
       </Styled>
     );
   };
+
   return (
     <>
       <Style
@@ -73,13 +74,14 @@ function getJsx() {
         `}
       />
       <Styled
-        name={'a'}
         css={css`
+          /* @scope a */
           color: blue;
         `}
       >
         <A
           styles={css`
+            /* @scope a */
             color: red;
           `}
         >
@@ -88,6 +90,7 @@ function getJsx() {
       </Styled>
       <A
         styles={css`
+          /* @scope a */
           color: blue;
         `}
       >
@@ -95,6 +98,7 @@ function getJsx() {
       </A>
       <A
         styles={css`
+          /* @scope a */
           color: red;
         `}
       >

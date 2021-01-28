@@ -1,5 +1,6 @@
 import { css } from '../css';
 import { _getCssText } from './_getCssText';
+import { _getStyleTokens } from './_getStyleTokens';
 
 const initialConfig = { ...jest.requireActual('./_getConfig')._getConfig(), pretty: true };
 let config = { ...initialConfig };
@@ -14,12 +15,14 @@ afterEach(() => {
 
 it('should render simple css', () => {
   expect(
-    _getCssText(css`
-      .foo,
-      .bar {
-        color: red;
-      }
-    `)
+    _getCssText(
+      _getStyleTokens(css`
+        .foo,
+        .bar {
+          color: red;
+        }
+      `)[0]
+    )
   ).toMatchInlineSnapshot(`
     ".foo,
     .bar {
@@ -31,9 +34,11 @@ it('should render simple css', () => {
 
 it('should include un-terminated rules', () => {
   expect(
-    _getCssText(`
-    .foo {
-      color: blue`)
+    _getCssText(
+      _getStyleTokens(`
+        .foo {
+          color: blue`)[0]
+    )
   ).toMatchInlineSnapshot(`
     ".foo {
       color: blue;
@@ -44,17 +49,19 @@ it('should include un-terminated rules', () => {
 
 it('should render nested css', () => {
   expect(
-    _getCssText(css`
-      color: white;
-      .foo {
-        color: red;
-        .bar {
-          color: blue;
+    _getCssText(
+      _getStyleTokens(css`
+        color: white;
+        .foo {
+          color: red;
+          .bar {
+            color: blue;
+          }
+          color: green;
         }
-        color: green;
-      }
-      color: black;
-    `)
+        color: black;
+      `)[0]
+    )
   ).toMatchInlineSnapshot(`
     ":root {
       color: white;
@@ -77,16 +84,18 @@ it('should render nested css', () => {
 
 it('should replace & placeholders', () => {
   expect(
-    _getCssText(css`
-      .foo {
-        .bar & {
-          color: red;
-          &:hover {
-            color: blue;
+    _getCssText(
+      _getStyleTokens(css`
+        .foo {
+          .bar & {
+            color: red;
+            &:hover {
+              color: blue;
+            }
           }
         }
-      }
-    `)
+      `)[0]
+    )
   ).toMatchInlineSnapshot(`
     ".bar .foo {
       color: red;
@@ -100,19 +109,21 @@ it('should replace & placeholders', () => {
 
 it('should hoist at-rules', () => {
   expect(
-    _getCssText(css`
-      .foo {
-        color: red;
-        @media screen {
-          color: orange;
-          .bar {
-            color: yellow;
+    _getCssText(
+      _getStyleTokens(css`
+        .foo {
+          color: red;
+          @media screen {
+            color: orange;
+            .bar {
+              color: yellow;
+            }
+            color: lime;
           }
-          color: lime;
+          color: green;
         }
-        color: green;
-      }
-    `)
+      `)[0]
+    )
   ).toMatchInlineSnapshot(`
     ".foo {
       color: red;
@@ -137,31 +148,33 @@ it('should hoist at-rules', () => {
 
 it('should nest at-rules', () => {
   expect(
-    _getCssText(css`
-      @import url('foo');
-      @media screen {
+    _getCssText(
+      _getStyleTokens(css`
         @import url('foo');
         @media screen {
-          color: blue;
-        }
-        .foo {
-          color: green;
-          @import url('bar');
+          @import url('foo');
           @media screen {
-            color: teal;
+            color: blue;
           }
-          color: purple;
+          .foo {
+            color: green;
+            @import url('bar');
+            @media screen {
+              color: teal;
+            }
+            color: purple;
+          }
         }
-      }
-      @keyframes foo {
-        from {
-          color: black;
+        @keyframes foo {
+          from {
+            color: black;
+          }
+          to {
+            color: white;
+          }
         }
-        to {
-          color: white;
-        }
-      }
-    `)
+      `)[0]
+    )
   ).toMatchInlineSnapshot(`
     "@import url('foo');
     @media screen {
@@ -200,32 +213,36 @@ it('should print a single line if "pretty" option is unset', () => {
   config.pretty = false;
 
   expect(
-    _getCssText(css`
-      @media screen {
-        .foo {
-          color: red;
+    _getCssText(
+      _getStyleTokens(css`
+        @media screen {
+          .foo {
+            color: red;
+          }
         }
-      }
-    `)
-  ).toMatchInlineSnapshot(`"@media screen{.foo{color: red;}}"`);
+      `)[0]
+    )
+  ).toMatchInlineSnapshot(`"@media screen{.foo{color:red;}}"`);
 });
 
 it('should merge comma separated selectors', () => {
   expect(
-    _getCssText(css`
-      .foo,
-      .bar {
-        .baz {
-          color: red;
+    _getCssText(
+      _getStyleTokens(css`
+        .foo,
+        .bar {
+          .baz {
+            color: red;
+          }
         }
-      }
-      .zip {
-        .zot,
-        .zow {
-          color: blue;
+        .zip {
+          .zot,
+          .zow {
+            color: blue;
+          }
         }
-      }
-    `)
+      `)[0]
+    )
   ).toMatchInlineSnapshot(`
     ".foo .baz,
     .bar .baz {

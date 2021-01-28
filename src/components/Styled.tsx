@@ -1,19 +1,20 @@
 import React, { useMemo } from 'react';
 import { cx } from '../cx';
 import { _styleAttributeName } from '../private/_styleAttributeName';
+import { _getStyleTokens } from '../private/_getStyleTokens';
 import { _getCssText } from '../private/_getCssText';
 import { _getStyledClassName, StyledClassName } from '../private/_getStyledClassName';
+import { _getConfig } from '../private/_getConfig';
 import { _useStyle } from '../private/_useStyle';
-import { _useHash } from '../private/_useHash';
 import { ICustomStyledProps } from '../types/ICustomStyledProps';
 
 export interface IStyledProps extends ICustomStyledProps {
   /**
-   * A style name which will be used to prefix the dynamic class name. This is
-   * required to help prevent class name collisions which may result from
-   * imperfect css string hashing.
+   * A style name which will be used to prefix the dynamic class name.
+   *
+   * @deprecated Use a `@scope` comment pragma in the `css` string instead.
    */
-  name: string;
+  name?: string;
   /**
    * Style tagged template value.
    */
@@ -21,22 +22,25 @@ export interface IStyledProps extends ICustomStyledProps {
 }
 
 export const Styled: React.VFC<IStyledProps> = ({ name, className, css = '', children }) => {
+  children = React.Children.only(children);
   const childClassName = cx(children.props.className, className) as StyledClassName;
-  const parent = childClassName?.styled;
-  const styleText = css + (parent?.styleText ?? '');
-  const hash = _useHash(styleText);
-  const [cssText, styledClassName] = useMemo((): [string, string] => {
-    const hashedClassName = `${name}--rcij-${hash}`;
+  const [key, cssText, styledClassName] = useMemo((): [string, string, string] => {
+    const { customHashFunction: getHash } = _getConfig();
+    const [newTokens, { scope = name }] = _getStyleTokens(css);
+    const parent = childClassName?.styled;
+    const tokens = [...newTokens, ...(parent?.tokens ?? [])];
+    const hash = getHash(tokens.toString());
+    const hashedClassName = (scope ? scope + '--' : '') + 'rcij-' + hash;
     const styledClassName = _getStyledClassName(
-      styleText,
+      tokens,
       hashedClassName,
       parent ? parent.simpleClassName : childClassName
     );
-    const cssText = _getCssText(styleText, `.${hashedClassName}`);
+    const key = scope ? scope + '/' + hash : hash;
+    const cssText = _getCssText(tokens, hashedClassName);
 
-    return [cssText, styledClassName];
-  }, [name, hash, styleText, childClassName]);
-  const key = `${name}/${hash}`;
+    return [key, cssText, styledClassName];
+  }, [name, css, childClassName]);
 
   return (
     <>

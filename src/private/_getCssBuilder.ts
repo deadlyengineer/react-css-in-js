@@ -1,84 +1,47 @@
 import { _getConfig } from './_getConfig';
-import { _getSelectors } from './_getSelectors';
+import { _getJoinedSelectors } from './_getJoinedSelectors';
 import { _printerDefault } from './_printerDefault';
 import { _printerPretty } from './_printerPretty';
-import { ICssBlock } from './types/ICssBlock';
+import { ICssBlock, _AtRuleConditional, _AtRuleNested, _AtRuleNone, _AtRuleSimple } from './types/ICssBlock';
 import { ICssBuilder } from './types/ICssBuilder';
 
-export function _getCssBuilder(rootSelector = ':root'): ICssBuilder {
+export function _getCssBuilder(className?: string): ICssBuilder {
   const { pretty } = _getConfig();
+  const rootSelectors = [className ? '.' + className : ':root'];
   const printer = pretty ? _printerPretty : _printerDefault;
   const blocks: ICssBlock[] = [];
 
+  __openBlock('', rootSelectors, { _isVirtual: true });
+
   let result = '';
-  let buffer = '';
-  let space = false;
-  let values: string[] = [];
 
-  function _word(value: string) {
-    if (buffer && space) {
-      buffer += ' ';
-      space = false;
+  function _openBlock(selectors: string[]) {
+    const currentBlock = blocks[0];
+    const parentSelectors = currentBlock._selectors;
+    const allowNesting = currentBlock._atRuleGroupLevel >= _AtRuleNested;
+    const indent = currentBlock._indent + (allowNesting ? '  ' : '');
+
+    if (currentBlock._isWritten && !allowNesting) {
+      result += printer._closeBlock(currentBlock._indent);
+      currentBlock._isWritten = false;
     }
 
-    buffer += value;
-  }
+    if (selectors[0][0] === '@') {
+      const _atRuleGroupLevel = /^@(media|supports|document)\b/.test(selectors[0])
+        ? _AtRuleConditional
+        : /^@(keyframes|font-feature-values)\b/.test(selectors[0])
+        ? _AtRuleNested
+        : _AtRuleSimple;
 
-  function _space() {
-    space = true;
-  }
+      __openBlock(indent, [printer._csv(selectors)], { _atRuleGroupLevel });
 
-  function _value() {
-    if (buffer) {
-      values.push(buffer);
-      buffer = '';
-    }
-
-    space = false;
-  }
-
-  function _openBlock() {
-    _value();
-
-    const currentValues = values;
-
-    values = [];
-
-    const prevBlock = blocks[0];
-    const prevSelectors = prevBlock?._selectors?.length ? prevBlock._selectors : [rootSelector];
-    const indent = (prevBlock?._indent ?? '') + (prevBlock?._allowNesting ? '  ' : '');
-
-    if (prevBlock && !prevBlock._allowNesting && prevBlock._isWritten) {
-      result += printer._blockClose(prevBlock._indent);
-      prevBlock._isWritten = false;
-    }
-
-    if (currentValues[0]?.[0] === '@') {
-      const isConditionalGroup = /^@(media|supports|document)\b/.test(currentValues[0]);
-      const isNesting = isConditionalGroup || /^@(keyframes|font-feature-values)\b/.test(currentValues[0]);
-
-      __openBlock({
-        _identifier: printer._identifier(indent, currentValues),
-        _indent: indent,
-        _allowNesting: isNesting,
-      });
-
-      if (isConditionalGroup) {
-        __openBlock({
-          _identifier: printer._identifier(indent + '  ', prevSelectors),
-          _indent: indent + '  ',
-          _isVirtual: true,
-          _selectors: prevSelectors,
-        });
+      if (_atRuleGroupLevel >= _AtRuleConditional) {
+        __openBlock(indent + '  ', parentSelectors, { _isVirtual: true });
       }
     } else {
-      const extendedSelectors = _getSelectors(currentValues, prevSelectors);
+      const joinedSelectors = _getJoinedSelectors(selectors, parentSelectors);
 
-      __openBlock({
-        _identifier: printer._identifier(indent, extendedSelectors),
-        _indent: indent,
-        _selectors: extendedSelectors,
-      });
+      __openBlock(indent, joinedSelectors);
     }
   }
 
@@ -86,75 +49,67 @@ export function _getCssBuilder(rootSelector = ':root'): ICssBuilder {
     while (__closeBlock()?._isVirtual);
   }
 
-  function _property() {
-    _value();
-
-    if (values.length === 0) {
-      return;
-    }
-
-    const prevBlock = blocks[0];
-    const isAtRule = values[0][0] === '@';
+  function _property(keys: string[], values?: string[]) {
+    const currentBlock = blocks[0];
+    const isAtRule = keys[0][0] === '@';
 
     let indent: string;
 
-    if (values[0][0] === '@') {
-      if (prevBlock && !prevBlock._allowNesting && prevBlock._isWritten) {
-        result += printer._blockClose(prevBlock._indent);
-        prevBlock._isWritten = false;
+    if (isAtRule) {
+      if (currentBlock._isWritten && currentBlock._atRuleGroupLevel < _AtRuleNested) {
+        result += currentBlock._suffix;
+        currentBlock._isWritten = false;
       }
 
-      const parent = blocks.find((block) => block._allowNesting);
+      const parent = blocks.find((block) => block._atRuleGroupLevel >= _AtRuleNested);
 
-      indent = parent ? `${parent._indent}  ` : '';
-    } else if (!prevBlock) {
-      __openBlock({ _identifier: rootSelector, _isVirtual: true, _selectors: [rootSelector] });
-      indent = '  ';
+      indent = parent ? parent._indent + '  ' : '';
     } else {
-      indent = `${prevBlock._indent}  `;
+      indent = currentBlock._indent + '  ';
     }
 
     for (let i = blocks.length - 1; i >= 0; --i) {
       const block = blocks[i];
 
-      if (((i === 0 && !isAtRule) || block._allowNesting) && !block._isWritten) {
-        result += `${block._identifier}${printer._blockOpen(block._indent)}`;
+      if (((i === 0 && !isAtRule) || block._atRuleGroupLevel >= _AtRuleNested) && !block._isWritten) {
+        result += block._prefix;
         block._isWritten = true;
       }
     }
 
-    result += printer._property(indent, values);
-    values = [];
+    result += printer._property(indent, printer._csv(keys), values && printer._csv(values));
   }
 
   function _build() {
     while (__closeBlock());
-
-    const _result = result;
-    result = '';
-
-    return _result;
+    return result;
   }
 
-  function __openBlock({
-    _identifier = '',
-    _indent = '',
-    _isWritten = false,
-    _isVirtual = false,
-    _allowNesting = false,
-    _selectors,
-  }: Partial<ICssBlock>) {
-    blocks.unshift({ _identifier, _indent, _isWritten, _isVirtual, _allowNesting, _selectors });
+  function __openBlock(
+    _indent: string,
+    _selectors: string[] = rootSelectors,
+    {
+      _isVirtual = false,
+      _atRuleGroupLevel = _AtRuleNone,
+    }: Partial<Pick<ICssBlock, '_isVirtual' | '_atRuleGroupLevel'>> = {}
+  ) {
+    blocks.unshift({
+      _prefix: printer._openBlock(_indent, _selectors),
+      _suffix: printer._closeBlock(_indent),
+      _indent,
+      _isWritten: false,
+      _isVirtual,
+      _atRuleGroupLevel,
+      _selectors: _atRuleGroupLevel ? undefined : _selectors,
+    });
   }
 
   function __closeBlock(): ICssBlock | undefined {
     const block = blocks[0];
 
     if (block) {
-      _property();
-
       if (block._isWritten) {
-        result += printer._blockClose(block._indent);
+        result += block._suffix;
         block._isWritten = false;
       }
 
@@ -164,5 +119,5 @@ export function _getCssBuilder(rootSelector = ':root'): ICssBuilder {
     return block;
   }
 
-  return { _word, _space, _value, _openBlock, _closeBlock, _property, _build };
+  return { _openBlock, _closeBlock, _property, _build };
 }

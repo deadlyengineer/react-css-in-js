@@ -24,9 +24,15 @@ it('should render to string', async () => {
     pretty(
       ReactDOMServer.renderToString(
         <Styled
-          name={'foo'}
           css={css`
-            color: red;
+            /* @scope foo */
+            padding: 32px;
+            background-color: hotpink;
+            font-size: 24px;
+            border-radius: 4px;
+            &:hover {
+              color: white;
+            }
           `}
         >
           <div />
@@ -34,12 +40,19 @@ it('should render to string', async () => {
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"foo/g0zrt6\\">
-      .foo--rcij-g0zrt6 {
-        color: red;
+    "<style data-rcij=\\"foo/vgpg57\\">
+      .foo--rcij-vgpg57 {
+        padding: 32px;
+        background-color: hotpink;
+        font-size: 24px;
+        border-radius: 4px;
+      }
+
+      .foo--rcij-vgpg57:hover {
+        color: white;
       }
     </style>
-    <div class=\\"foo--rcij-g0zrt6\\"></div>"
+    <div class=\\"foo--rcij-vgpg57\\"></div>"
   `);
 });
 
@@ -51,8 +64,8 @@ it('should allow for style overrides using Styled wrappers', async () => {
   const A: React.VFC<{ className?: string }> = ({ className }) => {
     return (
       <Styled
-        name={'foo'}
         css={css`
+          /* @scope foo */
           color: red;
         `}
       >
@@ -64,8 +77,8 @@ it('should allow for style overrides using Styled wrappers', async () => {
   const B: React.VFC<{ className?: string }> = ({ className }) => {
     return (
       <Styled
-        name={'bar'}
         css={css`
+          /* @scope bar */
           color: green;
         `}
       >
@@ -77,8 +90,8 @@ it('should allow for style overrides using Styled wrappers', async () => {
   const C: React.VFC<{ className?: string }> = ({ className }) => {
     return (
       <Styled
-        name={'baz'}
         css={css`
+          /* @scope baz */
           color: blue;
         `}
       >
@@ -88,25 +101,25 @@ it('should allow for style overrides using Styled wrappers', async () => {
   };
 
   expect(pretty(ReactDOMServer.renderToString(<C className={'render'} />))).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"baz/cilhif\\">
-      .baz--rcij-cilhif {
+    "<style data-rcij=\\"baz/1bg8z9n\\">
+      .baz--rcij-1bg8z9n {
         color: blue;
       }
     </style>
-    <style data-rcij=\\"bar/1dmttsw\\">
-      .bar--rcij-1dmttsw {
+    <style data-rcij=\\"bar/9trfw\\">
+      .bar--rcij-9trfw {
         color: green;
         color: blue;
       }
     </style>
-    <style data-rcij=\\"foo/ezbhyn\\">
-      .foo--rcij-ezbhyn {
+    <style data-rcij=\\"foo/ktewn7\\">
+      .foo--rcij-ktewn7 {
         color: red;
         color: green;
         color: blue;
       }
     </style>
-    <div class=\\"a b c render foo--rcij-ezbhyn\\"></div>"
+    <div class=\\"a b c render foo--rcij-ktewn7\\"></div>"
   `);
 });
 
@@ -118,11 +131,11 @@ it('should includes styles when directly nested', async () => {
   const AStyled: StyledFC = ({ className, children }) => {
     return (
       <Styled
-        name={'a'}
-        className={cx('a-styled', className)}
         css={css`
+          /* @scope a */
           color: blue;
         `}
+        className={cx('a-styled', className)}
       >
         {children}
       </Styled>
@@ -132,11 +145,11 @@ it('should includes styles when directly nested', async () => {
   const BStyled: StyledFC = ({ className, children }) => {
     return (
       <Styled
-        name={'b'}
-        className={cx('b-styled', className)}
         css={css`
+          /* @scope b */
           color: green;
         `}
+        className={cx('b-styled', className)}
       >
         {children}
       </Styled>
@@ -149,8 +162,8 @@ it('should includes styles when directly nested', async () => {
         <AStyled>
           <BStyled>
             <Styled
-              name={'c'}
               css={css`
+                /* @scope c */
                 color: red;
               `}
             >
@@ -161,24 +174,24 @@ it('should includes styles when directly nested', async () => {
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"a/cilhif\\">
-      .a--rcij-cilhif {
+    "<style data-rcij=\\"a/1bg8z9n\\">
+      .a--rcij-1bg8z9n {
         color: blue;
       }
     </style>
-    <style data-rcij=\\"b/1dmttsw\\">
-      .b--rcij-1dmttsw {
+    <style data-rcij=\\"b/9trfw\\">
+      .b--rcij-9trfw {
         color: green;
         color: blue;
       }
     </style>
-    <style data-rcij=\\"c/ezbhyn\\">
-      .c--rcij-ezbhyn {
+    <style data-rcij=\\"c/ktewn7\\">
+      .c--rcij-ktewn7 {
         color: red;
         color: green;
         color: blue;
       }
     </style>
-    <div class=\\"c-styled b-styled a-styled c--rcij-ezbhyn\\"></div>"
+    <div class=\\"c-styled b-styled a-styled c--rcij-ktewn7\\"></div>"
   `);
 });
