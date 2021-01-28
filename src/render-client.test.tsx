@@ -60,7 +60,8 @@ it('should insert styles into the head', () => {
 function getJsx() {
   const A: FC = ({ styles, className, children }) => {
     return (
-      <Styled css={styles}>
+      <Styled>
+        {styles}
         <div className={className}>{children}</div>
       </Styled>
     );
@@ -68,17 +69,13 @@ function getJsx() {
 
   return (
     <>
-      <Style
-        css={css`
-          color: green;
-        `}
-      />
-      <Styled
-        css={css`
-          /* @scope a */
+      <Style>{css`
+        color: green;
+      `}</Style>
+      <Styled scope={'a'}>
+        {css`
           color: blue;
         `}
-      >
         <A
           styles={css`
             /* @scope a */
@@ -104,11 +101,9 @@ function getJsx() {
       >
         baz
       </A>
-      <Style
-        css={css`
-          color: black;
-        `}
-      />
+      <Style>{css`
+        color: black;
+      `}</Style>
     </>
   );
 }

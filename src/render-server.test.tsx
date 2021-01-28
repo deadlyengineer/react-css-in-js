@@ -139,24 +139,21 @@ async function getJsx() {
   const { Styled } = await import('./components/Styled');
   const A: FC = ({ styles, className, children }) => {
     return (
-      <Styled css={styles}>
+      <Styled>
+        {styles}
         <div className={className}>{children}</div>
       </Styled>
     );
   };
   return (
     <>
-      <Style
-        css={css`
-          color: green;
-        `}
-      />
-      <Styled
-        css={css`
-          /* @scope a */
+      <Style>{css`
+        color: green;
+      `}</Style>
+      <Styled scope={'a'}>
+        {css`
           color: blue;
         `}
-      >
         <A
           styles={css`
             /* @scope a */
@@ -182,11 +179,9 @@ async function getJsx() {
       >
         baz
       </A>
-      <Style
-        css={css`
-          color: black;
-        `}
-      />
+      <Style>{css`
+        color: black;
+      `}</Style>
     </>
   );
 }

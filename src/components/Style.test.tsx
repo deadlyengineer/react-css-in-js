@@ -21,11 +21,9 @@ it('should render to string', async () => {
   expect(
     pretty(
       ReactDOMServer.renderToString(
-        <Style
-          css={css`
-            color: red;
-          `}
-        />
+        <Style>{css`
+          color: red;
+        `}</Style>
       )
     )
   ).toMatchInlineSnapshot(`

@@ -7,12 +7,10 @@ import { Styled } from './components/Styled';
 
 const A: React.VFC = () => {
   return (
-    <Styled
-      css={css`
-        /* @scope a */
+    <Styled scope={'a'}>
+      {css`
         color: red;
       `}
-    >
       <div />
     </Styled>
   );

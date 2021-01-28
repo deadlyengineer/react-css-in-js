@@ -15,18 +15,18 @@ export function cx(...classNames: (StyledClassName | 0 | false | null | undefine
   classNames.forEach((className) => {
     if (!className) return;
 
-    const { styled } = className;
+    const { _styled } = className;
 
-    if (styled) {
-      if (styled.simpleClassName) {
-        simpleClassNames.push(styled.simpleClassName);
+    if (_styled) {
+      if (_styled._simpleClassName) {
+        simpleClassNames.push(_styled._simpleClassName);
       }
 
       if (!hashedClassName) {
-        hashedClassName = styled.hashedClassName;
+        hashedClassName = _styled._hashedClassName;
       }
 
-      tokens.push(...styled.tokens);
+      tokens.push(..._styled._tokens);
     } else {
       simpleClassNames.push(className);
     }

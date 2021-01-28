@@ -23,9 +23,8 @@ it('should render to string', async () => {
   expect(
     pretty(
       ReactDOMServer.renderToString(
-        <Styled
-          css={css`
-            /* @scope foo */
+        <Styled scope={'foo'}>
+          {css`
             padding: 32px;
             background-color: hotpink;
             font-size: 24px;
@@ -34,7 +33,6 @@ it('should render to string', async () => {
               color: white;
             }
           `}
-        >
           <div />
         </Styled>
       )
@@ -63,12 +61,10 @@ it('should allow for style overrides using Styled wrappers', async () => {
 
   const A: React.VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled
-        css={css`
-          /* @scope foo */
+      <Styled scope={'foo'}>
+        {css`
           color: red;
         `}
-      >
         <div className={cx('a', className)}></div>
       </Styled>
     );
@@ -76,12 +72,10 @@ it('should allow for style overrides using Styled wrappers', async () => {
 
   const B: React.VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled
-        css={css`
-          /* @scope bar */
+      <Styled scope={'bar'}>
+        {css`
           color: green;
         `}
-      >
         <A className={cx('b', className)} />
       </Styled>
     );
@@ -89,12 +83,10 @@ it('should allow for style overrides using Styled wrappers', async () => {
 
   const C: React.VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled
-        css={css`
-          /* @scope baz */
+      <Styled scope={'baz'}>
+        {css`
           color: blue;
         `}
-      >
         <B className={cx('c', className)} />
       </Styled>
     );
@@ -130,13 +122,10 @@ it('should includes styles when directly nested', async () => {
 
   const AStyled: StyledFC = ({ className, children }) => {
     return (
-      <Styled
-        css={css`
-          /* @scope a */
+      <Styled scope={'a'} className={cx('a-styled', className)}>
+        {css`
           color: blue;
         `}
-        className={cx('a-styled', className)}
-      >
         {children}
       </Styled>
     );
@@ -144,13 +133,10 @@ it('should includes styles when directly nested', async () => {
 
   const BStyled: StyledFC = ({ className, children }) => {
     return (
-      <Styled
-        css={css`
-          /* @scope b */
+      <Styled scope={'b'} className={cx('b-styled', className)}>
+        {css`
           color: green;
         `}
-        className={cx('b-styled', className)}
-      >
         {children}
       </Styled>
     );
@@ -161,12 +147,10 @@ it('should includes styles when directly nested', async () => {
       ReactDOMServer.renderToString(
         <AStyled>
           <BStyled>
-            <Styled
-              css={css`
-                /* @scope c */
+            <Styled scope={'c'}>
+              {css`
                 color: red;
               `}
-            >
               <div className={'c-styled'} />
             </Styled>
           </BStyled>
