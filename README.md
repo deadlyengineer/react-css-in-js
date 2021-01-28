@@ -33,7 +33,7 @@ More verbose than Emotion's `css` prop or styled-components, but in return you g
 
 _Less than half the size of both the [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react) packages._
 
-## Create a styled component
+## Make something styled
 
 ```tsx
 import { css, Styled } from 'react-css-in-js';
