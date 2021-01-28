@@ -1,6 +1,6 @@
 {
   "name": "react-css-in-js",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Minimal React css-in-js styled components.",
   "repository": "https://github.com/ChrisAckerman/react-css-in-js",
   "author": "Chris Ackerman <chris@topher.land>",
