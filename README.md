@@ -36,9 +36,9 @@ Like [styled-components](https://styled-components.com) or [@emotion/styled](htt
 
 Like [styled-jsx](https://www.npmjs.com/package/styled-jsx), but you don't need a babel plugin or the `<style jsx>` wrapper around the style. Also, the style more intuitively _precedes_ styled component.
 
-_Slightly_ more verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.
+_Slightly_ more verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve. Also, ability to style multiple components at once, which can be more efficient than repeating the same styled child multiple times.
 
-Because no babel plugins or compilation is required, it can be used with any tech stack. Because it's small, has no dependencies, and
+It can be used with any tech stack, because no babel plugins or compilation are required. It can be used in component libraries, because it's small, has no dependencies, and requires no setup.
 
 _Less than half the size of both the [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react) packages._
 
