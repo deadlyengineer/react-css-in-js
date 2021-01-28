@@ -34,9 +34,9 @@ Like [@emotion/react](https://www.npmjs.com/package/@emotion/react), but you don
 
 Like [styled-components](https://styled-components.com) or [@emotion/styled](https://www.npmjs.com/package/@emotion/styled), except you have direct control over how component props become HTML element attributes, and you don't have to create multiple components to add integral children. All the patterns you can use with styled components are still there, but now they're visible. Need an `as` prop? Give your component an `as` prop. It's not automatic, _and that's a good thing._
 
-Like [styled-jsx](https://www.npmjs.com/package/styled-jsx), but you don't need a babel plugin or the `<style jsx>` wrapper around the style. Also, the style more intuitively _precedes_ styled component.
+Like [styled-jsx](https://www.npmjs.com/package/styled-jsx), but you don't need a babel plugin or the `<style jsx>` wrapper around the style. Also, the style more intuitively _precedes_ the styled component it applies to.
 
-_Slightly_ more verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve. Also, ability to style multiple components at once, which can be more efficient than repeating the same styled child multiple times.
+_Slightly_ more verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.
 
 It can be used with any tech stack, because no babel plugins or compilation are required. It can be used in component libraries, because it's small, has no dependencies, and requires no setup.
 
