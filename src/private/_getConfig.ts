@@ -1,17 +1,13 @@
+import { _isBrowser, _styleAttributeName } from './_constants';
 import { _config } from './_config';
 import { _styleManagerDefault } from './_styleManagerDefault';
-import { _styleAttributeName } from './_styleAttributeName';
 import { _styleRefCounts } from './_styleRefCounts';
 import { IStyleConfig } from '../types/IStyleConfig';
 import { IStyleDehydrated } from '../types/IStyleDehydrated';
 
-function isBrowser() {
-  return typeof document !== 'undefined';
-}
-
 let dehydrated: IStyleDehydrated[] | undefined;
 
-if (isBrowser()) {
+if (_isBrowser) {
   dehydrated = Array.from(document.querySelectorAll<HTMLStyleElement>('style[' + _styleAttributeName + ']')).reduce<
     IStyleDehydrated[]
   >((acc, element) => {
@@ -38,7 +34,7 @@ export function _getConfig(): Readonly<IStyleConfig> {
 
     let { customStyleManager } = _config;
 
-    if (!customStyleManager && isBrowser()) {
+    if (!customStyleManager && _isBrowser) {
       customStyleManager = _styleManagerDefault;
     }
 

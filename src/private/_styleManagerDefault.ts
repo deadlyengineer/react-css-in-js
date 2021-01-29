@@ -1,4 +1,4 @@
-import { _styleAttributeName } from './_styleAttributeName';
+import { _styleAttributeName } from './_constants';
 import { IStyleManager } from '../types/IStyleManager';
 
 const cache = new Map<string, HTMLStyleElement>();

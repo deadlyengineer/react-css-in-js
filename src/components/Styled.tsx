@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { cx } from '../cx';
-import { _styleAttributeName } from '../private/_styleAttributeName';
+import { _styleAttributeName } from '../private/_constants';
 import { _getStyleTokens } from '../private/_getStyleTokens';
 import { _getCssText } from '../private/_getCssText';
 import { _getStyledClassName, StyledClassName } from '../private/_getStyledClassName';
