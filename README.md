@@ -192,10 +192,11 @@ import { configure } from 'react-css-in-js';
 
 configure({
   // The injected CSS text will be pretty formatted when this option
-  // is true. Defaults to false. This should not be significantly
-  // slower to generate, but may result in larger styles which could
-  // increase the transfer size when using server side rendering. It
-  // will not affect class name hashes.
+  // is true, or minified if it's false. Defaults to true in the
+  // browser, and false otherwise. Pretty formatting should not be
+  // significantly slower to generate, but may result in larger
+  // styles which could increase the transfer size when using server
+  // side rendering. It does not affect class name hashes.
   pretty: true,
 
   // A custom style manager can be used to change how styles are
