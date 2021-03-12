@@ -11,7 +11,6 @@ module.exports = {
     'plugin:prettier/recommended',
     // Prettier Exclusions (should be last)
     'prettier',
-    'prettier/react',
   ],
   settings: {
     react: {
@@ -42,8 +41,6 @@ module.exports = {
         'plugin:prettier/recommended',
         // Prettier Exclusions (should be last)
         'prettier',
-        'prettier/@typescript-eslint',
-        'prettier/react',
       ],
       parser: '@typescript-eslint/parser',
       plugins: ['@typescript-eslint', 'react', 'prettier'],

@@ -1,7 +1,7 @@
 import { DependencyList, EffectCallback, useEffect, useRef } from 'react';
 
 export function _useRenderEffect(effect: EffectCallback, deps?: DependencyList): void {
-  const gcRef = useRef<void | (() => void | undefined)>();
+  const gcRef = useRef<ReturnType<EffectCallback>>();
   const depsRef = useRef<DependencyList | undefined>();
   const prevDeps = depsRef.current;
 
