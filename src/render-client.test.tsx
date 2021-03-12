@@ -17,9 +17,10 @@ it('should insert styles into the head', () => {
     <html>
 
       <head>
-        <style data-rcij=\\"8vcj72\\">
+        <style data-rcij=\\"rbpuzo\\">
           :root {
             color: green;
+            padding: 0 1px 2em 3rem;
           }
         </style>
         <style data-rcij=\\"a/1bg8z9n\\">
@@ -71,6 +72,7 @@ function getJsx() {
     <>
       <Style>{css`
         color: green;
+        padding: 0 1px 2em 3rem;
       `}</Style>
       <Styled scope={'a'}>
         {css`

@@ -43,9 +43,10 @@ export function _getStyleTokens(style: string): [Tokens, Record<string, string |
         return;
       }
 
-      if (chunks[0] !== '@') {
-        // Not an at-rule and not a selector, so spaces can be omitted.
-        chunks = chunks.filter((word) => word !== ' ');
+      const iColon = chunks.indexOf(':');
+
+      if (iColon >= 0 && chunks[iColon + 1] === ' ') {
+        chunks.splice(iColon + 1, 1);
       }
     }
 
