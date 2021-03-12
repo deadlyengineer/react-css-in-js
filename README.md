@@ -1,13 +1,13 @@
 # React CSS-in-JS
 
 [![stars](https://badgen.net/github/stars/ChrisAckerman/react-css-in-js)](https://github.com/ChrisAckerman/react-css-in-js)
-[![npm](https://badgen.net/badge/npm/1.2.6/red)](https://www.npmjs.com/package/react-css-in-js)
+[![npm](https://badgen.net/badge/npm/1.2.7/red)](https://www.npmjs.com/package/react-css-in-js)
 [![downloads](https://badgen.net/npm/dw/react-css-in-js)](https://www.npmjs.com/package/react-css-in-js)
 [![license](https://badgen.net/badge/license/ISC/orange)](https://opensource.org/licenses/ISC)
-[![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.2.6)](https://bundlephobia.com/result?p=react-css-in-js@1.2.6)
-[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.2.6)](https://bundlephobia.com/result?p=react-css-in-js@1.2.6)
-[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.2.6)](https://bundlephobia.com/result?p=react-css-in-js@1.2.6)
-[![coverage](https://badgen.net/badge/coverage/94,84,88,93/purple?list=|)](#)
+[![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@1.2.7)](https://bundlephobia.com/result?p=react-css-in-js@1.2.7)
+[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@1.2.7)](https://bundlephobia.com/result?p=react-css-in-js@1.2.7)
+[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@1.2.7)](https://bundlephobia.com/result?p=react-css-in-js@1.2.7)
+[![coverage](https://badgen.net/badge/coverage/92,84,87,92/purple?list=|)](#)
 
 Minimal React css-in-js styled components.
 
