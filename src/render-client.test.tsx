@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC, ReactElement } from 'react';
 import ReactDOM from 'react-dom';
 import pretty from 'pretty';
 
@@ -6,7 +6,7 @@ import { css } from './css';
 import { Style } from './components/Style';
 import { Styled } from './components/Styled';
 
-type FC = React.FC<{ styles?: string; className?: string }>;
+type TestFC = FC<{ styles?: ReactElement; className?: string }>;
 
 it('should insert styles into the head', () => {
   jsdom.window.document.body.innerHTML = `<div id="root" />`;
@@ -59,11 +59,11 @@ it('should insert styles into the head', () => {
 });
 
 function getJsx() {
-  const A: FC = ({ styles, className, children }) => {
+  const A: TestFC = ({ styles, className, children }) => {
     return (
-      <Styled>
+      <Styled scope={'a'} className={className}>
         {styles}
-        <div className={className}>{children}</div>
+        <div>{children}</div>
       </Styled>
     );
   };
@@ -80,7 +80,6 @@ function getJsx() {
         `}
         <A
           styles={css`
-            /* @scope a */
             color: red;
           `}
         >
@@ -89,7 +88,6 @@ function getJsx() {
       </Styled>
       <A
         styles={css`
-          /* @scope a */
           color: blue;
         `}
       >
@@ -97,7 +95,6 @@ function getJsx() {
       </A>
       <A
         styles={css`
-          /* @scope a */
           color: red;
         `}
       >

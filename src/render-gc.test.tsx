@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-import React from 'react';
+import React, { VFC } from 'react';
 import ReactDOM from 'react-dom';
 import pretty from 'pretty';
 import { css } from './css';
 import { Styled } from './components/Styled';
 
-const A: React.VFC = () => {
+const A: VFC = () => {
   return (
     <Styled scope={'a'}>
       {css`

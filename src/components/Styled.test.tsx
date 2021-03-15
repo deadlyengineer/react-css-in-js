@@ -1,8 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
+import { ReactNode, VFC } from 'react';
 import pretty from 'pretty';
-import { css } from '../css';
-import { cx } from '../cx';
-import type { StyledFC } from '../types/StyledFC';
 
 const documentDesc = Object.getOwnPropertyDescriptor(global, 'document') as PropertyDescriptor;
 
@@ -18,7 +16,7 @@ afterEach(() => {
 it('should render to string', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { Styled } = await import('../');
+  const { css, Styled } = await import('../');
 
   expect(
     pretty(
@@ -57,37 +55,37 @@ it('should render to string', async () => {
 it('should allow for style overrides using Styled wrappers', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { Styled } = await import('../');
+  const { css, Styled } = await import('../');
 
-  const A: React.VFC<{ className?: string }> = ({ className }) => {
+  const A: VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled scope={'foo'}>
+      <Styled scope={'foo'} className={className}>
         {css`
           color: red;
         `}
-        <div className={cx('a', className)}></div>
+        <div className={'a'}></div>
       </Styled>
     );
   };
 
-  const B: React.VFC<{ className?: string }> = ({ className }) => {
+  const B: VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled scope={'bar'}>
+      <Styled scope={'bar'} className={className}>
         {css`
           color: green;
         `}
-        <A className={cx('b', className)} />
+        <A className={'b'} />
       </Styled>
     );
   };
 
-  const C: React.VFC<{ className?: string }> = ({ className }) => {
+  const C: VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled scope={'baz'}>
+      <Styled scope={'baz'} className={className}>
         {css`
           color: blue;
         `}
-        <B className={cx('c', className)} />
+        <B className={'c'} />
       </Styled>
     );
   };
@@ -118,11 +116,11 @@ it('should allow for style overrides using Styled wrappers', async () => {
 it('should includes styles when directly nested', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { Styled, cx } = await import('../');
+  const { css, Styled } = await import('../');
 
-  const AStyled: StyledFC = ({ className, children }) => {
+  const AStyled = ({ className, children }: { className?: string; children?: ReactNode }) => {
     return (
-      <Styled scope={'a'} className={cx('a-styled', className)}>
+      <Styled scope={'a'} className={className}>
         {css`
           color: blue;
         `}
@@ -131,9 +129,9 @@ it('should includes styles when directly nested', async () => {
     );
   };
 
-  const BStyled: StyledFC = ({ className, children }) => {
+  const BStyled = ({ className, children }: { className?: string; children?: ReactNode }) => {
     return (
-      <Styled scope={'b'} className={cx('b-styled', className)}>
+      <Styled scope={'b'} className={className}>
         {css`
           color: green;
         `}
@@ -151,7 +149,7 @@ it('should includes styles when directly nested', async () => {
               {css`
                 color: red;
               `}
-              <div className={'c-styled'} />
+              <div />
             </Styled>
           </BStyled>
         </AStyled>
@@ -176,6 +174,6 @@ it('should includes styles when directly nested', async () => {
         color: blue;
       }
     </style>
-    <div class=\\"c-styled b-styled a-styled c--rcij-ktewn7\\"></div>"
+    <div class=\\"c--rcij-ktewn7\\"></div>"
   `);
 });

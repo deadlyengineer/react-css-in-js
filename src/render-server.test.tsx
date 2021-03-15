@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
+import { FC, ReactElement } from 'react';
 import pretty from 'pretty';
-import { css } from './css';
 
-type FC = React.FC<{ styles?: string; className?: string }>;
+type TestFC = FC<{ styles?: ReactElement; className?: string }>;
 
 const documentDesc = Object.getOwnPropertyDescriptor(global, 'document') as PropertyDescriptor;
 
@@ -24,7 +23,7 @@ it('should render styles inline when document is undefined', async () => {
   html = ReactDOMServer.renderToString(jsx);
 
   expect(pretty(html)).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"8vcj72\\" data-reactroot=\\"\\">
+    "<style data-rcij=\\"8vcj72\\">
       :root {
         color: green;
       }
@@ -53,7 +52,7 @@ it('should render styles inline when document is undefined', async () => {
       }
     </style>
     <div class=\\"a--rcij-9pvgme\\">baz</div>
-    <style data-rcij=\\"d1z182\\" data-reactroot=\\"\\">
+    <style data-rcij=\\"d1z182\\">
       :root {
         color: black;
       }
@@ -67,7 +66,7 @@ it('should rehydrate inline styles into the head.', async () => {
   const ReactDOM = await import('react-dom');
 
   jsdom.window.document.body.innerHTML = '<div id="root">' + html + '</div>';
-  await import('.');
+  await import('./');
 
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
     "<!DOCTYPE html>
@@ -93,7 +92,7 @@ it('should rehydrate inline styles into the head.', async () => {
     <html>
 
       <head>
-        <style data-rcij=\\"8vcj72\\" data-reactroot=\\"\\">
+        <style data-rcij=\\"8vcj72\\">
           :root {
             color: green;
           }
@@ -114,7 +113,7 @@ it('should rehydrate inline styles into the head.', async () => {
             color: red;
           }
         </style>
-        <style data-rcij=\\"d1z182\\" data-reactroot=\\"\\">
+        <style data-rcij=\\"d1z182\\">
           :root {
             color: black;
           }
@@ -135,13 +134,12 @@ it('should rehydrate inline styles into the head.', async () => {
 
 async function getJsx() {
   const React = await import('react');
-  const { Style } = await import('./components/Style');
-  const { Styled } = await import('./components/Styled');
-  const A: FC = ({ styles, className, children }) => {
+  const { css, Style, Styled } = await import('./');
+  const A: TestFC = ({ styles, className, children }) => {
     return (
-      <Styled>
+      <Styled scope={'a'} className={className}>
         {styles}
-        <div className={className}>{children}</div>
+        <div>{children}</div>
       </Styled>
     );
   };
@@ -156,7 +154,6 @@ async function getJsx() {
         `}
         <A
           styles={css`
-            /* @scope a */
             color: red;
           `}
         >
@@ -165,7 +162,6 @@ async function getJsx() {
       </Styled>
       <A
         styles={css`
-          /* @scope a */
           color: blue;
         `}
       >
@@ -173,7 +169,6 @@ async function getJsx() {
       </A>
       <A
         styles={css`
-          /* @scope a */
           color: red;
         `}
       >

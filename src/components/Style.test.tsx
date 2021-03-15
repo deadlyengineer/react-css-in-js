@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import pretty from 'pretty';
-import { css } from '../css';
 
 const documentDesc = Object.getOwnPropertyDescriptor(global, 'document') as PropertyDescriptor;
 
@@ -16,21 +15,25 @@ afterEach(() => {
 it('should render to string', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { Style } = await import('./Style');
+  const { css, Style } = await import('../');
 
   expect(
     pretty(
       ReactDOMServer.renderToString(
-        <Style>{css`
-          color: red;
-        `}</Style>
+        <Style>
+          {css`
+            color: red;
+          `}
+          <div />
+        </Style>
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"9pvgme\\" data-reactroot=\\"\\">
+    "<style data-rcij=\\"9pvgme\\">
       :root {
         color: red;
       }
-    </style>"
+    </style>
+    <div></div>"
   `);
 });

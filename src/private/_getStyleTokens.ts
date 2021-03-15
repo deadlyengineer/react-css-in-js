@@ -14,15 +14,14 @@ import { _getConfig } from './_getConfig';
  * - missing closing curly braces
  * - missing block selectors (&)
  */
-export function _getStyleTokens(style: string): [Tokens, Record<string, string | undefined>] {
-  const re = /\\[\s\S]|[@:]|(?:\s*([,;{}])\s*)|(['"])(?:[\s\S]*?\2|[\s\S]*$)|((\s+)?\/\*(?:(?:\s*@([a-zA-Z0-9-]+)\s+([[a-zA-Z0-9-]+?)\s*|[\s\S]*?)\*\/(\s+)?|[\s\S]*$))|(\s+)/g;
+export function _getStyleTokens(style: string): Tokens {
+  const re = /\\[\s\S]|[@:]|(?:\s*([,;{}])\s*)|(['"])(?:[\s\S]*?\2|[\s\S]*$)|((\s+)?\/\*(?:[\s\S]*?\*\/(\s+)?|[\s\S]*$))|(\s+)/g;
 
   let match: RegExpExecArray | null;
   let lastIndex = 0;
   let separator = '';
   let depth = 0;
   let chunks: string[] = [];
-  const pragmas: Record<string, string | undefined> = {};
   const tokens: Token[] = [];
 
   function chunk(value: string) {
@@ -88,13 +87,9 @@ export function _getStyleTokens(style: string): [Tokens, Record<string, string |
 
     lastIndex = re.lastIndex;
 
-    const [token, terminator, _quote, comment, commentLeader, pragmaName, pragmaValue, commentTrailer, blank] = match;
+    const [token, terminator, _quote, comment, commentLeader, commentTrailer, blank] = match;
 
     if (comment) {
-      if (pragmaName && pragmas[pragmaName] == null) {
-        pragmas[pragmaName] = pragmaValue;
-      }
-
       if (commentLeader || commentTrailer) {
         space();
       }
@@ -128,5 +123,5 @@ export function _getStyleTokens(style: string): [Tokens, Record<string, string |
     closeBlock();
   }
 
-  return [tokens, pragmas];
+  return tokens;
 }

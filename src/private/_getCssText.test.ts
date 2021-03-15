@@ -1,7 +1,7 @@
-import { css } from '../css';
 import { _getCssText } from './_getCssText';
 import { _getStyleTokens } from './_getStyleTokens';
 
+const css = String.raw;
 const initialConfig = { ...jest.requireActual('./_getConfig')._getConfig(), pretty: true };
 let config = { ...initialConfig };
 
@@ -21,7 +21,7 @@ it('should render simple css', () => {
         .bar {
           color: red;
         }
-      `)[0]
+      `)
     )
   ).toMatchInlineSnapshot(`
     ".foo,
@@ -37,7 +37,7 @@ it('should include un-terminated rules', () => {
     _getCssText(
       _getStyleTokens(`
         .foo {
-          color: blue`)[0]
+          color: blue`)
     )
   ).toMatchInlineSnapshot(`
     ".foo {
@@ -60,7 +60,7 @@ it('should render nested css', () => {
           color: green;
         }
         color: black;
-      `)[0]
+      `)
     )
   ).toMatchInlineSnapshot(`
     ":root {
@@ -94,7 +94,7 @@ it('should replace & placeholders', () => {
             }
           }
         }
-      `)[0]
+      `)
     )
   ).toMatchInlineSnapshot(`
     ".bar .foo {
@@ -122,7 +122,7 @@ it('should hoist at-rules', () => {
           }
           color: green;
         }
-      `)[0]
+      `)
     )
   ).toMatchInlineSnapshot(`
     ".foo {
@@ -173,7 +173,7 @@ it('should nest at-rules', () => {
             color: white;
           }
         }
-      `)[0]
+      `)
     )
   ).toMatchInlineSnapshot(`
     "@import url('foo');
@@ -220,7 +220,7 @@ it('should print a single line if "pretty" option is unset', () => {
             color: red;
           }
         }
-      `)[0]
+      `)
     )
   ).toMatchInlineSnapshot(`"@media screen{.foo{color:red;}}"`);
 });
@@ -241,7 +241,7 @@ it('should merge comma separated selectors', () => {
             color: blue;
           }
         }
-      `)[0]
+      `)
     )
   ).toMatchInlineSnapshot(`
     ".foo .baz,

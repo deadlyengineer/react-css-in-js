@@ -11,13 +11,13 @@ if (_isBrowser) {
   dehydrated = Array.from(document.querySelectorAll<HTMLStyleElement>('style[' + _styleAttributeName + ']')).reduce<
     IStyleDehydrated[]
   >((acc, element) => {
-    const key = element.getAttribute(_styleAttributeName) as string;
-    const refCount = _styleRefCounts.get(key) ?? 0;
+    const cacheKey = element.getAttribute(_styleAttributeName) as string;
+    const refCount = _styleRefCounts.get(cacheKey) ?? 0;
 
-    _styleRefCounts.set(key, refCount + 1);
+    _styleRefCounts.set(cacheKey, refCount + 1);
 
     if (refCount === 0) {
-      acc.push({ key, element });
+      acc.push({ cacheKey: cacheKey, element });
     }
 
     element.remove();

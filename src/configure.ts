@@ -3,8 +3,7 @@ import { _getConfig } from './private/_getConfig';
 import { IStyleConfig } from './types/IStyleConfig';
 
 /**
- * Set configuration options for react-css-in-js. Returns the _previous_
- * configuration.
+ * Set configuration options for react-css-in-js.
  */
 export function configure(options: Partial<IStyleConfig> = {}): void {
   if (_getConfig._locked) {

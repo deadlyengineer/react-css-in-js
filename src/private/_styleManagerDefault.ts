@@ -4,26 +4,26 @@ import { IStyleManager } from '../types/IStyleManager';
 const cache = new Map<string, HTMLStyleElement>();
 
 export const _styleManagerDefault: IStyleManager = {
-  register(key, cssText) {
+  register(cacheKey, cssText) {
     const style = document.createElement('style');
 
-    style.setAttribute(_styleAttributeName, key);
+    style.setAttribute(_styleAttributeName, cacheKey);
     style.textContent = cssText;
-    cache.set(key, style);
+    cache.set(cacheKey, style);
     document.head.append(style);
   },
-  unregister(key) {
-    const style = cache.get(key);
+  unregister(cacheKey) {
+    const style = cache.get(cacheKey);
 
     if (style) {
       style.remove();
-      cache.delete(key);
+      cache.delete(cacheKey);
     }
   },
   hydrate(styles) {
     document.head.append(
-      ...styles.map(({ key, element }) => {
-        cache.set(key, element);
+      ...styles.map(({ cacheKey, element }) => {
+        cache.set(cacheKey, element);
         return element;
       })
     );
