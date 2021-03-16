@@ -38,11 +38,13 @@ render(
   
 Any component that accepts a class name can be re-styled. So, to make your pre-styled component support _re-styling_, give it a `className` property, and pass the property value to the `<Styled>` component (**not** to a Styled component child).
 
-<aside>
-<header>Why should I pass the <code>className</code> to the Styled component?</header>
+<details>
 
-The inner Styled component will give higher precedence to a dynamic class injected by an outer Styled component, which allows outer styles to override inner styles. The injected class should also not be stringified or concatenated with other classes, because that would remove the Styled metadata from the class. If the injected class is just a plain string, it will be added to all Styled child components as-is.
-</aside>
+<summary><strong>Why should I pass the <code>className</code> to the Styled component?</strong></summary>
+
+<small>The inner Styled component will give higher precedence to a dynamic class injected by an outer Styled component, which allows outer styles to override inner styles. The injected class should also not be stringified or concatenated with other classes, because that would remove the Styled metadata from the class. If the injected class is just a plain string, it will be added to all Styled child components as-is.</small>
+
+</details>
 
 ```tsx
 interface IMyComponentProps {
@@ -163,20 +165,7 @@ It can be used with any tech stack, because no babel plugins or compilation are 
 _Less than half the size of both the [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react) packages._
 
 <style>
-  aside {
-    margin: 1em 0;
-    padding: 0 1em;
-    opacity: 0.8;
-    background: rgba(128, 128, 128, 0.1);
-    border: 1px solid transparent;
-    line-height: 1.3;
-  }
-  aside > header {
-    font-size: 110%;
-    margin: 0.75em 0;
-  }
-  aside > p {
-    font-size: 80%;
-    margin: 1em 0;
+  summary {
+    cursor: pointer;
   }
 </style>
