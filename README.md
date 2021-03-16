@@ -36,7 +36,7 @@ render(
 
 ## Re-styling
   
-Any component that accepts a class name can be re-styled. So, to make your pre-styled component support _re-styling_, give it a `className` property, and pass the property value to the `<Styled>` component (**NOT** to a Styled component's child).
+Any component that accepts a class name can be re-styled. So, to make your pre-styled component support _re-styling_, give it a `className` property, and pass the property value to the `<Styled>` component (**not** to a Styled component child).
 
 <aside>
 <header>Why should I pass the <code>className</code> to the Styled component?</header>

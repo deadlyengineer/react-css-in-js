@@ -40,12 +40,12 @@
   "sideEffects": false,
   "scripts": {
     "eslint": "eslint --ext ts,tsx src",
-    "jest": "jest --no-cache src",
+    "jest": "del-cli coverage && jest --no-cache src",
     "typedoc": "del-cli \"docs/*/\" \"docs/*.html\" && typedoc src/index.ts --out docs --disableOutputCheck --theme minimal --disableSources",
-    "microbundle": "microbundle --jsx React.createElement --jsxFragment React.Fragment",
-    "test": "del-cli coverage && npm run eslint && npm run jest",
-    "build": "del-cli lib && npm run typedoc && npm run microbundle",
+    "microbundle": "del-cli lib && microbundle --jsx React.createElement --jsxFragment React.Fragment",
     "clean": "del-cli lib coverage",
+    "test": "npm run eslint && npm run jest",
+    "build": "npm run typedoc && npm run microbundle",
     "prepack": "npm run build"
   },
   "devDependencies": {
