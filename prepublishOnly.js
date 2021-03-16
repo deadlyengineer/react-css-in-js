@@ -1,9 +1,17 @@
 #!/usr/bin/env node
 const execa = require('execa');
 
-execa.command('git status -s', { all: true }).then((result) => {
-  if (result.all.trim() !== '') {
-    console.error('Git working tree is dirty.');
-    process.exitCode = 1;
-  }
+async function main() {
+  await execa.command('npm i', { stdio: 'inherit' });
+  await execa.command('npm run build', { stdio: 'inherit' });
+  await execa.command('git status -s', { all: true }).then(({ all: status }) => {
+    if (status.trim() !== '') {
+      throw Error('Git working tree is dirty.');
+    }
+  });
+}
+
+main().catch((err) => {
+  console.error(`${err}`);
+  process.exitCode = 1;
 });
