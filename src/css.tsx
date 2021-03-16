@@ -5,7 +5,7 @@ import { _Css } from './private/components/_Css';
  * Style string tagged template function.
  *
  * This function returns an invisible component which applies styling
- * when used as a `<Styled>` or `<Style>` component child.
+ * when used the child of a `Styled` or `Style` component.
  *
  * ```tsx
  * <Styled>

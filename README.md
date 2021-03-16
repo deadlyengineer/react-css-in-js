@@ -1,19 +1,23 @@
 # React CSS-in-JS
 
-[![stars](https://badgen.net/github/stars/ChrisAckerman/react-css-in-js?color=black)](https://github.com/ChrisAckerman/react-css-in-js)
-[![npm](https://badgen.net/npm/v/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
-[![license](https://badgen.net/npm/license/react-css-in-js?color=red)](https://opensource.org/licenses/ISC)
-[![downloads](https://badgen.net/npm/types/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
-[![downloads](https://badgen.net/npm/dw/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
-[![license](https://badgen.net/bundlephobia/minzip/react-css-in-js?color=blue)](https://bundlephobia.com/result?p=react-css-in-js)
+[![gh-stars](https://badgen.net/github/stars/ChrisAckerman/react-css-in-js?color=black)](https://github.com/ChrisAckerman/react-css-in-js)
+[![npm-version](https://badgen.net/npm/v/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
+[![npm-license](https://badgen.net/npm/license/react-css-in-js?color=red)](https://opensource.org/licenses/ISC)
+[![npm-types](https://badgen.net/npm/types/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
+[![npm-downloads](https://badgen.net/npm/dw/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
+[![bf-size](https://badgen.net/bundlephobia/minzip/react-css-in-js@latest?color=blue)](https://bundlephobia.com/result?p=react-css-in-js@latest)
+[![bf-deps](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@latest?color=blue)](https://bundlephobia.com/result?p=react-css-in-js@latest)
 
-Minimal React css-in-js for any component which accepts a `className` property, using tagged templates, and no special compilation steps.
+<big>A library designed for styling React components using tagged template strings. It provides a great developer experience in addition to having a tiny footprint, supporting all CSS features, and requiring zero configuration. It can even be used in component libraries.</big>
 
-- [Homepage](https://react-css-in-js.com)
-- [Sandbox](https://codesandbox.io/s/react-css-in-js-iup6f)
+### Links
 
+- <a href="https://react-css-in-js.com">Homepage</a>
+- <a href="https://codesandbox.io/s/react-css-in-js-iup6f" target="_blank">Sandbox</a>
 
 ## Getting Started
+
+A `Styled` wrapper creates a "styling context" where you compose `css` tagged template style strings and the components which are styled. This keeps component styles directly adjacent to the components being styled, while still giving you complete control over your React component markup.
 
 ```tsx
 import { css, Styled } from 'react-css-in-js';
@@ -23,8 +27,11 @@ const color = 'white';
 render(
   <Styled>
     {css`
+      padding: 32px;
       color: black;
       background-color: hotpink;
+      font-size: 24px;
+      border-radius: 4px;
       &:hover {
         color: ${color};
       }
@@ -36,13 +43,13 @@ render(
 
 ## Re-styling
   
-Any component that accepts a class name can be re-styled. So, to make your pre-styled component support _re-styling_, give it a `className` property, and pass the property value to the `<Styled>` component (**not** to a Styled component child).
+Any component that accepts a class name can be styled. So, to make your pre-styled component support _re-styling_, give it a `className` property, and pass the property value to the `Styled` component (**not** to a `Styled` component child).
 
 <details>
 
-<summary><em>Why should I pass the <code>className</code> to the Styled component?</em></summary>
+<summary style="cursor: pointer;"><em>Why should I pass the <code>className</code> to the <code>Styled</code> component?</em></summary>
 
-<small>The inner Styled component will give higher precedence to a dynamic class injected by an outer Styled component, which allows outer styles to override inner styles. The injected class should also not be stringified or concatenated with other classes, because that would remove the Styled metadata from the class. If the injected class is just a plain string, it will be added to all Styled child components as-is.</small>
+<small style="display: block; margin-left: 1.5em">The inner `Styled` component will give higher precedence to a dynamic class injected by an outer `Styled` component, which allows outer styles to override inner styles. The injected class should also not be stringified or concatenated with other classes, because that would remove the style metadata from the class. If the injected class is just a plain string, it will be added to all styled child components as-is.</small>
 
 </details>&nbsp;
 
@@ -87,7 +94,7 @@ This works even when adding other class names.
 
 ## Global Styles
 
-Global styling is similar to styling components, except you use the `<Style>` component (instead of `<Styled>`), and it should only have tagged template children (no component children).
+Global styling is similar to styling components, except you use the `Style` component (instead of `Styled`), and it should only have tagged template children (no component children).
 
 ```tsx
 import { css, Style } from 'react-css-in-js';
@@ -105,6 +112,8 @@ render(
 ```
 
 ## Advanced Configuration
+
+This library is designed to be zero-configuration. Class names are stable, hashes have a very high probability of uniqueness, and server-side rendering works out of the box. But, there are always cases where the defaults need a little modification.
 
 ```tsx
 import { configure } from 'react-css-in-js';
@@ -133,22 +142,22 @@ configure({
 });
 ```
 
-_The `configure()` method MUST be called before rendering!_
+_Configuration must be done before rendering!_
 
-It will have no effect if called after rendering, and a warning will be printed to the console.
+It will have no effect if done after rendering, and a warning will be printed to the console.
 
 ## Feature Highlights
 
-- Supports all CSS at-rules (eg. `@import`, `@font-face`, `@keyframes`, etc.)
-- Supports SCSS-like rule nesting with parent selector references (`&`)
+- Supports nested selectors with SCSS-like parent references (`&`)
+- Supports all CSS at-rules (eg. `@media`, `@font-face`, `@keyframes`, etc.)
 - Supports class name hash and style injection customization (See the [configure](https://react-css-in-js.com#configure) function).
 - Styles are de-duplicated (cached) when used repeatedly.
 - Styles are removed (GC-ed) when unused.
 - Class names are stable (deterministic) to support SSR and testing.
 - SSR (server-side rendering) is supported with zero-configuration.
-- No extra compilation is required, so it works in all tool-chains.
-- There are zero runtime dependencies.
-- The bundle size is very small.
+- No extra compilation is required, so it works everywhere.
+- No runtime dependencies.
+- Tiny bundle size.
 
 ### In comparison to other libraries
 
@@ -163,9 +172,3 @@ _Slightly_ more verbose than Emotion's `css` prop or styled-components, but in r
 It can be used with any tech stack, because no babel plugins or compilation are required. It can be used in component libraries, because it's small, has no dependencies, and requires no setup.
 
 _Less than half the size of both the [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react) packages._
-
-<style>
-  summary {
-    cursor: pointer;
-  }
-</style>
