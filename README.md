@@ -40,11 +40,11 @@ Any component that accepts a class name can be re-styled. So, to make your pre-s
 
 <details>
 
-<summary><strong>Why should I pass the <code>className</code> to the Styled component?</strong></summary>
+<summary><em>Why should I pass the <code>className</code> to the Styled component?</em></summary>
 
 <small>The inner Styled component will give higher precedence to a dynamic class injected by an outer Styled component, which allows outer styles to override inner styles. The injected class should also not be stringified or concatenated with other classes, because that would remove the Styled metadata from the class. If the injected class is just a plain string, it will be added to all Styled child components as-is.</small>
 
-</details>
+</details>&nbsp;
 
 ```tsx
 interface IMyComponentProps {
