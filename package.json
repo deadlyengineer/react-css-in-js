@@ -44,10 +44,9 @@
     "typedoc": "typedoc src/index.ts --out docs --theme minimal --disableSources",
     "microbundle": "microbundle --jsx React.createElement --jsxFragment React.Fragment",
     "test": "del-cli coverage && npm run eslint && npm run jest && jest-coverage-badges",
-    "build": "del-cli lib docs && node ./prebuild.js && npm run typedoc && npm run microbundle",
+    "build": "del-cli lib docs && npm run test && node ./prebuild.js && npm run typedoc && npm run microbundle",
     "clean": "del-cli lib coverage",
-    "prepack": "npm run build",
-    "prepublishOnly": "npm test && node ./prepublish.js"
+    "prepack": "npm run build"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
