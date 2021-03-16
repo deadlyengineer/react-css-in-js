@@ -41,10 +41,10 @@
   "scripts": {
     "eslint": "eslint --ext ts,tsx src",
     "jest": "jest --no-cache src",
-    "typedoc": "typedoc src/index.ts --out docs --theme minimal --disableSources",
+    "typedoc": "del-cli \"docs/*/\" \"docs/*.html\" && typedoc src/index.ts --out docs --disableOutputCheck --theme minimal --disableSources",
     "microbundle": "microbundle --jsx React.createElement --jsxFragment React.Fragment",
-    "test": "del-cli coverage && npm run eslint && npm run jest && jest-coverage-badges",
-    "build": "del-cli lib docs && npm run test && node ./prebuild.js && npm run typedoc && npm run microbundle",
+    "test": "del-cli coverage && npm run eslint && npm run jest",
+    "build": "del-cli lib && npm run typedoc && npm run microbundle",
     "clean": "del-cli lib coverage",
     "prepack": "npm run build"
   },
@@ -64,7 +64,6 @@
     "eslint-plugin-prettier": "^3.3.1",
     "eslint-plugin-react": "^7.22.0",
     "jest": "^26.6.3",
-    "jest-coverage-badges": "^1.1.2",
     "jest-environment-jsdom": "^26.6.2",
     "jest-environment-jsdom-global": "^2.0.4",
     "make-coverage-badge": "^1.2.0",

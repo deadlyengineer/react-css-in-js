@@ -1,13 +1,11 @@
 # React CSS-in-JS
 
-[![stars](https://badgen.net/github/stars/ChrisAckerman/react-css-in-js)](https://github.com/ChrisAckerman/react-css-in-js)
-[![npm](https://badgen.net/badge/npm/2.0.0/red)](https://www.npmjs.com/package/react-css-in-js)
-[![downloads](https://badgen.net/npm/dw/react-css-in-js)](https://www.npmjs.com/package/react-css-in-js)
-[![license](https://badgen.net/badge/license/ISC/orange)](https://opensource.org/licenses/ISC)
-[![minzip](https://badgen.net/bundlephobia/minzip/react-css-in-js@2.0.0)](https://bundlephobia.com/result?p=react-css-in-js@2.0.0)
-[![dependency-count](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@2.0.0)](https://bundlephobia.com/result?p=react-css-in-js@2.0.0)
-[![tree-shaking](https://badgen.net/bundlephobia/tree-shaking/react-css-in-js@2.0.0)](https://bundlephobia.com/result?p=react-css-in-js@2.0.0)
-[![coverage](https://badgen.net/badge/coverage/96,84,94,96/purple?list=|)](#)
+[![stars](https://badgen.net/github/stars/ChrisAckerman/react-css-in-js?color=black)](https://github.com/ChrisAckerman/react-css-in-js)
+[![npm](https://badgen.net/npm/v/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
+[![license](https://badgen.net/npm/license/react-css-in-js?color=red)](https://opensource.org/licenses/ISC)
+[![downloads](https://badgen.net/npm/types/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
+[![downloads](https://badgen.net/npm/dw/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
+[![license](https://badgen.net/bundlephobia/minzip/react-css-in-js?color=blue)](https://bundlephobia.com/result?p=react-css-in-js)
 
 Minimal React css-in-js for any component which accepts a `className` property, using tagged templates, and no special compilation steps.
 
