@@ -11,8 +11,8 @@
 
 Minimal React css-in-js for any component which accepts a `className` property, using tagged templates, and no special compilation steps.
 
-- Try it on [codesandbox.io](https://codesandbox.io/s/react-css-in-js-iup6f)
-- See the [API documentation](https://react-css-in-js.com)
+- [Homepage](https://react-css-in-js.com)
+- [Sandbox](https://codesandbox.io/s/react-css-in-js-iup6f)
 
 
 ## Getting Started
