@@ -1,6 +1,6 @@
 # React CSS-in-JS
 
-[![gh-stars](https://badgen.net/github/stars/ChrisAckerman/react-css-in-js?color=black)](https://github.com/ChrisAckerman/react-css-in-js)
+[![gh-stars](https://badgen.net/github/stars/Shakeskeyboarde/react-css-in-js?color=black)](https://github.com/Shakeskeyboarde/react-css-in-js)
 [![npm-version](https://badgen.net/npm/v/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
 [![npm-license](https://badgen.net/npm/license/react-css-in-js?color=red)](https://opensource.org/licenses/ISC)
 [![npm-types](https://badgen.net/npm/types/react-css-in-js?color=red)](https://www.npmjs.com/package/react-css-in-js)
@@ -13,6 +13,8 @@
 ### Links
 
 - <a href="https://react-css-in-js.com">Homepage</a>
+- <a href="https://github.com/Shakeskeyboarde/react-css-in-js" target="_blank">GitHub</a> - _Please star if you find this project interesting!_
+- <a href="https://www.npmjs.com/package/react-css-in-js" target="_blank">NPM</a>
 - <a href="https://codesandbox.io/s/react-css-in-js-iup6f" target="_blank">Sandbox</a>
 
 ## Getting Started
