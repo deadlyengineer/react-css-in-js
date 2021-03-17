@@ -8,7 +8,7 @@
 [![bf-size](https://badgen.net/bundlephobia/minzip/react-css-in-js@latest?color=blue)](https://bundlephobia.com/result?p=react-css-in-js@latest)
 [![bf-deps](https://badgen.net/bundlephobia/dependency-count/react-css-in-js@latest?color=blue)](https://bundlephobia.com/result?p=react-css-in-js@latest)
 
-<big>A library designed for styling React components using tagged template strings. It provides a great developer experience in addition to having a tiny footprint, supporting all CSS features, and requiring zero configuration. It can even be used in component libraries.</big>
+<big>A library designed for styling React components with tagged template strings. It provides a great developer experience in addition to having a tiny footprint, supporting all CSS features, and requiring zero configuration. It can even be used in component libraries.</big>
 
 ### Links
 
@@ -115,7 +115,7 @@ render(
 
 ## Advanced Configuration
 
-This library is designed to be zero-configuration. Class names are stable, hashes have a very high probability of uniqueness, and server-side rendering works out of the box. But, there are always cases where the defaults need a little modification.
+This library is designed to require zero-configuration. Class names are stable and have a very high probability of uniqueness, and server-side rendering works out of the box. But, there are always cases where the defaults need a little modification.
 
 ```tsx
 import { configure } from 'react-css-in-js';
@@ -156,8 +156,8 @@ It will have no effect if done after rendering, and a warning will be printed to
 - Styles are de-duplicated (cached) when used repeatedly.
 - Styles are removed (GC-ed) when unused.
 - Class names are stable (deterministic) to support SSR and testing.
-- SSR (server-side rendering) is supported with zero-configuration.
-- No extra compilation is required, so it works everywhere.
+- SSR (server-side rendering) "just works" with zero-configuration.
+- No extra compilation is required, so it works anywhere.
 - No runtime dependencies.
 - Tiny bundle size.
 

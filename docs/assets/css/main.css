@@ -1458,7 +1458,6 @@ dl.tsd-comment-tags p {
 
 .tsd-panel.tsd-comment .lead {
   font-size: 1.1rem;
-  line-height: 1.333;
   margin-bottom: 2rem;
 }
 .tsd-panel.tsd-comment .lead:last-child {
@@ -1545,7 +1544,6 @@ footer .tsd-legend {
   padding: 0;
   font-size: 1rem;
   list-style: none;
-  line-height: 1.333;
   vertical-align: top;
 }
 @media (max-width: 900px) {
@@ -1587,7 +1585,6 @@ footer .tsd-legend {
   column-gap: 20px;
   padding: 0;
   list-style: none;
-  line-height: 1.333;
 }
 @media (max-width: 900px) {
   .tsd-index-panel ul.tsd-index-list {
