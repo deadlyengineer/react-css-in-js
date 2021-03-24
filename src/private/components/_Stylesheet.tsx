@@ -18,18 +18,18 @@ function _StylesheetBase({ scope, hash, cssText }: _IStylesheetProps): ReactElem
   if (!customStyleManager) {
     // Rendering server side.
 
-    const cacheKey = _getStyleCacheKey(scope, hash);
+    const cacheKey = cssText ? _getStyleCacheKey(scope, hash) : undefined;
 
-    if (refCounter.ref(cacheKey)) {
+    if (cacheKey && refCounter.ref(cacheKey)) {
       return <style {...{ [_styleAttributeName]: cacheKey }}>{cssText}</style>;
     }
   } else {
     // Rendering client side, or server side with a style manager override.
 
     const cacheKeyRef = useRef<string | undefined>();
-    const cacheKey = _getStyleCacheKey(scope, hash);
+    const cacheKey = cssText ? _getStyleCacheKey(scope, hash) : undefined;
 
-    if (cacheKey !== cacheKeyRef.current && refCounter.ref(cacheKey)) {
+    if (cacheKey && cacheKey !== cacheKeyRef.current && refCounter.ref(cacheKey)) {
       customStyleManager.register(cacheKey, cssText);
     }
 
@@ -37,7 +37,7 @@ function _StylesheetBase({ scope, hash, cssText }: _IStylesheetProps): ReactElem
 
     useEffect(
       () => () => {
-        if (cacheKey != null && refCounter.unref(cacheKey)) {
+        if (cacheKey && refCounter.unref(cacheKey)) {
           customStyleManager.unregister(cacheKey);
         }
       },

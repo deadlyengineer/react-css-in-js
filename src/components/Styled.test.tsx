@@ -226,3 +226,33 @@ it('should use each tagged template as a wrapper for subsequent elements', async
     <div class=\\"3 foo--rcij-g8drrj\\"></div><span class=\\"foo--rcij-g8drrj\\">testing</span>"
   `);
 });
+
+it('should omit properties with null/undefined values', async () => {
+  const React = await import('react');
+  const ReactDOMServer = await import('react-dom/server');
+  const { css, Styled } = await import('../');
+
+  expect(
+    pretty(
+      ReactDOMServer.renderToString(
+        <Styled>
+          {css`
+            color: red;
+            color: ${undefined};
+            color: ${null};
+            color: blue;
+          `}
+          <div />
+        </Styled>
+      )
+    )
+  ).toMatchInlineSnapshot(`
+    "<style data-rcij=\\"4gjap4\\">
+      .rcij-4gjap4 {
+        color: red;
+        color: blue;
+      }
+    </style>
+    <div class=\\"rcij-4gjap4\\"></div>"
+  `);
+});

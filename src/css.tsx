@@ -17,5 +17,5 @@ import { _Css } from './private/components/_Css';
  * ```
  */
 export function css(template: TemplateStringsArray, ...values: unknown[]): ReactElement {
-  return <_Css value={String.raw(template, ...values)} />;
+  return <_Css value={String.raw(template, ...values.map((value) => (value == null ? '' : value)))} />;
 }
