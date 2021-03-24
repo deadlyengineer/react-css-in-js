@@ -1,6 +1,5 @@
-import React, { isValidElement, ReactNode, Children, ReactElement } from 'react';
-import { _Css } from '../private/components/_Css';
-import { _StyledWrapper } from '../private/components/_StyledWrapper';
+import React, { ReactElement, ReactNode } from 'react';
+import { _Styled } from '../private/components/_Styled';
 
 export interface IStyledProps {
   /**
@@ -10,13 +9,16 @@ export interface IStyledProps {
    * generated class name, so it must be safe to use in a class name.
    */
   scope?: string;
+
   /**
    * Class name (or an array of class names) that will be passed on
    * to all child components.
    */
   className?: string;
+
   /**
-   * Styles and components that styles will be applied to.
+   * Styles (`css` tagged templates) and components that the styles
+   * will be applied to.
    */
   children?: ReactNode;
 }
@@ -38,23 +40,7 @@ export interface IStyledProps {
  * ```
  */
 export function Styled(props: IStyledProps): ReactElement {
-  const { scope, className, children } = props;
+  const { children, ...otherProps } = props;
 
-  let styleText = '';
-
-  return (
-    <>
-      {Children.map(children, (child) => {
-        if (isValidElement(child)) {
-          if (child.type !== _Css) {
-            return <_StyledWrapper scope={scope} className={className} styleText={styleText} child={child} />;
-          }
-
-          styleText += child.props.value + ';';
-        }
-
-        return child;
-      })}
-    </>
-  );
+  return <_Styled {...otherProps}>{children}</_Styled>;
 }

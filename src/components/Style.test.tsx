@@ -29,11 +29,42 @@ it('should render to string', async () => {
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"9pvgme\\">
+    "<style data-rcij=\\"g0zrt6\\">
+      :root {
+        color: red;
+      }
+    </style>"
+  `);
+});
+
+it('should render multiple styles if multiple style tagged templates are used', async () => {
+  const React = await import('react');
+  const ReactDOMServer = await import('react-dom/server');
+  const { css, Style } = await import('../');
+
+  expect(
+    pretty(
+      ReactDOMServer.renderToString(
+        <Style>
+          {css`
+            color: red;
+          `}
+          {css`
+            color: blue;
+          `}
+        </Style>
+      )
+    )
+  ).toMatchInlineSnapshot(`
+    "<style data-rcij=\\"g0zrt6\\">
       :root {
         color: red;
       }
     </style>
-    <div></div>"
+    <style data-rcij=\\"cilhif\\">
+      :root {
+        color: blue;
+      }
+    </style>"
   `);
 });

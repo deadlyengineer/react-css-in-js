@@ -62,6 +62,9 @@
 		<li class=" tsd-kind-interface">
 			<a href="interfaces/istyledprops.html" class="tsd-kind-icon">IStyled<wbr>Props</a>
 		</li>
+		<li class=" tsd-kind-type-alias">
+			<a href="modules.html#styletokens" class="tsd-kind-icon">Style<wbr>Tokens</a>
+		</li>
 		<li class=" tsd-kind-function">
 			<a href="modules.html#style" class="tsd-kind-icon">Style</a>
 		</li>
@@ -126,11 +129,8 @@
 			<a href="#re-styling" id="re-styling" style="color: inherit; text-decoration: none;">
 				<h2>Re-styling</h2>
 			</a>
-			<p>Any component that accepts a class name can be styled. So, to make your pre-styled component support <em>re-styling</em>, give it a <code>className</code> property, and pass the property value to the <code>Styled</code> component (<strong>not</strong> to a <code>Styled</code> component child).</p>
-			<details>
-				<summary style="cursor: pointer;"><em>Why should I pass the <code>className</code> to the <code>Styled</code> component?</em></summary>
-				<p><small style="display: block; margin-left: 1.5em">The inner <code>Styled</code> component will give higher precedence to a dynamic class injected by an outer <code>Styled</code> component, which allows outer styles to override inner styles. The injected class should also not be stringified or concatenated with other classes, because that would remove the style metadata from the class. If the injected class is just a plain string, it will be added to all styled child components as-is.</small></p>
-			</details>&nbsp;
+			<p>Any component that accepts a class name can be styled. So, to make your pre-styled component support <em>re-styling</em>, give it a <code>className</code> property and pass that property value through to the internal <code>Styled</code> component.</p>
+			<p><strong>IMPORTANT:</strong> When a pre-styled component accepts a class name, <em>do not concatenate, stringify, or otherwise modify the class name string!</em> The class name injected by a <code>Styled</code> component is actually a boxed string with style metadata attached. This metadata allows child <code>Styled</code> components to give the outer styles a higher precedence. If the boxed class name string is un-boxed, it will lose its metadata and style overriding may not work as expected.</p>
 			<pre><code class="language-tsx"><span style="color: #569CD6">interface</span><span style="color: #D4D4D4"> </span><span style="color: #4EC9B0">IMyComponentProps</span><span style="color: #D4D4D4"> {</span>
 <span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">className</span><span style="color: #D4D4D4">?: </span><span style="color: #4EC9B0">string</span><span style="color: #D4D4D4">;</span>
 <span style="color: #D4D4D4">}</span>
@@ -217,7 +217,7 @@
 				<li>Supports nested selectors with SCSS-like parent references (<code>&amp;</code>)</li>
 				<li>Supports all CSS at-rules (eg. <code>@media</code>, <code>@font-face</code>, <code>@keyframes</code>, etc.)</li>
 				<li>Supports class name hash and style injection customization (See the <a href="https://react-css-in-js.com#configure">configure</a> function).</li>
-				<li>Styles are de-duplicated (cached) when used repeatedly.</li>
+				<li>Styles are injected on first render and de-duplicated (cached) when used repeatedly.</li>
 				<li>Styles are removed (GC-ed) when unused.</li>
 				<li>Class names are stable (deterministic) to support SSR and testing.</li>
 				<li>SSR (server-side rendering) &quot;just works&quot; with zero-configuration.</li>
@@ -229,11 +229,9 @@
 				<h3>In comparison to other libraries</h3>
 			</a>
 			<p>Like <a href="https://www.npmjs.com/package/@emotion/react">@emotion/react</a>, but you don&#39;t have to use a special JSX pragma or worry about <a href="https://emotion.sh/docs/css-prop#gotchas">css property gotchas</a>.</p>
-			<p>Like <a href="https://styled-components.com">styled-components</a> or <a href="https://www.npmjs.com/package/@emotion/styled">@emotion/styled</a>, except you have direct control over how component props become HTML element attributes, SSR works without any configuration, and you don&#39;t have to create multiple components to add integral children. All the patterns you can use with styled components are still there, but now they&#39;re visible. Need an <code>as</code> prop? Give your component an <code>as</code> prop. It&#39;s not automatic, <em>and that&#39;s a good thing.</em></p>
-			<p>Like <a href="https://www.npmjs.com/package/styled-jsx">styled-jsx</a>, but you don&#39;t need a babel plugin or the <code>&lt;style jsx&gt;</code> wrapper around the style. Also, the style more intuitively <em>precedes</em> the styled component it applies to.</p>
-			<p><em>Slightly</em> more verbose than Emotion&#39;s <code>css</code> prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.</p>
-			<p>It can be used with any tech stack, because no babel plugins or compilation are required. It can be used in component libraries, because it&#39;s small, has no dependencies, and requires no setup.</p>
-			<p><em>Less than half the size of both the <a href="https://bundlephobia.com/result?p=styled-components">styled-components</a> and <a href="https://bundlephobia.com/result?p=@emotion/react">@emotion/react</a> packages.</em></p>
+			<p>Like <a href="https://styled-components.com">styled-components</a> or <a href="https://www.npmjs.com/package/@emotion/styled">@emotion/styled</a>, except you still control the React markup, SSR works without any configuration, and you don&#39;t have to create multiple components to have styled component children.</p>
+			<p>Like <a href="https://www.npmjs.com/package/styled-jsx">styled-jsx</a>, but you don&#39;t need a babel plugin, styles precede styled components, and you can style more than one component at a time.</p>
+			<p>It can be used in component libraries, because it&#39;s small, has no dependencies, and requires no setup.</p>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
@@ -251,6 +249,12 @@
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
+						<h3>Type aliases</h3>
+						<ul class="tsd-index-list">
+							<li class="tsd-kind-type-alias"><a href="modules.html#styletokens" class="tsd-kind-icon">Style<wbr>Tokens</a></li>
+						</ul>
+					</section>
+					<section class="tsd-index-section ">
 						<h3>Functions</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-function"><a href="modules.html#style" class="tsd-kind-icon">Style</a></li>
@@ -263,12 +267,27 @@
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Type aliases</h2>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias">
+				<a name="styletokens" class="tsd-anchor"></a>
+				<h3>Style<wbr>Tokens</h3>
+				<div class="tsd-signature tsd-kind-icon">Style<wbr>Tokens<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">readonly </span><a href="modules.html#styletokens" class="tsd-signature-type" data-tsd-kind="Type alias">StyleTokens</a><span class="tsd-signature-symbol">[]</span></div>
+				<aside class="tsd-sources">
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A string or nested arrays of strings.</p>
+					</div>
+				</div>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Functions</h2>
 			<section class="tsd-panel tsd-member tsd-kind-function">
 				<a name="style" class="tsd-anchor"></a>
 				<h3>Style</h3>
 				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">Style<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><a href="interfaces/istyleprops.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyleProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactElement</span></li>
+					<li class="tsd-signature tsd-kind-icon">Style<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><a href="interfaces/istyleprops.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyleProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
@@ -296,7 +315,7 @@
 								<h5>props: <a href="interfaces/istyleprops.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyleProps</a></h5>
 							</li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactElement</span></h4>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
 					</li>
 				</ul>
 			</section>

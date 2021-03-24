@@ -45,15 +45,9 @@ render(
 
 ## Re-styling
   
-Any component that accepts a class name can be styled. So, to make your pre-styled component support _re-styling_, give it a `className` property, and pass the property value to the `Styled` component (**not** to a `Styled` component child).
+Any component that accepts a class name can be styled. So, to make your pre-styled component support _re-styling_, give it a `className` property and pass that property value through to the internal `Styled` component.
 
-<details>
-
-<summary style="cursor: pointer;"><em>Why should I pass the <code>className</code> to the <code>Styled</code> component?</em></summary>
-
-<small style="display: block; margin-left: 1.5em">The inner `Styled` component will give higher precedence to a dynamic class injected by an outer `Styled` component, which allows outer styles to override inner styles. The injected class should also not be stringified or concatenated with other classes, because that would remove the style metadata from the class. If the injected class is just a plain string, it will be added to all styled child components as-is.</small>
-
-</details>&nbsp;
+**IMPORTANT:** When a pre-styled component accepts a class name, _do not concatenate, stringify, or otherwise modify the class name string!_ The class name injected by a `Styled` component is actually a boxed string with style metadata attached. This metadata allows child `Styled` components to give the outer styles a higher precedence. If the boxed class name string is un-boxed, it will lose its metadata and style overriding may not work as expected.
 
 ```tsx
 interface IMyComponentProps {
@@ -153,7 +147,7 @@ It will have no effect if done after rendering, and a warning will be printed to
 - Supports nested selectors with SCSS-like parent references (`&`)
 - Supports all CSS at-rules (eg. `@media`, `@font-face`, `@keyframes`, etc.)
 - Supports class name hash and style injection customization (See the [configure](https://react-css-in-js.com#configure) function).
-- Styles are de-duplicated (cached) when used repeatedly.
+- Styles are injected on first render and de-duplicated (cached) when used repeatedly.
 - Styles are removed (GC-ed) when unused.
 - Class names are stable (deterministic) to support SSR and testing.
 - SSR (server-side rendering) "just works" with zero-configuration.
@@ -165,12 +159,8 @@ It will have no effect if done after rendering, and a warning will be printed to
 
 Like [@emotion/react](https://www.npmjs.com/package/@emotion/react), but you don't have to use a special JSX pragma or worry about [css property gotchas](https://emotion.sh/docs/css-prop#gotchas).
 
-Like [styled-components](https://styled-components.com) or [@emotion/styled](https://www.npmjs.com/package/@emotion/styled), except you have direct control over how component props become HTML element attributes, SSR works without any configuration, and you don't have to create multiple components to add integral children. All the patterns you can use with styled components are still there, but now they're visible. Need an `as` prop? Give your component an `as` prop. It's not automatic, _and that's a good thing._
+Like [styled-components](https://styled-components.com) or [@emotion/styled](https://www.npmjs.com/package/@emotion/styled), except you still control the React markup, SSR works without any configuration, and you don't have to create multiple components to have styled component children.
 
-Like [styled-jsx](https://www.npmjs.com/package/styled-jsx), but you don't need a babel plugin or the `<style jsx>` wrapper around the style. Also, the style more intuitively _precedes_ the styled component it applies to.
+Like [styled-jsx](https://www.npmjs.com/package/styled-jsx), but you don't need a babel plugin, styles precede styled components, and you can style more than one component at a time.
 
-_Slightly_ more verbose than Emotion's `css` prop or styled-components, but in return you get less magic, the full flexibility and simplicity of plain React, and a shallower learning curve.
-
-It can be used with any tech stack, because no babel plugins or compilation are required. It can be used in component libraries, because it's small, has no dependencies, and requires no setup.
-
-_Less than half the size of both the [styled-components](https://bundlephobia.com/result?p=styled-components) and [@emotion/react](https://bundlephobia.com/result?p=@emotion/react) packages._
+It can be used in component libraries, because it's small, has no dependencies, and requires no setup.

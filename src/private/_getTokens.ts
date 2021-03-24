@@ -1,6 +1,4 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { Tokens, Token } from './types/Tokens';
-import { _getConfig } from './_getConfig';
+import { Token } from './types/Token';
 
 /**
  * Tokenize the style string.
@@ -13,8 +11,10 @@ import { _getConfig } from './_getConfig';
  * - missing semicolons
  * - missing closing curly braces
  * - missing block selectors (&)
+ *
+ * It should be safe to concatenate token arrays.
  */
-export function _getStyleTokens(style: string): Tokens {
+export function _getTokens(styleText: string): Token[] {
   const re = /\\[\s\S]|[@:]|(?:\s*([,;{}])\s*)|(['"])(?:[\s\S]*?\2|[\s\S]*$)|((\s+)?\/\*(?:[\s\S]*?\*\/(\s+)?|[\s\S]*$))|(\s+)/g;
 
   let match: RegExpExecArray | null;
@@ -33,28 +33,29 @@ export function _getStyleTokens(style: string): Tokens {
     }
   }
 
-  function expression(isSelector: boolean) {
+  function selector() {
     separator = '';
-
-    if (!isSelector) {
-      if (!chunks.length) {
-        // Empty property.
-        return;
-      }
-
-      const iColon = chunks.indexOf(':');
-
-      if (iColon >= 0 && chunks[iColon + 1] === ' ') {
-        chunks.splice(iColon + 1, 1);
-      }
-    }
-
     tokens.push(chunks.length ? chunks : ['&']);
     chunks = [];
+  }
 
-    if (!isSelector) {
-      tokens.push(';');
+  function property() {
+    separator = '';
+
+    if (!chunks.length) {
+      // Empty.
+      return;
     }
+
+    const i = chunks.indexOf(':') + 1;
+
+    if (i >= 1 && chunks[i] === ' ') {
+      // Remove space after key:value separator.
+      chunks.splice(i, 1);
+    }
+
+    tokens.push(chunks.length ? chunks : ['&'], ';');
+    chunks = [];
   }
 
   function space() {
@@ -80,14 +81,14 @@ export function _getStyleTokens(style: string): Tokens {
     }
   }
 
-  while (null != (match = re.exec(style))) {
+  while (null != (match = re.exec(styleText))) {
     if (match.index > lastIndex) {
-      chunk(style.substring(lastIndex, match.index));
+      chunk(styleText.substring(lastIndex, match.index));
     }
 
     lastIndex = re.lastIndex;
 
-    const [token, terminator, _quote, comment, commentLeader, commentTrailer, blank] = match;
+    const [token, terminator, , comment, commentLeader, commentTrailer, blank] = match;
 
     if (comment) {
       if (commentLeader || commentTrailer) {
@@ -100,10 +101,10 @@ export function _getStyleTokens(style: string): Tokens {
         separator = terminator;
       }
     } else if (terminator === '{') {
-      expression(true /* selector */);
+      selector();
       openBlock();
     } else if (terminator) {
-      expression(false /* property */);
+      property();
 
       if (terminator === '}') {
         closeBlock();
@@ -113,11 +114,11 @@ export function _getStyleTokens(style: string): Tokens {
     }
   }
 
-  if (lastIndex < style.length) {
-    chunk(style.substring(lastIndex));
+  if (lastIndex < styleText.length) {
+    chunk(styleText.substring(lastIndex));
   }
 
-  expression(false /* property */);
+  property();
 
   for (; depth > 0; depth--) {
     closeBlock();

@@ -1,5 +1,5 @@
 import { _getCssText } from './_getCssText';
-import { _getStyleTokens } from './_getStyleTokens';
+import { _getTokens } from './_getTokens';
 
 const css = String.raw;
 const initialConfig = { ...jest.requireActual('./_getConfig')._getConfig(), pretty: true };
@@ -16,7 +16,7 @@ afterEach(() => {
 it('should render simple css', () => {
   expect(
     _getCssText(
-      _getStyleTokens(css`
+      _getTokens(css`
         .foo,
         .bar {
           color: red;
@@ -35,7 +35,7 @@ it('should render simple css', () => {
 it('should include un-terminated rules', () => {
   expect(
     _getCssText(
-      _getStyleTokens(`
+      _getTokens(`
         .foo {
           color: blue`)
     )
@@ -50,7 +50,7 @@ it('should include un-terminated rules', () => {
 it('should render nested css', () => {
   expect(
     _getCssText(
-      _getStyleTokens(css`
+      _getTokens(css`
         color: white;
         .foo {
           color: red;
@@ -85,7 +85,7 @@ it('should render nested css', () => {
 it('should replace & placeholders', () => {
   expect(
     _getCssText(
-      _getStyleTokens(css`
+      _getTokens(css`
         .foo {
           .bar & {
             color: red;
@@ -110,7 +110,7 @@ it('should replace & placeholders', () => {
 it('should hoist at-rules', () => {
   expect(
     _getCssText(
-      _getStyleTokens(css`
+      _getTokens(css`
         .foo {
           color: red;
           @media screen {
@@ -149,7 +149,7 @@ it('should hoist at-rules', () => {
 it('should nest at-rules', () => {
   expect(
     _getCssText(
-      _getStyleTokens(css`
+      _getTokens(css`
         @import url('foo');
         @media screen {
           @import url('foo');
@@ -214,7 +214,7 @@ it('should print a single line if "pretty" option is unset', () => {
 
   expect(
     _getCssText(
-      _getStyleTokens(css`
+      _getTokens(css`
         @media screen {
           .foo {
             color: red;
@@ -228,7 +228,7 @@ it('should print a single line if "pretty" option is unset', () => {
 it('should merge comma separated selectors', () => {
   expect(
     _getCssText(
-      _getStyleTokens(css`
+      _getTokens(css`
         .foo,
         .bar {
           .baz {

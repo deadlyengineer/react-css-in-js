@@ -1,5 +1,7 @@
-import { _config } from './private/_config';
+import { _config } from './private/_globals';
+import { _isBrowser } from './private/_constants';
 import { _getConfig } from './private/_getConfig';
+import { _styleManagerDefault } from './private/_styleManagerDefault';
 import { IStyleConfig } from './types/IStyleConfig';
 
 /**
@@ -18,4 +20,8 @@ export function configure(options: Partial<IStyleConfig> = {}): void {
       _config[key as keyof IStyleConfig] = value;
     }
   });
+
+  if (_isBrowser && _config.customStyleManager == null) {
+    _config.customStyleManager = _styleManagerDefault;
+  }
 }

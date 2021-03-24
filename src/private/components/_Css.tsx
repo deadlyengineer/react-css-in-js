@@ -2,4 +2,4 @@
 export function _Css(_props: { readonly value: string }): null {
   return null;
 }
-_Css.displayName = 'cssTaggedTemplate';
+_Css.displayName = '_Css';

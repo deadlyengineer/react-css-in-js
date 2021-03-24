@@ -36,19 +36,19 @@ it('should render to string', async () => {
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"foo/vgpg57\\">
-      .foo--rcij-vgpg57 {
+    "<style data-rcij=\\"foo/nxem63\\">
+      .foo--rcij-nxem63 {
         padding: 32px;
         background-color: hotpink;
         font-size: 24px;
         border-radius: 4px;
       }
 
-      .foo--rcij-vgpg57:hover {
+      .foo--rcij-nxem63:hover {
         color: white;
       }
     </style>
-    <div class=\\"foo--rcij-vgpg57\\"></div>"
+    <div class=\\"foo--rcij-nxem63\\"></div>"
   `);
 });
 
@@ -91,25 +91,25 @@ it('should allow for style overrides using Styled wrappers', async () => {
   };
 
   expect(pretty(ReactDOMServer.renderToString(<C className={'render'} />))).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"baz/1bg8z9n\\">
-      .baz--rcij-1bg8z9n {
+    "<style data-rcij=\\"baz/cilhif\\">
+      .baz--rcij-cilhif {
         color: blue;
       }
     </style>
-    <style data-rcij=\\"bar/9trfw\\">
-      .bar--rcij-9trfw {
+    <style data-rcij=\\"bar/1dmttsw\\">
+      .bar--rcij-1dmttsw {
         color: green;
         color: blue;
       }
     </style>
-    <style data-rcij=\\"foo/ktewn7\\">
-      .foo--rcij-ktewn7 {
+    <style data-rcij=\\"foo/ezbhyn\\">
+      .foo--rcij-ezbhyn {
         color: red;
         color: green;
         color: blue;
       }
     </style>
-    <div class=\\"a b c render foo--rcij-ktewn7\\"></div>"
+    <div class=\\"a b c render foo--rcij-ezbhyn\\"></div>"
   `);
 });
 
@@ -156,24 +156,73 @@ it('should includes styles when directly nested', async () => {
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"a/1bg8z9n\\">
-      .a--rcij-1bg8z9n {
+    "<style data-rcij=\\"a/cilhif\\">
+      .a--rcij-cilhif {
         color: blue;
       }
     </style>
-    <style data-rcij=\\"b/9trfw\\">
-      .b--rcij-9trfw {
+    <style data-rcij=\\"b/1dmttsw\\">
+      .b--rcij-1dmttsw {
         color: green;
         color: blue;
       }
     </style>
-    <style data-rcij=\\"c/ktewn7\\">
-      .c--rcij-ktewn7 {
+    <style data-rcij=\\"c/ezbhyn\\">
+      .c--rcij-ezbhyn {
         color: red;
         color: green;
         color: blue;
       }
     </style>
-    <div class=\\"c--rcij-ktewn7\\"></div>"
+    <div class=\\"c--rcij-ezbhyn\\"></div>"
+  `);
+});
+
+it('should use each tagged template as a wrapper for subsequent elements', async () => {
+  const React = await import('react');
+  const ReactDOMServer = await import('react-dom/server');
+  const { css, Styled } = await import('../');
+
+  expect(
+    pretty(
+      ReactDOMServer.renderToString(
+        <Styled scope={'foo'}>
+          <div />
+          <div className={'1'} />
+          {css`
+            color: red;
+          `}
+          <div className={'2'} />
+          {css`
+            color: blue;
+          `}
+          {css`
+            color: green;
+          `}
+          <div className={'3'} />
+          testing
+          {css`
+            color: purple;
+          `}
+        </Styled>
+      )
+    )
+  ).toMatchInlineSnapshot(`
+    "<div></div>
+    <div class=\\"1\\"></div>
+    <style data-rcij=\\"foo/g0zrt6\\">
+      .foo--rcij-g0zrt6 {
+        color: red;
+      }
+    </style>
+    <div class=\\"2 foo--rcij-g0zrt6\\"></div>
+    <style data-rcij=\\"foo/g8drrj\\">
+      .foo--rcij-g8drrj {
+        color: green;
+        color: blue;
+        color: red;
+      }
+    </style>
+    <div class=\\"3 foo--rcij-g8drrj\\"></div><span class=\\"foo--rcij-g8drrj\\">testing</span>"
   `);
 });

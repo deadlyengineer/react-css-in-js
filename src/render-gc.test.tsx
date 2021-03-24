@@ -41,8 +41,8 @@ it('should gc unused styles', async () => {
     <html>
 
       <head>
-        <style data-rcij=\\"a/9pvgme\\">
-          .a--rcij-9pvgme {
+        <style data-rcij=\\"a/g0zrt6\\">
+          .a--rcij-g0zrt6 {
             color: red;
           }
         </style>
@@ -50,7 +50,7 @@ it('should gc unused styles', async () => {
 
       <body>
         <div id=\\"root\\">
-          <div class=\\"a--rcij-9pvgme\\"></div>
+          <div class=\\"a--rcij-g0zrt6\\"></div>
         </div>
       </body>
 
@@ -71,8 +71,8 @@ it('should gc unused styles', async () => {
     <html>
 
       <head>
-        <style data-rcij=\\"a/9pvgme\\">
-          .a--rcij-9pvgme {
+        <style data-rcij=\\"a/g0zrt6\\">
+          .a--rcij-g0zrt6 {
             color: red;
           }
         </style>
@@ -80,8 +80,8 @@ it('should gc unused styles', async () => {
 
       <body>
         <div id=\\"root\\">
-          <div class=\\"a--rcij-9pvgme\\"></div>
-          <div class=\\"a--rcij-9pvgme\\"></div>
+          <div class=\\"a--rcij-g0zrt6\\"></div>
+          <div class=\\"a--rcij-g0zrt6\\"></div>
         </div>
       </body>
 
@@ -101,8 +101,8 @@ it('should gc unused styles', async () => {
     <html>
 
       <head>
-        <style data-rcij=\\"a/9pvgme\\">
-          .a--rcij-9pvgme {
+        <style data-rcij=\\"a/g0zrt6\\">
+          .a--rcij-g0zrt6 {
             color: red;
           }
         </style>
@@ -110,7 +110,7 @@ it('should gc unused styles', async () => {
 
       <body>
         <div id=\\"root\\">
-          <div class=\\"a--rcij-9pvgme\\"></div>
+          <div class=\\"a--rcij-g0zrt6\\"></div>
         </div>
       </body>
 

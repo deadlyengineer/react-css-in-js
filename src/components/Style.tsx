@@ -1,16 +1,16 @@
-import React, { useMemo, isValidElement, ReactNode, Children, ReactElement } from 'react';
-import { _styleAttributeName } from '../private/_constants';
-import { _getCssText } from '../private/_getCssText';
-import { _useStyle } from '../private/_useStyle';
-import { _getStyleTokens } from '../private/_getStyleTokens';
-import { _getConfig } from '../private/_getConfig';
+import React, { isValidElement, ReactNode, Children, ReactElement, useRef } from 'react';
 import { _Css } from '../private/components/_Css';
+import { _Style } from '../private/components/_Style';
 
 export interface IStyleProps {
   /**
    * A string which helps avoid hash collisions.
    */
   scope?: string;
+
+  /**
+   * Styles (`css` tagged templates).
+   */
   children?: ReactNode;
 }
 
@@ -30,26 +30,24 @@ export interface IStyleProps {
  * </Style>
  * ```
  */
-export function Style(props: IStyleProps): ReactElement {
+export function Style(props: IStyleProps): ReactElement | null {
   const { scope, children } = props;
-  const styleText = Children.toArray(children).reduce<string>((acc, child) => {
-    const isCssTaggedTemplate = isValidElement(child) && child.type === _Css;
-    return isCssTaggedTemplate ? acc + (child as React.ReactElement).props.value + ';' : acc;
-  }, '');
-  const [cacheKey, cssText] = useMemo((): [string, string] => {
-    const { customHashFunction: getHash } = _getConfig();
-    const newTokens = _getStyleTokens(styleText);
-    const hash = getHash(newTokens.toString());
-    const cacheKey = scope ? scope + '/' + hash : hash;
-    const cssText = _getCssText(newTokens);
-
-    return [cacheKey, cssText];
-  }, [styleText]);
+  const hasWarned = useRef(false);
 
   return (
     <>
-      {_useStyle(cacheKey, cssText) ? null : <style {...{ [_styleAttributeName]: cacheKey }}>{cssText}</style>}
-      {children}
+      {Children.map(children, (child) => {
+        if (!isValidElement(child) || child.type !== _Css) {
+          if (!hasWarned.current) {
+            hasWarned.current = true;
+            console.warn(Error('Style components should only have css tagged template children.'));
+          }
+
+          return null;
+        }
+
+        return !!child.props.value && <_Style scope={scope} styleText={child.props.value} />;
+      })}
     </>
   );
 }

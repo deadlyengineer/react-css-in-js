@@ -1,5 +1,4 @@
-export function _getStyleTokenValues(token: readonly string[]): string[] {
-  // A selector block opening.
+export function _getTokenValues(token: readonly string[]): string[] {
   const chunks = [...token];
   const values: string[] = [];
   let value = '';

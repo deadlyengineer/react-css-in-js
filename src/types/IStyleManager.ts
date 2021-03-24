@@ -6,6 +6,8 @@ import { IStyleDehydrated } from './IStyleDehydrated';
  *
  * Using a custom style manager allows control over how style
  * elements are injected into the DOM.
+ *
+ * _MUST REMAIN STABLE BETWEEN VERSIONS!_
  */
 export interface IStyleManager {
   /**

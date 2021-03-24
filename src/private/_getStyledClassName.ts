@@ -1,23 +1,29 @@
-import { Token } from './types/Tokens';
-
-export type StyledClassName = string & {
-  readonly _styled?: {
-    readonly _tokens: Token[];
-    readonly _hashedClassName: string;
-    readonly _simpleClassName: string | undefined;
-  };
-};
+import { StyledClassName } from './types/StyledClassName';
+import { IStyle } from './types/IStyle';
+import { _getCssText } from './_getCssText';
 
 export function _getStyledClassName(
-  _tokens: Token[],
-  _hashedClassName: string,
-  _simpleClassName?: string
-): StyledClassName {
-  const className = _simpleClassName ? _simpleClassName + ' ' + _hashedClassName : _hashedClassName;
+  style: IStyle,
+  scope: string | undefined,
+  otherClassName: string | undefined
+): string & Required<StyledClassName> {
+  const className = `${scope ? `${scope}--` : ''}rcij-${style._hash}`;
 
-  return Object.assign(className, {
-    _styled: { _tokens, _hashedClassName, _simpleClassName },
-    toString: () => className,
-    valueOf: () => className,
+  let cssText: string | undefined;
+
+  return Object.assign(otherClassName ? otherClassName + ' ' + className : className, {
+    _styled: {
+      _style: style,
+      _scope: scope,
+      _className: className,
+      _otherClassName: otherClassName,
+      get _cssText(): string {
+        if (cssText == null) {
+          cssText = _getCssText(style, className);
+        }
+
+        return cssText;
+      },
+    },
   });
 }
