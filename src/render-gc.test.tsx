@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import pretty from 'pretty';
 import { css } from './css';
 import { Styled } from './components/Styled';
+import { Style } from './components/Style';
 
 const A: VFC = () => {
   return (
@@ -125,6 +126,124 @@ it('should gc unused styles', async () => {
     <html>
 
       <head></head>
+
+      <body>
+        <div id=\\"root\\"></div>
+      </body>
+
+    </html>"
+  `);
+});
+
+it('should inject stylesheets after replaced stylesheets', () => {
+  window.document.body.innerHTML = `<div id="root" />`;
+  const root = window.document.getElementById('root');
+
+  ReactDOM.render(
+    <>
+      <Style>{css`
+        padding-top: 0;
+      `}</Style>
+      <Style>{css`
+        padding-bottom: 0;
+      `}</Style>
+    </>,
+    root
+  );
+  jest.runAllTimers();
+  expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
+    "<!DOCTYPE html>
+    <html>
+
+      <head>
+        <style data-rcij=\\"inr8qr\\">
+          :root {
+            padding-top: 0;
+          }
+        </style>
+        <style data-rcij=\\"1379y87\\">
+          :root {
+            padding-bottom: 0;
+          }
+        </style>
+      </head>
+
+      <body>
+        <div id=\\"root\\"></div>
+      </body>
+
+    </html>"
+  `);
+
+  ReactDOM.render(
+    <>
+      <Style>{css`
+        padding-top: 1px;
+      `}</Style>
+      <Style>{css`
+        padding-bottom: 0;
+      `}</Style>
+    </>,
+    root
+  );
+  jest.runAllTimers();
+  expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
+    "<!DOCTYPE html>
+    <html>
+
+      <head>
+        <style data-rcij=\\"1k8ro0a\\">
+          :root {
+            padding-top: 1px;
+          }
+        </style>
+        <style data-rcij=\\"1379y87\\">
+          :root {
+            padding-bottom: 0;
+          }
+        </style>
+      </head>
+
+      <body>
+        <div id=\\"root\\"></div>
+      </body>
+
+    </html>"
+  `);
+});
+
+it('should not leak styles when re-rendering rapidly', () => {
+  window.document.body.innerHTML = `<div id="root" />`;
+  const root = window.document.getElementById('root');
+
+  ReactDOM.render(
+    <>
+      <Style>{css`
+        padding-top: 0;
+      `}</Style>
+    </>,
+    root
+  );
+  ReactDOM.render(
+    <>
+      <Style>{css`
+        padding-top: 1px;
+      `}</Style>
+    </>,
+    root
+  );
+  jest.runAllTimers();
+  expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
+    "<!DOCTYPE html>
+    <html>
+
+      <head>
+        <style data-rcij=\\"1k8ro0a\\">
+          :root {
+            padding-top: 1px;
+          }
+        </style>
+      </head>
 
       <body>
         <div id=\\"root\\"></div>

@@ -27,21 +27,28 @@ function _StylesheetBase({ scope, hash, cssText }: _IStylesheetProps): ReactElem
     // Rendering client side, or server side with a style manager override.
 
     const cacheKeyRef = useRef<string | undefined>();
+    const replacedCacheKey = cacheKeyRef.current;
     const cacheKey = cssText ? _getStyleCacheKey(scope, hash) : undefined;
-
-    if (cacheKey && cacheKey !== cacheKeyRef.current && refCounter.ref(cacheKey)) {
-      customStyleManager.register(cacheKey, cssText);
-    }
 
     cacheKeyRef.current = cacheKey;
 
+    if (cacheKey && cacheKey !== replacedCacheKey && refCounter.ref(cacheKey)) {
+      customStyleManager.register(cacheKey, cssText, replacedCacheKey);
+
+      if (replacedCacheKey) {
+        requestAnimationFrame(() => {
+          customStyleManager.unregister(replacedCacheKey);
+        });
+      }
+    }
+
     useEffect(
       () => () => {
-        if (cacheKey && refCounter.unref(cacheKey)) {
-          customStyleManager.unregister(cacheKey);
+        if (cacheKeyRef.current && refCounter.unref(cacheKeyRef.current)) {
+          customStyleManager.unregister(cacheKeyRef.current);
         }
       },
-      [cacheKey]
+      []
     );
   }
 

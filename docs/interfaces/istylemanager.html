@@ -160,7 +160,7 @@
 				<a name="register" class="tsd-anchor"></a>
 				<h3>register</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-					<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>cacheKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cssText<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>cacheKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cssText<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, replacedCacheKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
@@ -170,6 +170,10 @@
 							<div class="lead">
 								<p>Called when a new style element should be added to the DOM.</p>
 							</div>
+							<p>The <code>replacedCacheKey</code> is the key of the style that the new
+								style is derived from, which should be used to insert the new
+								style in proximity to the previous style, so that precedence is
+							not drastically affected when a style is mutated.</p>
 						</div>
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
@@ -178,6 +182,9 @@
 							</li>
 							<li>
 								<h5>cssText: <span class="tsd-signature-type">string</span></h5>
+							</li>
+							<li>
+								<h5>replacedCacheKey: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

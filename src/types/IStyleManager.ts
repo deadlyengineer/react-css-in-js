@@ -12,8 +12,13 @@ import { IStyleDehydrated } from './IStyleDehydrated';
 export interface IStyleManager {
   /**
    * Called when a new style element should be added to the DOM.
+   *
+   * The `replacedCacheKey` is the key of the style that the new
+   * style is derived from, which should be used to insert the new
+   * style in proximity to the previous style, so that precedence is
+   * not drastically affected when a style is mutated.
    */
-  register(cacheKey: string, cssText: string): void;
+  register(cacheKey: string, cssText: string, replacedCacheKey: string | undefined): void;
 
   /**
    * Called when an existing style element should be removed from
