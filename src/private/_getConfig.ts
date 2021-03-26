@@ -3,6 +3,7 @@ import { _isBrowser, _styleAttributeName } from './_constants';
 import { _getStyleRefCounter } from './_getStyleRefCounter';
 import { IStyleConfig } from '../types/IStyleConfig';
 import { IStyleDehydrated } from '../types/IStyleDehydrated';
+import { _styleManagerDefault } from './_styleManagerDefault';
 
 const refCounter = _getStyleRefCounter();
 
@@ -27,7 +28,10 @@ if (_isBrowser) {
 export function _getConfig(): Readonly<IStyleConfig> {
   if (!_getConfig._locked) {
     _getConfig._locked = true;
-    _config.customStyleManager?.hydrate(dehydrated);
+
+    if (_isBrowser || _config.customStyleManager) {
+      (_config.customStyleManager ?? _styleManagerDefault).hydrate(dehydrated);
+    }
   }
 
   return _config;

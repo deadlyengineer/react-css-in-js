@@ -26,8 +26,7 @@ afterEach(() => {
 });
 
 it('should gc unused styles', async () => {
-  window.document.body.innerHTML = `<div id="root" />`;
-  const root = window.document.getElementById('root');
+  const root = document.getElementById('root');
 
   ReactDOM.render(
     <>
@@ -38,25 +37,25 @@ it('should gc unused styles', async () => {
   jest.runAllTimers();
 
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
-    "<!DOCTYPE html>
-    <html>
+  "<!DOCTYPE html>
+  <html>
 
-      <head>
-        <style data-rcij=\\"a/g0zrt6\\">
-          .a--rcij-g0zrt6 {
-            color: red;
-          }
-        </style>
-      </head>
+    <head>
+      <style data-rcij=\\"a/g0zrt6\\">
+        .a--rcij-g0zrt6 {
+          color: red;
+        }
+      </style>
+    </head>
 
-      <body>
-        <div id=\\"root\\">
-          <div class=\\"a--rcij-g0zrt6\\"></div>
-        </div>
-      </body>
+    <body>
+      <div id=\\"root\\">
+        <div class=\\"a--rcij-g0zrt6\\"></div>
+      </div>
+    </body>
 
-    </html>"
-  `);
+  </html>"
+`);
 
   ReactDOM.render(
     <>
@@ -68,26 +67,26 @@ it('should gc unused styles', async () => {
   jest.runAllTimers();
 
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
-    "<!DOCTYPE html>
-    <html>
+  "<!DOCTYPE html>
+  <html>
 
-      <head>
-        <style data-rcij=\\"a/g0zrt6\\">
-          .a--rcij-g0zrt6 {
-            color: red;
-          }
-        </style>
-      </head>
+    <head>
+      <style data-rcij=\\"a/g0zrt6\\">
+        .a--rcij-g0zrt6 {
+          color: red;
+        }
+      </style>
+    </head>
 
-      <body>
-        <div id=\\"root\\">
-          <div class=\\"a--rcij-g0zrt6\\"></div>
-          <div class=\\"a--rcij-g0zrt6\\"></div>
-        </div>
-      </body>
+    <body>
+      <div id=\\"root\\">
+        <div class=\\"a--rcij-g0zrt6\\"></div>
+        <div class=\\"a--rcij-g0zrt6\\"></div>
+      </div>
+    </body>
 
-    </html>"
-  `);
+  </html>"
+`);
 
   ReactDOM.render(
     <>
@@ -98,46 +97,45 @@ it('should gc unused styles', async () => {
   jest.runAllTimers();
 
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
-    "<!DOCTYPE html>
-    <html>
+  "<!DOCTYPE html>
+  <html>
 
-      <head>
-        <style data-rcij=\\"a/g0zrt6\\">
-          .a--rcij-g0zrt6 {
-            color: red;
-          }
-        </style>
-      </head>
+    <head>
+      <style data-rcij=\\"a/g0zrt6\\">
+        .a--rcij-g0zrt6 {
+          color: red;
+        }
+      </style>
+    </head>
 
-      <body>
-        <div id=\\"root\\">
-          <div class=\\"a--rcij-g0zrt6\\"></div>
-        </div>
-      </body>
+    <body>
+      <div id=\\"root\\">
+        <div class=\\"a--rcij-g0zrt6\\"></div>
+      </div>
+    </body>
 
-    </html>"
-  `);
+  </html>"
+`);
 
   ReactDOM.render(<></>, root);
   jest.runAllTimers();
 
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
-    "<!DOCTYPE html>
-    <html>
+  "<!DOCTYPE html>
+  <html>
 
-      <head></head>
+    <head></head>
 
-      <body>
-        <div id=\\"root\\"></div>
-      </body>
+    <body>
+      <div id=\\"root\\"></div>
+    </body>
 
-    </html>"
-  `);
+  </html>"
+`);
 });
 
 it('should inject stylesheets after replaced stylesheets', () => {
-  window.document.body.innerHTML = `<div id="root" />`;
-  const root = window.document.getElementById('root');
+  const root = document.getElementById('root');
 
   ReactDOM.render(
     <>
@@ -152,28 +150,28 @@ it('should inject stylesheets after replaced stylesheets', () => {
   );
   jest.runAllTimers();
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
-    "<!DOCTYPE html>
-    <html>
+  "<!DOCTYPE html>
+  <html>
 
-      <head>
-        <style data-rcij=\\"inr8qr\\">
-          :root {
-            padding-top: 0;
-          }
-        </style>
-        <style data-rcij=\\"1379y87\\">
-          :root {
-            padding-bottom: 0;
-          }
-        </style>
-      </head>
+    <head>
+      <style data-rcij=\\"inr8qr\\">
+        :root {
+          padding-top: 0;
+        }
+      </style>
+      <style data-rcij=\\"1379y87\\">
+        :root {
+          padding-bottom: 0;
+        }
+      </style>
+    </head>
 
-      <body>
-        <div id=\\"root\\"></div>
-      </body>
+    <body>
+      <div id=\\"root\\"></div>
+    </body>
 
-    </html>"
-  `);
+  </html>"
+`);
 
   ReactDOM.render(
     <>
@@ -188,33 +186,32 @@ it('should inject stylesheets after replaced stylesheets', () => {
   );
   jest.runAllTimers();
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
-    "<!DOCTYPE html>
-    <html>
+  "<!DOCTYPE html>
+  <html>
 
-      <head>
-        <style data-rcij=\\"1k8ro0a\\">
-          :root {
-            padding-top: 1px;
-          }
-        </style>
-        <style data-rcij=\\"1379y87\\">
-          :root {
-            padding-bottom: 0;
-          }
-        </style>
-      </head>
+    <head>
+      <style data-rcij=\\"1k8ro0a\\">
+        :root {
+          padding-top: 1px;
+        }
+      </style>
+      <style data-rcij=\\"1379y87\\">
+        :root {
+          padding-bottom: 0;
+        }
+      </style>
+    </head>
 
-      <body>
-        <div id=\\"root\\"></div>
-      </body>
+    <body>
+      <div id=\\"root\\"></div>
+    </body>
 
-    </html>"
-  `);
+  </html>"
+`);
 });
 
 it('should not leak styles when re-rendering rapidly', () => {
-  window.document.body.innerHTML = `<div id="root" />`;
-  const root = window.document.getElementById('root');
+  const root = document.getElementById('root');
 
   ReactDOM.render(
     <>
@@ -234,21 +231,21 @@ it('should not leak styles when re-rendering rapidly', () => {
   );
   jest.runAllTimers();
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
-    "<!DOCTYPE html>
-    <html>
+  "<!DOCTYPE html>
+  <html>
 
-      <head>
-        <style data-rcij=\\"1k8ro0a\\">
-          :root {
-            padding-top: 1px;
-          }
-        </style>
-      </head>
+    <head>
+      <style data-rcij=\\"1k8ro0a\\">
+        :root {
+          padding-top: 1px;
+        }
+      </style>
+    </head>
 
-      <body>
-        <div id=\\"root\\"></div>
-      </body>
+    <body>
+      <div id=\\"root\\"></div>
+    </body>
 
-    </html>"
-  `);
+  </html>"
+`);
 });

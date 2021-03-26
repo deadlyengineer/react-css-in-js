@@ -2,15 +2,16 @@
 import { ReactNode, VFC } from 'react';
 import pretty from 'pretty';
 
-const documentDesc = Object.getOwnPropertyDescriptor(global, 'document') as PropertyDescriptor;
+let _document: Document | undefined;
 
 beforeEach(() => {
   jest.resetModules();
-  Object.defineProperty(global, 'document', { configurable: true, value: undefined });
+  _document = (window as { _document?: Document })._document;
+  (window as { _document?: Document })._document = undefined;
 });
 
 afterEach(() => {
-  Object.defineProperty(global, 'document', documentDesc);
+  (window as { _document?: Document })._document = _document;
 });
 
 it('should render to string', async () => {
@@ -59,7 +60,7 @@ it('should allow for style overrides using Styled wrappers', async () => {
 
   const A: VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled scope={'foo'} className={className}>
+      <Styled className={className}>
         {css`
           color: red;
         `}
@@ -70,7 +71,7 @@ it('should allow for style overrides using Styled wrappers', async () => {
 
   const B: VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled scope={'bar'} className={className}>
+      <Styled className={className}>
         {css`
           color: green;
         `}
@@ -81,7 +82,7 @@ it('should allow for style overrides using Styled wrappers', async () => {
 
   const C: VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled scope={'baz'} className={className}>
+      <Styled className={className}>
         {css`
           color: blue;
         `}
@@ -91,25 +92,25 @@ it('should allow for style overrides using Styled wrappers', async () => {
   };
 
   expect(pretty(ReactDOMServer.renderToString(<C className={'render'} />))).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"baz/cilhif\\">
-      .baz--rcij-cilhif {
+    "<style data-rcij=\\"cilhif\\">
+      .rcij-cilhif {
         color: blue;
       }
     </style>
-    <style data-rcij=\\"bar/1dmttsw\\">
-      .bar--rcij-1dmttsw {
+    <style data-rcij=\\"1dmttsw\\">
+      .rcij-1dmttsw {
         color: green;
         color: blue;
       }
     </style>
-    <style data-rcij=\\"foo/ezbhyn\\">
-      .foo--rcij-ezbhyn {
+    <style data-rcij=\\"ezbhyn\\">
+      .rcij-ezbhyn {
         color: red;
         color: green;
         color: blue;
       }
     </style>
-    <div class=\\"a b c render foo--rcij-ezbhyn\\"></div>"
+    <div class=\\"a b c render rcij-ezbhyn\\"></div>"
   `);
 });
 
@@ -120,7 +121,7 @@ it('should includes styles when directly nested', async () => {
 
   const AStyled = ({ className, children }: { className?: string; children?: ReactNode }) => {
     return (
-      <Styled scope={'a'} className={className}>
+      <Styled className={className}>
         {css`
           color: blue;
         `}
@@ -131,7 +132,7 @@ it('should includes styles when directly nested', async () => {
 
   const BStyled = ({ className, children }: { className?: string; children?: ReactNode }) => {
     return (
-      <Styled scope={'b'} className={className}>
+      <Styled className={className}>
         {css`
           color: green;
         `}
@@ -145,7 +146,7 @@ it('should includes styles when directly nested', async () => {
       ReactDOMServer.renderToString(
         <AStyled>
           <BStyled>
-            <Styled scope={'c'}>
+            <Styled>
               {css`
                 color: red;
               `}
@@ -156,25 +157,25 @@ it('should includes styles when directly nested', async () => {
       )
     )
   ).toMatchInlineSnapshot(`
-    "<style data-rcij=\\"a/cilhif\\">
-      .a--rcij-cilhif {
+    "<style data-rcij=\\"cilhif\\">
+      .rcij-cilhif {
         color: blue;
       }
     </style>
-    <style data-rcij=\\"b/1dmttsw\\">
-      .b--rcij-1dmttsw {
+    <style data-rcij=\\"1dmttsw\\">
+      .rcij-1dmttsw {
         color: green;
         color: blue;
       }
     </style>
-    <style data-rcij=\\"c/ezbhyn\\">
-      .c--rcij-ezbhyn {
+    <style data-rcij=\\"ezbhyn\\">
+      .rcij-ezbhyn {
         color: red;
         color: green;
         color: blue;
       }
     </style>
-    <div class=\\"c--rcij-ezbhyn\\"></div>"
+    <div class=\\"rcij-ezbhyn\\"></div>"
   `);
 });
 
@@ -254,5 +255,61 @@ it('should omit properties with null/undefined values', async () => {
       }
     </style>
     <div class=\\"rcij-4gjap4\\"></div>"
+  `);
+});
+
+it('should override scopes when nested', async () => {
+  const React = await import('react');
+  const ReactDOMServer = await import('react-dom/server');
+  const { css, Styled } = await import('../');
+
+  const C: VFC<{ className?: string }> = ({ className }) => {
+    return (
+      <Styled scope={'c'} className={className}>
+        {css`
+          color: green;
+        `}
+        <div />
+      </Styled>
+    );
+  };
+
+  expect(
+    pretty(
+      ReactDOMServer.renderToString(
+        <Styled scope={'a'}>
+          {css`
+            color: red;
+          `}
+          <Styled scope={'b'}>
+            {css`
+              color: blue;
+            `}
+            <div />
+          </Styled>
+          <C />
+        </Styled>
+      )
+    )
+  ).toMatchInlineSnapshot(`
+    "<style data-rcij=\\"a/g0zrt6\\">
+      .a--rcij-g0zrt6 {
+        color: red;
+      }
+    </style>
+    <style data-rcij=\\"a/1e7edc8\\">
+      .a--rcij-1e7edc8 {
+        color: blue;
+        color: red;
+      }
+    </style>
+    <div class=\\"a--rcij-1e7edc8\\"></div>
+    <style data-rcij=\\"a/mn80jx\\">
+      .a--rcij-mn80jx {
+        color: green;
+        color: red;
+      }
+    </style>
+    <div class=\\"a--rcij-mn80jx\\"></div>"
   `);
 });

@@ -4,20 +4,22 @@ import pretty from 'pretty';
 type TestFC = FC<{ styles?: ReactElement; className?: string }>;
 
 describe('SSR', () => {
-  const documentDesc = Object.getOwnPropertyDescriptor(global, 'document') as PropertyDescriptor;
+  let _document: Document | undefined;
 
   beforeEach(() => {
-    Object.defineProperty(global, 'document', { configurable: true, value: undefined });
+    _document = (window as { _document?: Document })._document;
     jest.resetModules();
   });
 
   afterEach(() => {
-    Object.defineProperty(global, 'document', documentDesc);
+    (window as { _document?: Document })._document = _document;
   });
 
   let html = '';
 
   it('should render styles inline when document is undefined', async () => {
+    (window as { _document?: Document })._document = undefined;
+
     const ReactDOMServer = await import('react-dom/server');
     const jsx = await getJsx();
 
@@ -57,11 +59,10 @@ describe('SSR', () => {
   });
 
   it('should rehydrate inline styles into the head.', async () => {
-    Object.defineProperty(global, 'document', documentDesc);
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    document.getElementById('root')!.innerHTML = html;
 
     const ReactDOM = await import('react-dom');
-
-    jsdom.window.document.body.innerHTML = '<div id="root">' + html + '</div>';
     await import('./');
 
     expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`

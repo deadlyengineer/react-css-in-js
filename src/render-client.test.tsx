@@ -9,8 +9,6 @@ import { Styled } from './components/Styled';
 type TestFC = FC<{ styles?: ReactElement; className?: string }>;
 
 it('should insert styles into the head', () => {
-  jsdom.window.document.body.innerHTML = `<div id="root" />`;
-
   ReactDOM.render(getJsx(), document.getElementById('root'));
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
     "<!DOCTYPE html>

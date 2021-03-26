@@ -13,7 +13,12 @@ export function _useStyledClassName(
   const style = _useStyle(styleText, className?._styled?._style);
 
   return useMemo(
-    () => _getStyledClassName(style, scope, className?._styled ? className?._styled._otherClassName : className),
+    () =>
+      _getStyledClassName(
+        style,
+        className?._styled?._scope || scope,
+        className?._styled ? className?._styled._otherClassName : className
+      ),
     [style, scope, className]
   );
 }

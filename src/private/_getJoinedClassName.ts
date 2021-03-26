@@ -31,7 +31,7 @@ export function _getJoinedClassName(...classNames: (StyledClassName | undefined)
   for (const className of truthyClassNames) {
     if (className?._styled) {
       tokens = tokens ? [...tokens, ...className._styled._style] : className._styled._style;
-      scope = scope ?? className._styled._scope;
+      scope = className._styled._scope || scope;
 
       if (className._styled._otherClassName) {
         otherClassNames.push(className._styled._otherClassName);

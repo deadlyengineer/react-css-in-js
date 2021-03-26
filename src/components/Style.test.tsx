@@ -1,15 +1,16 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import pretty from 'pretty';
 
-const documentDesc = Object.getOwnPropertyDescriptor(global, 'document') as PropertyDescriptor;
+let _document: Document | undefined;
 
 beforeEach(() => {
   jest.resetModules();
-  Object.defineProperty(global, 'document', { configurable: true, value: undefined });
+  _document = (window as { _document?: Document })._document;
+  (window as { _document?: Document })._document = undefined;
 });
 
 afterEach(() => {
-  Object.defineProperty(global, 'document', documentDesc);
+  (window as { _document?: Document })._document = _document;
 });
 
 it('should render to string', async () => {

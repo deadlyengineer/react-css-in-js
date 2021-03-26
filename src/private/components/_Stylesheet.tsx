@@ -1,5 +1,6 @@
 import React, { memo, ReactElement, useEffect, useRef } from 'react';
-import { _styleAttributeName } from '../_constants';
+import { _isBrowser, _styleAttributeName } from '../_constants';
+import { _styleManagerDefault } from '../_styleManagerDefault';
 import { _getStyleCacheKey } from '../_getStyleCacheKey';
 import { _getStyleRefCounter } from '../_getStyleRefCounter';
 import { _getConfig } from '../_getConfig';
@@ -13,7 +14,7 @@ export interface _IStylesheetProps {
 }
 
 function _StylesheetBase({ scope, hash, cssText }: _IStylesheetProps): ReactElement | null {
-  const { customStyleManager } = _getConfig();
+  const { customStyleManager = _isBrowser ? _styleManagerDefault : null } = _getConfig();
 
   if (!customStyleManager) {
     // Rendering server side.

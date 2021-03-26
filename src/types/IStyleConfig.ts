@@ -10,7 +10,7 @@ export interface IStyleConfig {
   /**
    * Pretty format `<style>` element CSS text when set to true.
    */
-  pretty: boolean;
+  pretty?: boolean;
 
   /**
    * The style manager adds style elements when styles are
@@ -19,12 +19,12 @@ export interface IStyleConfig {
    * Using a custom style manager allows control over how style
    * elements are injected into the DOM.
    */
-  customStyleManager: IStyleManager | null;
+  customStyleManager?: IStyleManager;
 
   /**
    * The hash function is used to generate the suffix for dynamic
    * class names, and to generate the style cache keys passed to
    * style managers.
    */
-  customHashFunction: (tokens: StyleTokens) => string;
+  customHashFunction?: (tokens: StyleTokens) => string;
 }

@@ -1,3 +1,4 @@
+import { _isBrowser } from './_constants';
 import { _getConfig } from './_getConfig';
 import { _getJoinedSelectors } from './_getJoinedSelectors';
 import { _printerDefault } from './_printerDefault';
@@ -6,7 +7,7 @@ import { ICssBlock, _AtRuleConditional, _AtRuleNested, _AtRuleNone, _AtRuleSimpl
 import { ICssBuilder } from './types/ICssBuilder';
 
 export function _getCssBuilder(className?: string): ICssBuilder {
-  const { pretty } = _getConfig();
+  const { pretty = _isBrowser } = _getConfig();
   const rootSelectors = [className ? '.' + className : ':root'];
   const printer = pretty ? _printerPretty : _printerDefault;
   const blocks: ICssBlock[] = [];
