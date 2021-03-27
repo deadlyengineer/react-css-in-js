@@ -44,3 +44,4 @@ export function Styled(props: IStyledProps): ReactElement {
 
   return <_StyledWrapper {...otherProps}>{children}</_StyledWrapper>;
 }
+Styled.displayName = 'Styled';

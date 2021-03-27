@@ -53,3 +53,4 @@ export function Style(props: IStyleProps): ReactElement {
     </>
   );
 }
+Style.displayName = 'Style';

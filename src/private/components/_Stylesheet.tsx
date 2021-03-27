@@ -57,3 +57,4 @@ function Stylesheet({ scope, hash, cssText }: IStylesheetProps): ReactElement | 
 }
 
 export const _Stylesheet = memo(Stylesheet);
+_Stylesheet.displayName = 'Stylesheet';
