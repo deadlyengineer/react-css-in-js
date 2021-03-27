@@ -1,9 +1,12 @@
-import { _styleAttributeName } from './_constants';
-import { IStyleManager } from '../types/IStyleManager';
+import { _styleAttributeName } from './private/_constants';
+import { IStyleManager } from './types/IStyleManager';
 
 const cache = new Map<string, HTMLStyleElement>();
 
-export const _styleManagerDefault: IStyleManager = {
+/**
+ * Default style manager.
+ */
+export const defaultStyleManager: IStyleManager = {
   register(cacheKey, cssText, replacedCacheKey) {
     const style = document.createElement('style');
     const replacedStyle = replacedCacheKey != null ? cache.get(replacedCacheKey) : null;
@@ -20,13 +23,5 @@ export const _styleManagerDefault: IStyleManager = {
       cache.delete(cacheKey);
       style.remove();
     }
-  },
-  hydrate(styles) {
-    document.head.append(
-      ...styles.map(({ cacheKey, element }) => {
-        cache.set(cacheKey, element);
-        return element;
-      })
-    );
   },
 };

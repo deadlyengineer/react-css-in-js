@@ -1,17 +1,6 @@
 import { _getCssText } from './_getCssText';
 import { _getTokens } from './_getTokens';
 
-const initialConfig = { ...jest.requireActual('./_getConfig')._getConfig(), pretty: true };
-let config = { ...initialConfig };
-
-jest.mock('./_getConfig', () => ({
-  _getConfig: jest.fn().mockImplementation(() => config),
-}));
-
-afterEach(() => {
-  config = { ...initialConfig };
-});
-
 it('should render simple css', () => {
   expect(
     _getCssText(
@@ -209,22 +198,6 @@ it('should correctly handle nested at-rules', () => {
     }
     "
   `);
-});
-
-it('should print a single line if "pretty" option is unset', () => {
-  config.pretty = false;
-
-  expect(
-    _getCssText(
-      _getTokens(`
-        @media screen {
-          .foo {
-            color: red;
-          }
-        }
-      `)
-    )
-  ).toMatchInlineSnapshot(`"@media screen{.foo{color:red;}}"`);
 });
 
 it('should merge comma separated selectors', () => {

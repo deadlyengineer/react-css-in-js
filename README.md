@@ -112,29 +112,36 @@ render(
 This library is designed to require zero-configuration. Class names are stable and have a very high probability of uniqueness, and server-side rendering works out of the box. But, there are always cases where the defaults need a little modification.
 
 ```tsx
-import { configure } from 'react-css-in-js';
+import {
+  configure,
+  defaultCssPrinter,
+  defaultStyleManager,
+  defaultHashFunction
+} from 'react-css-in-js';
 
 configure({
-  // The injected CSS text will be pretty formatted when this option
-  // is true, or minified if it's false. Defaults to true in the
-  // browser, and false otherwise. Pretty formatting should not be
-  // significantly slower to generate, but may result in larger
-  // styles which could increase the transfer size when using server
-  // side rendering. It does not affect class name hashes.
-  pretty: true,
+  // A custom CSS printer can be used to change how CSS rules are
+  // formatted. You could use it to minify or add auto-prefixing.
+  customCssPrinter: defaultCssPrinter,
 
   // A custom style manager can be used to change how styles are
   // injected into the DOM, or to capture styles during server-side
   // rendering if the default SSR inline injection behavior isn't
   // suitable for your application.
-  customStyleManager: myCustomStyleManager,
+  //
+  // By default, no (undefined) style manager is used during SSR,
+  // which causes style elements to be injected inline, adjacent to
+  // the element being styled. These inlined styles will be moved to
+  // the document head on the client side, prior to React
+  // rehydration.
+  customStyleManager: defaultStyleManager,
 
   // A custom hash function can be used for testing, enhanced
   // collision avoidance, etc.
   //
   // The default hash function is the same one used by Emotion and
   // styled-components: https://github.com/darkskyapp/string-hash
-  customHashFunction: myCustomHashFunction,
+  customHashFunction: defaultHashFunction,
 });
 ```
 

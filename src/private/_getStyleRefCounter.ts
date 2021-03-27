@@ -1,7 +1,5 @@
 import { _styleRefCounts } from './_globals';
 
-let instance: IStyleRefCounter;
-
 export interface IStyleRefCounter {
   /**
    * Adds one to the reference count for the key, and returns true
@@ -23,8 +21,8 @@ export interface IStyleRefCounter {
 }
 
 export function _getStyleRefCounter(): IStyleRefCounter {
-  if (!instance) {
-    instance = {
+  if (!_getStyleRefCounter._instance) {
+    _getStyleRefCounter._instance = {
       ref(key) {
         const count = _styleRefCounts.get(key) ?? 0;
         _styleRefCounts.set(key, count + 1);
@@ -51,5 +49,6 @@ export function _getStyleRefCounter(): IStyleRefCounter {
     };
   }
 
-  return instance;
+  return _getStyleRefCounter._instance;
 }
+_getStyleRefCounter._instance = undefined as undefined | IStyleRefCounter;

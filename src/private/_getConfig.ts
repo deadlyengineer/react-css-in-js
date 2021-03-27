@@ -2,21 +2,20 @@ import { _config } from './_globals';
 import { _isBrowser, _styleAttributeName } from './_constants';
 import { _getStyleRefCounter } from './_getStyleRefCounter';
 import { IStyleConfig } from '../types/IStyleConfig';
-import { IStyleDehydrated } from '../types/IStyleDehydrated';
-import { _styleManagerDefault } from './_styleManagerDefault';
+import { defaultStyleManager } from '../defaultStyleManager';
 
 const refCounter = _getStyleRefCounter();
 
-let dehydrated: IStyleDehydrated[] = [];
+let dehydrated: [string, string][] = [];
 
 if (_isBrowser) {
   dehydrated = Array.from(document.querySelectorAll<HTMLStyleElement>('style[' + _styleAttributeName + ']')).reduce<
-    IStyleDehydrated[]
+    [string, string][]
   >((acc, element) => {
     const cacheKey = element.getAttribute(_styleAttributeName) as string;
 
     if (refCounter.ref(cacheKey)) {
-      acc.push({ cacheKey: cacheKey, element });
+      acc.push([cacheKey, element.textContent ?? '']);
     }
 
     element.remove();
@@ -30,7 +29,9 @@ export function _getConfig(): Readonly<IStyleConfig> {
     _getConfig._locked = true;
 
     if (_isBrowser || _config.customStyleManager) {
-      (_config.customStyleManager ?? _styleManagerDefault).hydrate(dehydrated);
+      const styleManager = _config.customStyleManager ?? defaultStyleManager;
+
+      dehydrated.forEach(([cacheKey, cssText]) => styleManager.register(cacheKey, cssText));
     }
   }
 

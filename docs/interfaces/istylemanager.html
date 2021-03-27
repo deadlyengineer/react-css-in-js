@@ -48,17 +48,14 @@
 	<h2>API</h2>
 	<ul>
 		<li class=" tsd-kind-interface">
-			<a href="istyleconfig.html" class="tsd-kind-icon">IStyle<wbr>Config</a>
+			<a href="icssprinter.html" class="tsd-kind-icon">ICss<wbr>Printer</a>
 		</li>
 		<li class=" tsd-kind-interface">
-			<a href="istyledehydrated.html" class="tsd-kind-icon">IStyle<wbr>Dehydrated</a>
+			<a href="istyleconfig.html" class="tsd-kind-icon">IStyle<wbr>Config</a>
 		</li>
 		<li class="current tsd-kind-interface">
 			<a href="istylemanager.html" class="tsd-kind-icon">IStyle<wbr>Manager</a>
 			<ul>
-				<li class=" tsd-kind-method tsd-parent-kind-interface">
-					<a href="istylemanager.html#hydrate" class="tsd-kind-icon">hydrate</a>
-				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-interface">
 					<a href="istylemanager.html#register" class="tsd-kind-icon">register</a>
 				</li>
@@ -76,6 +73,12 @@
 		<li class=" tsd-kind-type-alias">
 			<a href="../modules.html#styletokens" class="tsd-kind-icon">Style<wbr>Tokens</a>
 		</li>
+		<li class=" tsd-kind-variable">
+			<a href="../modules.html#defaultcssprinter" class="tsd-kind-icon">default<wbr>Css<wbr>Printer</a>
+		</li>
+		<li class=" tsd-kind-variable">
+			<a href="../modules.html#defaultstylemanager" class="tsd-kind-icon">default<wbr>Style<wbr>Manager</a>
+		</li>
 		<li class=" tsd-kind-function">
 			<a href="../modules.html#style" class="tsd-kind-icon">Style</a>
 		</li>
@@ -87,6 +90,9 @@
 		</li>
 		<li class=" tsd-kind-function">
 			<a href="../modules.html#css" class="tsd-kind-icon">css</a>
+		</li>
+		<li class=" tsd-kind-function">
+			<a href="../modules.html#defaulthashfunction" class="tsd-kind-icon">default<wbr>Hash<wbr>Function</a>
 		</li>
 	</ul>
 </nav>
@@ -118,7 +124,6 @@
 					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-method tsd-parent-kind-interface"><a href="istylemanager.html#hydrate" class="tsd-kind-icon">hydrate</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-interface"><a href="istylemanager.html#register" class="tsd-kind-icon">register</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-interface"><a href="istylemanager.html#unregister" class="tsd-kind-icon">unregister</a></li>
 						</ul>
@@ -129,38 +134,10 @@
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Methods</h2>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
-				<a name="hydrate" class="tsd-anchor"></a>
-				<h3>hydrate</h3>
-				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-					<li class="tsd-signature tsd-kind-icon">hydrate<span class="tsd-signature-symbol">(</span>styles<span class="tsd-signature-symbol">: </span><a href="istyledehydrated.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyleDehydrated</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>Called before React container hydration when using SSR (server
-									side rendering). All of the styles which are passed in should
-									be moved out of the container so that the React hydration
-								process doesn&#39;t find a DOM mismatch.</p>
-							</div>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>styles: <a href="istyledehydrated.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyleDehydrated</a><span class="tsd-signature-symbol">[]</span></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-interface">
 				<a name="register" class="tsd-anchor"></a>
 				<h3>register</h3>
 				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-interface">
-					<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>cacheKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cssText<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, replacedCacheKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>cacheKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, cssText<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, replacedCacheKey<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
@@ -184,7 +161,7 @@
 								<h5>cssText: <span class="tsd-signature-type">string</span></h5>
 							</li>
 							<li>
-								<h5>replacedCacheKey: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> replacedCacheKey: <span class="tsd-signature-type">string</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>

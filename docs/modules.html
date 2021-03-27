@@ -48,10 +48,10 @@
 	<h2>API</h2>
 	<ul>
 		<li class=" tsd-kind-interface">
-			<a href="interfaces/istyleconfig.html" class="tsd-kind-icon">IStyle<wbr>Config</a>
+			<a href="interfaces/icssprinter.html" class="tsd-kind-icon">ICss<wbr>Printer</a>
 		</li>
 		<li class=" tsd-kind-interface">
-			<a href="interfaces/istyledehydrated.html" class="tsd-kind-icon">IStyle<wbr>Dehydrated</a>
+			<a href="interfaces/istyleconfig.html" class="tsd-kind-icon">IStyle<wbr>Config</a>
 		</li>
 		<li class=" tsd-kind-interface">
 			<a href="interfaces/istylemanager.html" class="tsd-kind-icon">IStyle<wbr>Manager</a>
@@ -65,6 +65,12 @@
 		<li class=" tsd-kind-type-alias">
 			<a href="modules.html#styletokens" class="tsd-kind-icon">Style<wbr>Tokens</a>
 		</li>
+		<li class=" tsd-kind-variable">
+			<a href="modules.html#defaultcssprinter" class="tsd-kind-icon">default<wbr>Css<wbr>Printer</a>
+		</li>
+		<li class=" tsd-kind-variable">
+			<a href="modules.html#defaultstylemanager" class="tsd-kind-icon">default<wbr>Style<wbr>Manager</a>
+		</li>
 		<li class=" tsd-kind-function">
 			<a href="modules.html#style" class="tsd-kind-icon">Style</a>
 		</li>
@@ -76,6 +82,9 @@
 		</li>
 		<li class=" tsd-kind-function">
 			<a href="modules.html#css" class="tsd-kind-icon">css</a>
+		</li>
+		<li class=" tsd-kind-function">
+			<a href="modules.html#defaulthashfunction" class="tsd-kind-icon">default<wbr>Hash<wbr>Function</a>
 		</li>
 	</ul>
 </nav>
@@ -183,29 +192,36 @@
 				<h2>Advanced Configuration</h2>
 			</a>
 			<p>This library is designed to require zero-configuration. Class names are stable and have a very high probability of uniqueness, and server-side rendering works out of the box. But, there are always cases where the defaults need a little modification.</p>
-			<pre><code class="language-tsx"><span style="color: #C586C0">import</span><span style="color: #D4D4D4"> { </span><span style="color: #9CDCFE">configure</span><span style="color: #D4D4D4"> } </span><span style="color: #C586C0">from</span><span style="color: #D4D4D4"> </span><span style="color: #CE9178">&#039;react-css-in-js&#039;</span><span style="color: #D4D4D4">;</span>
+			<pre><code class="language-tsx"><span style="color: #C586C0">import</span><span style="color: #D4D4D4"> {</span>
+<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">configure</span><span style="color: #D4D4D4">,</span>
+<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">defaultCssPrinter</span><span style="color: #D4D4D4">,</span>
+<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">defaultStyleManager</span><span style="color: #D4D4D4">,</span>
+<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">defaultHashFunction</span>
+<span style="color: #D4D4D4">} </span><span style="color: #C586C0">from</span><span style="color: #D4D4D4"> </span><span style="color: #CE9178">&#039;react-css-in-js&#039;</span><span style="color: #D4D4D4">;</span>
 
 <span style="color: #DCDCAA">configure</span><span style="color: #D4D4D4">({</span>
-<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// The injected CSS text will be pretty formatted when this option</span>
-<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// is true, or minified if it&#039;s false. Defaults to true in the</span>
-<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// browser, and false otherwise. Pretty formatting should not be</span>
-<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// significantly slower to generate, but may result in larger</span>
-<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// styles which could increase the transfer size when using server</span>
-<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// side rendering. It does not affect class name hashes.</span>
-<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">pretty:</span><span style="color: #D4D4D4"> </span><span style="color: #569CD6">true</span><span style="color: #D4D4D4">,</span>
+<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// A custom CSS printer can be used to change how CSS rules are</span>
+<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// formatted. You could use it to minify or add auto-prefixing.</span>
+<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">customCssPrinter:</span><span style="color: #D4D4D4"> </span><span style="color: #9CDCFE">defaultCssPrinter</span><span style="color: #D4D4D4">,</span>
 
 <span style="color: #D4D4D4">  </span><span style="color: #6A9955">// A custom style manager can be used to change how styles are</span>
 <span style="color: #D4D4D4">  </span><span style="color: #6A9955">// injected into the DOM, or to capture styles during server-side</span>
 <span style="color: #D4D4D4">  </span><span style="color: #6A9955">// rendering if the default SSR inline injection behavior isn&#039;t</span>
 <span style="color: #D4D4D4">  </span><span style="color: #6A9955">// suitable for your application.</span>
-<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">customStyleManager:</span><span style="color: #D4D4D4"> </span><span style="color: #9CDCFE">myCustomStyleManager</span><span style="color: #D4D4D4">,</span>
+<span style="color: #D4D4D4">  </span><span style="color: #6A9955">//</span>
+<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// By default, no (undefined) style manager is used during SSR,</span>
+<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// which causes style elements to be injected inline, adjacent to</span>
+<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// the element being styled. These inlined styles will be moved to</span>
+<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// the document head on the client side, prior to React</span>
+<span style="color: #D4D4D4">  </span><span style="color: #6A9955">// rehydration.</span>
+<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">customStyleManager:</span><span style="color: #D4D4D4"> </span><span style="color: #9CDCFE">defaultStyleManager</span><span style="color: #D4D4D4">,</span>
 
 <span style="color: #D4D4D4">  </span><span style="color: #6A9955">// A custom hash function can be used for testing, enhanced</span>
 <span style="color: #D4D4D4">  </span><span style="color: #6A9955">// collision avoidance, etc.</span>
 <span style="color: #D4D4D4">  </span><span style="color: #6A9955">//</span>
 <span style="color: #D4D4D4">  </span><span style="color: #6A9955">// The default hash function is the same one used by Emotion and</span>
 <span style="color: #D4D4D4">  </span><span style="color: #6A9955">// styled-components: https://github.com/darkskyapp/string-hash</span>
-<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">customHashFunction:</span><span style="color: #D4D4D4"> </span><span style="color: #9CDCFE">myCustomHashFunction</span><span style="color: #D4D4D4">,</span>
+<span style="color: #D4D4D4">  </span><span style="color: #9CDCFE">customHashFunction:</span><span style="color: #D4D4D4"> </span><span style="color: #9CDCFE">defaultHashFunction</span><span style="color: #D4D4D4">,</span>
 <span style="color: #D4D4D4">});</span>
 </code></pre>
 			<p><em>Configuration must be done before rendering!</em></p>
@@ -240,8 +256,8 @@
 					<section class="tsd-index-section ">
 						<h3>Interfaces</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-interface"><a href="interfaces/icssprinter.html" class="tsd-kind-icon">ICss<wbr>Printer</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/istyleconfig.html" class="tsd-kind-icon">IStyle<wbr>Config</a></li>
-							<li class="tsd-kind-interface"><a href="interfaces/istyledehydrated.html" class="tsd-kind-icon">IStyle<wbr>Dehydrated</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/istylemanager.html" class="tsd-kind-icon">IStyle<wbr>Manager</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/istyleprops.html" class="tsd-kind-icon">IStyle<wbr>Props</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/istyledprops.html" class="tsd-kind-icon">IStyled<wbr>Props</a></li>
@@ -254,12 +270,20 @@
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
+						<h3>Variables</h3>
+						<ul class="tsd-index-list">
+							<li class="tsd-kind-variable"><a href="modules.html#defaultcssprinter" class="tsd-kind-icon">default<wbr>Css<wbr>Printer</a></li>
+							<li class="tsd-kind-variable"><a href="modules.html#defaultstylemanager" class="tsd-kind-icon">default<wbr>Style<wbr>Manager</a></li>
+						</ul>
+					</section>
+					<section class="tsd-index-section ">
 						<h3>Functions</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-function"><a href="modules.html#style" class="tsd-kind-icon">Style</a></li>
 							<li class="tsd-kind-function"><a href="modules.html#styled" class="tsd-kind-icon">Styled</a></li>
 							<li class="tsd-kind-function"><a href="modules.html#configure" class="tsd-kind-icon">configure</a></li>
 							<li class="tsd-kind-function"><a href="modules.html#css" class="tsd-kind-icon">css</a></li>
+							<li class="tsd-kind-function"><a href="modules.html#defaulthashfunction" class="tsd-kind-icon">default<wbr>Hash<wbr>Function</a></li>
 						</ul>
 					</section>
 				</div>
@@ -276,6 +300,33 @@
 				<div class="tsd-comment tsd-typography">
 					<div class="lead">
 						<p>A string or nested arrays of strings.</p>
+					</div>
+				</div>
+			</section>
+		</section>
+		<section class="tsd-panel-group tsd-member-group ">
+			<h2>Variables</h2>
+			<section class="tsd-panel tsd-member tsd-kind-variable">
+				<a name="defaultcssprinter" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagConst">Const</span> default<wbr>Css<wbr>Printer</h3>
+				<div class="tsd-signature tsd-kind-icon">default<wbr>Css<wbr>Printer<span class="tsd-signature-symbol">:</span> <a href="interfaces/icssprinter.html" class="tsd-signature-type" data-tsd-kind="Interface">ICssPrinter</a><span class="tsd-signature-symbol"> = ...</span></div>
+				<aside class="tsd-sources">
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Default CSS printer.</p>
+					</div>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-variable">
+				<a name="defaultstylemanager" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagConst">Const</span> default<wbr>Style<wbr>Manager</h3>
+				<div class="tsd-signature tsd-kind-icon">default<wbr>Style<wbr>Manager<span class="tsd-signature-symbol">:</span> <a href="interfaces/istylemanager.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyleManager</a><span class="tsd-signature-symbol"> = ...</span></div>
+				<aside class="tsd-sources">
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Default style manager.</p>
 					</div>
 				</div>
 			</section>
@@ -413,6 +464,32 @@
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">_ICssProps</span><span class="tsd-signature-symbol">&gt;</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-function">
+				<a name="defaulthashfunction" class="tsd-anchor"></a>
+				<h3>default<wbr>Hash<wbr>Function</h3>
+				<ul class="tsd-signatures tsd-kind-function">
+					<li class="tsd-signature tsd-kind-icon">default<wbr>Hash<wbr>Function<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><a href="modules.html#styletokens" class="tsd-signature-type" data-tsd-kind="Type alias">StyleTokens</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Default hash function.</p>
+							</div>
+							<p>Derived from <a href="https://github.com/darkskyapp/string-hash">https://github.com/darkskyapp/string-hash</a>.</p>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>str: <a href="modules.html#styletokens" class="tsd-signature-type" data-tsd-kind="Type alias">StyleTokens</a></h5>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 					</li>
 				</ul>
 			</section>

@@ -57,7 +57,7 @@
 					<a href="istyledehydrated.html#cachekey" class="tsd-kind-icon">cache<wbr>Key</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="istyledehydrated.html#element" class="tsd-kind-icon">element</a>
+					<a href="istyledehydrated.html#csstext" class="tsd-kind-icon">css<wbr>Text</a>
 				</li>
 			</ul>
 		</li>
@@ -73,6 +73,12 @@
 		<li class=" tsd-kind-type-alias">
 			<a href="../modules.html#styletokens" class="tsd-kind-icon">Style<wbr>Tokens</a>
 		</li>
+		<li class=" tsd-kind-variable">
+			<a href="../modules.html#defaultcssprinter" class="tsd-kind-icon">default<wbr>Css<wbr>Printer</a>
+		</li>
+		<li class=" tsd-kind-variable">
+			<a href="../modules.html#defaultstylemanager" class="tsd-kind-icon">default<wbr>Style<wbr>Manager</a>
+		</li>
 		<li class=" tsd-kind-function">
 			<a href="../modules.html#style" class="tsd-kind-icon">Style</a>
 		</li>
@@ -85,6 +91,9 @@
 		<li class=" tsd-kind-function">
 			<a href="../modules.html#css" class="tsd-kind-icon">css</a>
 		</li>
+		<li class=" tsd-kind-function">
+			<a href="../modules.html#defaulthashfunction" class="tsd-kind-icon">default<wbr>Hash<wbr>Function</a>
+		</li>
 	</ul>
 </nav>
 <div class="container container-main">
@@ -92,9 +101,9 @@
 		<section class="tsd-panel tsd-comment">
 			<div class="tsd-comment tsd-typography">
 				<div class="lead">
-					<p>An HTML style element that was rendered inline using SSR (server
-						side rendering), and the cache key used to uniquely identify the
-					style.</p>
+					<p>The CSS text from an HTML style element that was rendered inlined
+						on the server (SSR), and the cache key used to uniquely identify
+					the style.</p>
 				</div>
 				<p>An array of these objects is passed to the style manager <code>hydrate</code>
 					method so that SSR styles can be moved to the DOM head before
@@ -117,7 +126,7 @@
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="istyledehydrated.html#cachekey" class="tsd-kind-icon">cache<wbr>Key</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="istyledehydrated.html#element" class="tsd-kind-icon">element</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="istyledehydrated.html#csstext" class="tsd-kind-icon">css<wbr>Text</a></li>
 						</ul>
 					</section>
 				</div>
@@ -133,9 +142,9 @@
 				</aside>
 			</section>
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-				<a name="element" class="tsd-anchor"></a>
-				<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> element</h3>
-				<div class="tsd-signature tsd-kind-icon">element<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">HTMLStyleElement</span></div>
+				<a name="csstext" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagReadonly">Readonly</span> css<wbr>Text</h3>
+				<div class="tsd-signature tsd-kind-icon">css<wbr>Text<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 				</aside>
 			</section>

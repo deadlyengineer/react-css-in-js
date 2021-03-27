@@ -1,3 +1,4 @@
+import { ICssPrinter } from './ICssPrinter';
 import { IStyleManager } from './IStyleManager';
 import { StyleTokens } from './StyleTokens';
 
@@ -8,9 +9,12 @@ import { StyleTokens } from './StyleTokens';
  */
 export interface IStyleConfig {
   /**
-   * Pretty format `<style>` element CSS text when set to true.
+   * The CSS text printer controls how CSS is formatted.
+   *
+   * Using a custom CSS printer allows control over how CSS rules
+   * are formatted.
    */
-  pretty?: boolean;
+  customCssPrinter?: ICssPrinter;
 
   /**
    * The style manager adds style elements when styles are

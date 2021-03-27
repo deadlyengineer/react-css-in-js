@@ -1,8 +1,8 @@
 import { _getConfig } from './_getConfig';
 import { _getCssText } from './_getCssText';
-import { _getHashDefault } from './_getHashDefault';
 import { IStyle } from './types/IStyle';
 import { Token } from './types/Token';
+import { defaultHashFunction } from '../defaultHashFunction';
 
 /**
  * Decorate a tokens array with memoized hash and cssText getters.
@@ -12,7 +12,7 @@ export function _getStyle(tokens: readonly Token[]): IStyle {
     return tokens;
   }
 
-  const getHash = _getConfig().customHashFunction ?? _getHashDefault;
+  const getHash = _getConfig().customHashFunction ?? defaultHashFunction;
 
   let hash: string | undefined;
   let cssText: string | undefined;

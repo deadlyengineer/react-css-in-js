@@ -283,7 +283,7 @@ it('should override scopes when nested', async () => {
           `}
           <Styled scope={'b'}>
             {css`
-              color: blue;
+              color: ${'blue'};
             `}
             <div />
           </Styled>

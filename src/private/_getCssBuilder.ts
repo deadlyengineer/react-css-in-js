@@ -1,19 +1,17 @@
-import { _isBrowser } from './_constants';
-import { _getConfig } from './_getConfig';
 import { _getJoinedSelectors } from './_getJoinedSelectors';
 import { _getTokenValues } from './_getTokenValues';
 import { _getTokenProperty } from './_getTokenProperty';
-import { _printerDefault } from './_printerDefault';
-import { _printerPretty } from './_printerPretty';
+import { _getConfig } from './_getConfig';
 import { ICssBlock, _AtRuleConditional, _AtRuleNested, _AtRuleNone, _AtRuleSimple } from './types/ICssBlock';
 import { ICssBuilder } from './types/ICssBuilder';
+import { defaultCssPrinter } from '../defaultCssPrinter';
 
 const atRuleConditionalTypes: readonly string[] = ['media', 'supports', 'document'];
 const atRuleNestedTypes: readonly string[] = ['keyframes', 'font-feature-values'];
 
 export function _getCssBuilder(className?: string): ICssBuilder {
   const rootSelectors = [className ? '.' + className : ':root'];
-  const printer = _getConfig().pretty ?? _isBrowser ? _printerPretty : _printerDefault;
+  const printer = _getConfig().customCssPrinter ?? defaultCssPrinter;
   const blocks: ICssBlock[] = [];
 
   __openBlock('', rootSelectors, { _isVirtual: true });
@@ -29,7 +27,7 @@ export function _getCssBuilder(className?: string): ICssBuilder {
     const indent = currentBlock._indent + (allowNesting ? '  ' : '');
 
     if (currentBlock._isWritten && !allowNesting) {
-      result += printer._closeBlock(currentBlock._indent);
+      result += printer.closeBlock(currentBlock._indent);
       currentBlock._isWritten = false;
     }
 
@@ -42,7 +40,7 @@ export function _getCssBuilder(className?: string): ICssBuilder {
           ? _AtRuleNested
           : _AtRuleSimple;
 
-      __openBlock(indent, [printer._csv(values)], { _atRuleGroupLevel });
+      __openBlock(indent, [printer.csv(values)], { _atRuleGroupLevel });
 
       if (_atRuleGroupLevel >= _AtRuleConditional) {
         __openBlock(indent + '  ', parentSelectors, { _isVirtual: true });
@@ -71,7 +69,7 @@ export function _getCssBuilder(className?: string): ICssBuilder {
 
       if (token[1] === 'import') {
         // Hoist @import rules to the top of the CSS text.
-        imports += printer._property('', printer._csv(_getTokenValues(token)));
+        imports += printer.property('', printer.csv(_getTokenValues(token)));
         return;
       }
 
@@ -102,12 +100,15 @@ export function _getCssBuilder(className?: string): ICssBuilder {
       }
     }
 
-    result += printer._property(indent, printer._csv(property[0]), printer._csv(property[1]));
+    const key = printer.csv(property[0]);
+    const value = printer.csv(property[1], key);
+
+    result += printer.property(indent, key, value);
   }
 
   function _build() {
     while (__closeBlock());
-    return printer._concat(imports, result);
+    return [imports, result].filter((value) => !!value).join('\n');
   }
 
   function __openBlock(
@@ -119,8 +120,8 @@ export function _getCssBuilder(className?: string): ICssBuilder {
     }: Partial<Pick<ICssBlock, '_isVirtual' | '_atRuleGroupLevel'>> = {}
   ) {
     blocks.unshift({
-      _prefix: printer._openBlock(_indent, _selectors),
-      _suffix: printer._closeBlock(_indent),
+      _prefix: printer.openBlock(_indent, _selectors),
+      _suffix: printer.closeBlock(_indent),
       _indent,
       _isWritten: false,
       _isVirtual,

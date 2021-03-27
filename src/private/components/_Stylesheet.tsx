@@ -1,9 +1,9 @@
 import React, { memo, ReactElement, useEffect, useRef } from 'react';
 import { _isBrowser, _styleAttributeName } from '../_constants';
-import { _styleManagerDefault } from '../_styleManagerDefault';
 import { _getStyleCacheKey } from '../_getStyleCacheKey';
 import { _getStyleRefCounter } from '../_getStyleRefCounter';
 import { _getConfig } from '../_getConfig';
+import { defaultStyleManager } from '../../defaultStyleManager';
 
 const refCounter = _getStyleRefCounter();
 
@@ -14,7 +14,7 @@ export interface IStylesheetProps {
 }
 
 function Stylesheet({ scope, hash, cssText }: IStylesheetProps): ReactElement | null {
-  const { customStyleManager = _isBrowser ? _styleManagerDefault : null } = _getConfig();
+  const { customStyleManager = _isBrowser ? defaultStyleManager : null } = _getConfig();
 
   if (!customStyleManager) {
     // Rendering server side.

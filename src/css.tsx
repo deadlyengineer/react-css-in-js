@@ -25,7 +25,9 @@ export function css(template: TemplateStringsArray, ...values: unknown[]): React
         ...values.map((value) =>
           value == null
             ? ''
-            : (typeof value === 'object' && isValidElement(value) && _getCssElementStyleText(value)) ?? value
+            : typeof value === 'object' && isValidElement(value)
+            ? _getCssElementStyleText(value) ?? value
+            : value
         )
       )}
     />
