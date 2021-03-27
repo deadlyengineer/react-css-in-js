@@ -5,4 +5,5 @@ export const _printerPretty: ICssPrinter = {
   _property: (indent, key, value) => indent + key + (value ? ': ' + value : '') + ';\n',
   _openBlock: (indent, selectors) => indent + selectors.join(',\n' + indent) + ' {\n',
   _closeBlock: (indent) => indent + '}\n',
+  _concat: (...cssTextChunks: string[]) => cssTextChunks.filter((value) => !!value).join('\n'),
 };

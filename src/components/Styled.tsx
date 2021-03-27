@@ -1,5 +1,5 @@
 import React, { ReactElement, ReactNode } from 'react';
-import { _Styled } from '../private/components/_Styled';
+import { _StyledWrapper } from '../private/components/_StyledWrapper';
 
 export interface IStyledProps {
   /**
@@ -42,5 +42,5 @@ export interface IStyledProps {
 export function Styled(props: IStyledProps): ReactElement {
   const { children, ...otherProps } = props;
 
-  return <_Styled {...otherProps}>{children}</_Styled>;
+  return <_StyledWrapper {...otherProps}>{children}</_StyledWrapper>;
 }

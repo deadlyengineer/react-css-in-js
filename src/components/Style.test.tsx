@@ -16,7 +16,7 @@ afterEach(() => {
 it('should render to string', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { css, Style } = await import('../');
+  const { css, Style } = await import('..');
 
   expect(
     pretty(
@@ -41,7 +41,7 @@ it('should render to string', async () => {
 it('should render multiple styles if multiple style tagged templates are used', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { css, Style } = await import('../');
+  const { css, Style } = await import('..');
 
   expect(
     pretty(

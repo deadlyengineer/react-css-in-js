@@ -3,4 +3,5 @@ export interface ICssPrinter {
   _property(indent: string, key: string, values?: string): string;
   _openBlock(indent: string, selectors: string[]): string;
   _closeBlock(indent?: string): string;
+  _concat(...cssTextChunks: string[]): string;
 }

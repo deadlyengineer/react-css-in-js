@@ -1,6 +1,4 @@
 import { _getCssBuilder } from './_getCssBuilder';
-import { _getTokenValues } from './_getTokenValues';
-import { _getTokenProperty } from './_getTokenProperty';
 import { Token } from './types/Token';
 import { TokenTerminator } from './types/TokenTerminator';
 
@@ -11,23 +9,14 @@ export function _getCssText(tokens: readonly Token[], className?: string): strin
 
   while (null != (token = tokensCopy.shift())) {
     if (token instanceof Array) {
-      const isAtRule = token[0] === '@';
       const terminator = tokensCopy.shift() as TokenTerminator;
 
       if (terminator === ';') {
         // Property closing
-        if (isAtRule) {
-          builder._property(_getTokenValues(token));
-        } else {
-          const property = _getTokenProperty(token);
-
-          if (property) {
-            builder._property(property[0], property[1]);
-          }
-        }
+        builder._property(token);
       } else {
         // Block opening
-        builder._openBlock(_getTokenValues(token));
+        builder._openBlock(token);
       }
     } else {
       builder._closeBlock();

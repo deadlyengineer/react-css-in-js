@@ -7,13 +7,13 @@ import { _getConfig } from '../_getConfig';
 
 const refCounter = _getStyleRefCounter();
 
-export interface _IStylesheetProps {
+export interface IStylesheetProps {
   scope: string | undefined;
   hash: string;
   cssText: string;
 }
 
-function _StylesheetBase({ scope, hash, cssText }: _IStylesheetProps): ReactElement | null {
+function Stylesheet({ scope, hash, cssText }: IStylesheetProps): ReactElement | null {
   const { customStyleManager = _isBrowser ? _styleManagerDefault : null } = _getConfig();
 
   if (!customStyleManager) {
@@ -55,6 +55,5 @@ function _StylesheetBase({ scope, hash, cssText }: _IStylesheetProps): ReactElem
 
   return null;
 }
-_StylesheetBase.displayName = '_Stylesheet';
 
-export const _Stylesheet = memo(_StylesheetBase);
+export const _Stylesheet = memo(Stylesheet);

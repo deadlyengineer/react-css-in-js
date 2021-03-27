@@ -1,22 +1,28 @@
 import { _isBrowser } from './_constants';
 import { _getConfig } from './_getConfig';
 import { _getJoinedSelectors } from './_getJoinedSelectors';
+import { _getTokenValues } from './_getTokenValues';
+import { _getTokenProperty } from './_getTokenProperty';
 import { _printerDefault } from './_printerDefault';
 import { _printerPretty } from './_printerPretty';
 import { ICssBlock, _AtRuleConditional, _AtRuleNested, _AtRuleNone, _AtRuleSimple } from './types/ICssBlock';
 import { ICssBuilder } from './types/ICssBuilder';
 
+const atRuleConditionalTypes: readonly string[] = ['media', 'supports', 'document'];
+const atRuleNestedTypes: readonly string[] = ['keyframes', 'font-feature-values'];
+
 export function _getCssBuilder(className?: string): ICssBuilder {
-  const { pretty = _isBrowser } = _getConfig();
   const rootSelectors = [className ? '.' + className : ':root'];
-  const printer = pretty ? _printerPretty : _printerDefault;
+  const printer = _getConfig().pretty ?? _isBrowser ? _printerPretty : _printerDefault;
   const blocks: ICssBlock[] = [];
 
   __openBlock('', rootSelectors, { _isVirtual: true });
 
+  let imports = '';
   let result = '';
 
-  function _openBlock(selectors: string[]) {
+  function _openBlock(token: string[]) {
+    const values = _getTokenValues(token);
     const currentBlock = blocks[0];
     const parentSelectors = currentBlock._selectors;
     const allowNesting = currentBlock._atRuleGroupLevel >= _AtRuleNested;
@@ -27,22 +33,22 @@ export function _getCssBuilder(className?: string): ICssBuilder {
       currentBlock._isWritten = false;
     }
 
-    if (selectors[0][0] === '@') {
-      const _atRuleGroupLevel = /^@(media|supports|document)\b/.test(selectors[0])
-        ? _AtRuleConditional
-        : /^@(keyframes|font-feature-values)\b/.test(selectors[0])
-        ? _AtRuleNested
-        : _AtRuleSimple;
+    if (token[0] === '@') {
+      const atRuleType = token[1];
+      const _atRuleGroupLevel =
+        atRuleConditionalTypes.indexOf(atRuleType) >= 0
+          ? _AtRuleConditional
+          : atRuleNestedTypes.indexOf(atRuleType) >= 0
+          ? _AtRuleNested
+          : _AtRuleSimple;
 
-      __openBlock(indent, [printer._csv(selectors)], { _atRuleGroupLevel });
+      __openBlock(indent, [printer._csv(values)], { _atRuleGroupLevel });
 
       if (_atRuleGroupLevel >= _AtRuleConditional) {
         __openBlock(indent + '  ', parentSelectors, { _isVirtual: true });
       }
     } else {
-      const joinedSelectors = _getJoinedSelectors(selectors, parentSelectors);
-
-      __openBlock(indent, joinedSelectors);
+      __openBlock(indent, _getJoinedSelectors(values, parentSelectors));
     }
   }
 
@@ -50,13 +56,25 @@ export function _getCssBuilder(className?: string): ICssBuilder {
     while (__closeBlock()?._isVirtual);
   }
 
-  function _property(keys: string[], values?: string[]) {
+  function _property(token: readonly string[]) {
     const currentBlock = blocks[0];
-    const isAtRule = keys[0][0] === '@';
+    const isAtRule = token[0] === '@';
 
     let indent: string;
 
     if (isAtRule) {
+      // At-rule
+
+      if (token[1] === 'charset') {
+        return;
+      }
+
+      if (token[1] === 'import') {
+        // Hoist @import rules to the top of the CSS text.
+        imports += printer._property('', printer._csv(_getTokenValues(token)));
+        return;
+      }
+
       if (currentBlock._isWritten && currentBlock._atRuleGroupLevel < _AtRuleNested) {
         result += currentBlock._suffix;
         currentBlock._isWritten = false;
@@ -69,6 +87,12 @@ export function _getCssBuilder(className?: string): ICssBuilder {
       indent = currentBlock._indent + '  ';
     }
 
+    const property = _getTokenProperty(token);
+
+    if (!property) {
+      return;
+    }
+
     for (let i = blocks.length - 1; i >= 0; --i) {
       const block = blocks[i];
 
@@ -78,12 +102,12 @@ export function _getCssBuilder(className?: string): ICssBuilder {
       }
     }
 
-    result += printer._property(indent, printer._csv(keys), values && printer._csv(values));
+    result += printer._property(indent, printer._csv(property[0]), printer._csv(property[1]));
   }
 
   function _build() {
     while (__closeBlock());
-    return result;
+    return printer._concat(imports, result);
   }
 
   function __openBlock(

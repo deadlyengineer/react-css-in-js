@@ -1,6 +1,6 @@
-import React, { isValidElement, ReactNode, Children, ReactElement, useRef } from 'react';
-import { _Css } from '../private/components/_Css';
-import { _Style } from '../private/components/_Style';
+import React, { ReactNode, Children, ReactElement, useRef, isValidElement } from 'react';
+import { _StyleChild } from '../private/components/_StyleChild';
+import { _getCssElementStyleText } from '../private/_getCssComponentValue';
 
 export interface IStyleProps {
   /**
@@ -30,14 +30,16 @@ export interface IStyleProps {
  * </Style>
  * ```
  */
-export function Style(props: IStyleProps): ReactElement | null {
+export function Style(props: IStyleProps): ReactElement {
   const { scope, children } = props;
   const hasWarned = useRef(false);
 
   return (
     <>
       {Children.map(children, (child) => {
-        if (!isValidElement(child) || child.type !== _Css) {
+        const styleText = isValidElement(child) ? _getCssElementStyleText(child) : undefined;
+
+        if (styleText == null) {
           if (!hasWarned.current) {
             hasWarned.current = true;
             console.warn(Error('Style components should only have css tagged template children.'));
@@ -46,7 +48,7 @@ export function Style(props: IStyleProps): ReactElement | null {
           return null;
         }
 
-        return !!child.props.value && <_Style scope={scope} styleText={child.props.value} />;
+        return <_StyleChild scope={scope} styleText={styleText} />;
       })}
     </>
   );

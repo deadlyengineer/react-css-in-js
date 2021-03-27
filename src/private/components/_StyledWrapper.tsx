@@ -1,29 +1,52 @@
-import React, { cloneElement, ReactElement } from 'react';
-import { _Stylesheet } from './_Stylesheet';
-import { _useJoinedClassName } from '../_useJoinedClassName';
+import React, { Children, isValidElement, ReactElement, ReactNode } from 'react';
+import { _StyledChild } from './_StyledChild';
+import { _useStyledClassName } from '../_useStyledClassName';
+import { _getCssElementStyleText } from '../_getCssComponentValue';
 import { StyledClassName } from '../types/StyledClassName';
 
-export interface _IStyledChildProps {
-  className: StyledClassName | undefined;
-  child: ReactElement;
+export interface IStyledWrapperProps {
+  scope?: string;
+  styleText?: string;
+  className?: StyledClassName;
+  children: ReactNode;
 }
 
-export function _StyledWrapper({ className, child }: _IStyledChildProps): ReactElement {
-  // The child class has the "base" style, which is overridden by the
-  // incoming class name property.
-  const joinedClassName = _useJoinedClassName(child.props.className, className);
+export function _StyledWrapper({ scope, styleText, className, children }: IStyledWrapperProps): ReactElement {
+  // HACK: While this component is mounted, styleText will either
+  // always be nullish or always be non-nullish. That's why this hook
+  // can be used conditionally.
+  const styledClassName = styleText == null ? className : _useStyledClassName(styleText, scope, className);
+  const arrChildren = Children.toArray(children);
+  const newChildren: (React.ReactChild | React.ReactFragment | React.ReactPortal)[] = [];
 
-  return (
-    <>
-      {joinedClassName?._styled && joinedClassName._styled._style.length > 0 && (
-        <_Stylesheet
-          scope={joinedClassName._styled._scope}
-          hash={joinedClassName._styled._style._hash}
-          cssText={joinedClassName._styled._cssText}
-        />
-      )}
-      {cloneElement(child, { className: joinedClassName })}
-    </>
-  );
+  let child: React.ReactChild | React.ReactFragment | React.ReactPortal | undefined;
+
+  while (null != (child = arrChildren.shift())) {
+    let element: ReactElement;
+
+    if (typeof child === 'string' || typeof child === 'number') {
+      element = <span>{child}</span>;
+    } else if (isValidElement(child)) {
+      const styleText = _getCssElementStyleText(child);
+
+      if (styleText != null) {
+        newChildren.push(
+          <_StyledWrapper key={child.key} scope={scope} styleText={styleText} className={styledClassName}>
+            {arrChildren.splice(0)}
+          </_StyledWrapper>
+        );
+        break;
+      }
+
+      element = child;
+    } else {
+      newChildren.push(child);
+      continue;
+    }
+
+    newChildren.push(<_StyledChild key={element.key} className={styledClassName} child={element} />);
+  }
+
+  return <>{newChildren}</>;
 }
-_StyledWrapper.displayName = '_StyledChild';
+_StyledWrapper.displayName = 'StyledWrapper';

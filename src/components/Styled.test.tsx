@@ -17,7 +17,7 @@ afterEach(() => {
 it('should render to string', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { css, Styled } = await import('../');
+  const { css, Styled } = await import('..');
 
   expect(
     pretty(
@@ -56,7 +56,7 @@ it('should render to string', async () => {
 it('should allow for style overrides using Styled wrappers', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { css, Styled } = await import('../');
+  const { css, Styled } = await import('..');
 
   const A: VFC<{ className?: string }> = ({ className }) => {
     return (
@@ -117,7 +117,7 @@ it('should allow for style overrides using Styled wrappers', async () => {
 it('should includes styles when directly nested', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { css, Styled } = await import('../');
+  const { css, Styled } = await import('..');
 
   const AStyled = ({ className, children }: { className?: string; children?: ReactNode }) => {
     return (
@@ -182,7 +182,7 @@ it('should includes styles when directly nested', async () => {
 it('should use each tagged template as a wrapper for subsequent elements', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { css, Styled } = await import('../');
+  const { css, Styled } = await import('..');
 
   expect(
     pretty(
@@ -231,7 +231,7 @@ it('should use each tagged template as a wrapper for subsequent elements', async
 it('should omit properties with null/undefined values', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { css, Styled } = await import('../');
+  const { css, Styled } = await import('..');
 
   expect(
     pretty(
@@ -261,7 +261,7 @@ it('should omit properties with null/undefined values', async () => {
 it('should override scopes when nested', async () => {
   const React = await import('react');
   const ReactDOMServer = await import('react-dom/server');
-  const { css, Styled } = await import('../');
+  const { css, Styled } = await import('..');
 
   const C: VFC<{ className?: string }> = ({ className }) => {
     return (

@@ -1,7 +1,6 @@
 import { _getCssText } from './_getCssText';
 import { _getTokens } from './_getTokens';
 
-const css = String.raw;
 const initialConfig = { ...jest.requireActual('./_getConfig')._getConfig(), pretty: true };
 let config = { ...initialConfig };
 
@@ -16,7 +15,7 @@ afterEach(() => {
 it('should render simple css', () => {
   expect(
     _getCssText(
-      _getTokens(css`
+      _getTokens(`
         .foo,
         .bar {
           color: red;
@@ -50,7 +49,7 @@ it('should include un-terminated rules', () => {
 it('should render nested css', () => {
   expect(
     _getCssText(
-      _getTokens(css`
+      _getTokens(`
         color: white;
         .foo {
           color: red;
@@ -85,7 +84,7 @@ it('should render nested css', () => {
 it('should replace & placeholders', () => {
   expect(
     _getCssText(
-      _getTokens(css`
+      _getTokens(`
         .foo {
           .bar & {
             color: red;
@@ -110,7 +109,7 @@ it('should replace & placeholders', () => {
 it('should hoist at-rules', () => {
   expect(
     _getCssText(
-      _getTokens(css`
+      _getTokens(`
         .foo {
           color: red;
           @media screen {
@@ -146,19 +145,21 @@ it('should hoist at-rules', () => {
   `);
 });
 
-it('should nest at-rules', () => {
+it('should correctly handle nested at-rules', () => {
   expect(
     _getCssText(
-      _getTokens(css`
+      _getTokens(`
+        @charset "utf-8";
         @import url('foo');
         @media screen {
-          @import url('foo');
+          @charset "utf-8";
+          @import url('bar');
           @media screen {
             color: blue;
           }
           .foo {
             color: green;
-            @import url('bar');
+            @import url('baz');
             @media screen {
               color: teal;
             }
@@ -177,8 +178,10 @@ it('should nest at-rules', () => {
     )
   ).toMatchInlineSnapshot(`
     "@import url('foo');
+    @import url('bar');
+    @import url('baz');
+
     @media screen {
-      @import url('foo');
       @media screen {
         :root {
           color: blue;
@@ -187,7 +190,6 @@ it('should nest at-rules', () => {
       .foo {
         color: green;
       }
-      @import url('bar');
       @media screen {
         .foo {
           color: teal;
@@ -214,7 +216,7 @@ it('should print a single line if "pretty" option is unset', () => {
 
   expect(
     _getCssText(
-      _getTokens(css`
+      _getTokens(`
         @media screen {
           .foo {
             color: red;
@@ -228,7 +230,7 @@ it('should print a single line if "pretty" option is unset', () => {
 it('should merge comma separated selectors', () => {
   expect(
     _getCssText(
-      _getTokens(css`
+      _getTokens(`
         .foo,
         .bar {
           .baz {

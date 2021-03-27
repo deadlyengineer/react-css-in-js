@@ -47,11 +47,15 @@ export function _getTokens(styleText: string): Token[] {
       return;
     }
 
-    const i = chunks.indexOf(':') + 1;
+    const i = chunks.indexOf(':');
 
-    if (i >= 1 && chunks[i] === ' ') {
-      // Remove space after key:value separator.
-      chunks.splice(i, 1);
+    if (i >= 0) {
+      // Remove spaces around key:value separator.
+      [i + 1, i - 1].forEach((j) => {
+        if (chunks[j] === ' ') {
+          chunks.splice(j, 1);
+        }
+      });
     }
 
     tokens.push(chunks.length ? chunks : ['&'], ';');
