@@ -11,7 +11,7 @@ export interface IStyledChildProps {
 export function _StyledChild({ className, child }: IStyledChildProps): ReactElement {
   // The child class has the "base" style, which is overridden by the
   // incoming class name property.
-  const joinedClassName = _useJoinedClassName(child.props.className, className);
+  const joinedClassName = _useJoinedClassName(className, child.props.className);
 
   return (
     <>

@@ -60,11 +60,11 @@ it('should allow for style overrides using Styled wrappers', async () => {
 
   const A: VFC<{ className?: string }> = ({ className }) => {
     return (
-      <Styled className={className}>
+      <Styled className={'a'}>
         {css`
           color: red;
         `}
-        <div className={'a'}></div>
+        <div className={className}></div>
       </Styled>
     );
   };
