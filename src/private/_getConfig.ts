@@ -37,9 +37,9 @@ let instance: _IStyleConfig;
 let dehydrated: [string, string][] = [];
 
 if (_isBrowser) {
-  dehydrated = Array.from(document.querySelectorAll<HTMLStyleElement>('style[' + _styleAttributeName + ']')).reduce<
-    [string, string][]
-  >((acc, element) => {
+  dehydrated = Array.from(
+    document.body.querySelectorAll<HTMLStyleElement>('style[' + _styleAttributeName + ']')
+  ).reduce<[string, string][]>((acc, element) => {
     const cacheKey = element.getAttribute(_styleAttributeName) as string;
 
     if (refCounter.ref(cacheKey)) {

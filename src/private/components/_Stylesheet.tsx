@@ -1,4 +1,4 @@
-import React, { memo, ReactElement, useEffect, useRef } from 'react';
+import React, { ReactElement, useEffect, useRef } from 'react';
 import { _styleAttributeName } from '../_constants';
 import { _getStyleCacheKey } from '../_getStyleCacheKey';
 import { _getStyleRefCounter } from '../_getStyleRefCounter';
@@ -12,7 +12,7 @@ export interface IStylesheetProps {
   _cssText: string;
 }
 
-function Stylesheet({ _scope, _hash, _cssText }: IStylesheetProps): ReactElement | null {
+export function _Stylesheet({ _scope, _hash, _cssText }: IStylesheetProps): ReactElement | null {
   const { _styleManager } = _getConfig();
   const cacheKey = _cssText ? _getStyleCacheKey(_scope, _hash) : undefined;
   const cacheKeyRef = useRef<string>();
@@ -33,10 +33,7 @@ function Stylesheet({ _scope, _hash, _cssText }: IStylesheetProps): ReactElement
     gc.current = undefined;
 
     if (cacheKey) {
-      if (refCounter.ref(cacheKey)) {
-        _styleManager.register(cacheKey, _cssText, cacheKeyRef.current);
-      }
-
+      refCounter.ref(cacheKey) && _styleManager.register(cacheKey, _cssText, cacheKeyRef.current);
       gc.current = () => requestAnimationFrame(() => refCounter.unref(cacheKey) && _styleManager.unregister(cacheKey));
     }
 
@@ -47,6 +44,4 @@ function Stylesheet({ _scope, _hash, _cssText }: IStylesheetProps): ReactElement
 
   return null;
 }
-
-export const _Stylesheet = memo(Stylesheet);
 _Stylesheet.displayName = 'Stylesheet';
