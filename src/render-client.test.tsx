@@ -1,4 +1,4 @@
-import React, { FC, ReactElement } from 'react';
+import React, { FC, ReactElement, StrictMode } from 'react';
 import ReactDOM from 'react-dom';
 import pretty from 'pretty';
 
@@ -116,12 +116,14 @@ function getJsx() {
 
 it('should regenerate styles which were previously removed', async () => {
   ReactDOM.render(
-    <Styled>
-      {css`
-        color: red;
-      `}
-      <div />
-    </Styled>,
+    <StrictMode>
+      <Styled>
+        {css`
+          color: red;
+        `}
+        <div />
+      </Styled>
+    </StrictMode>,
     document.getElementById('root')
   );
   jest.runAllTimers();

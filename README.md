@@ -158,6 +158,7 @@ It will have no effect if done after rendering, and a warning will be printed to
 - Styles are removed (GC-ed) when unused.
 - Class names are stable (deterministic) to support SSR and testing.
 - SSR (server-side rendering) "just works" with zero-configuration.
+- Works with concurrent mode.
 - No extra compilation is required, so it works anywhere.
 - No runtime dependencies.
 - Tiny bundle size.
