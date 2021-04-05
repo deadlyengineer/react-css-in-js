@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import { _getTokens } from './_getTokens';
 import { Token } from './types/Token';
 
-export function _useTokens(styleText: string, overrideTokens?: readonly Token[]): Token[] {
+export function _useTokens(styleText: string, inheritedTokens?: readonly Token[]): Token[] {
   const tokens = useMemo(() => _getTokens(styleText), [styleText]);
 
-  return useMemo(() => (overrideTokens && overrideTokens.length ? [...tokens, ...overrideTokens] : tokens), [
+  return useMemo(() => (inheritedTokens && inheritedTokens.length ? [...inheritedTokens, ...tokens] : tokens), [
     tokens,
-    overrideTokens,
+    inheritedTokens,
   ]);
 }

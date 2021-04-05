@@ -217,14 +217,14 @@ it('should use each tagged template as a wrapper for subsequent elements', async
       }
     </style>
     <div class=\\"2 foo--rcij-g0zrt6\\"></div>
-    <style data-rcij=\\"foo/g8drrj\\">
-      .foo--rcij-g8drrj {
-        color: green;
-        color: blue;
+    <style data-rcij=\\"foo/aj12rz\\">
+      .foo--rcij-aj12rz {
         color: red;
+        color: blue;
+        color: green;
       }
     </style>
-    <div class=\\"3 foo--rcij-g8drrj\\"></div><span class=\\"foo--rcij-g8drrj\\">testing</span>"
+    <div class=\\"3 foo--rcij-aj12rz\\"></div><span class=\\"foo--rcij-aj12rz\\">testing</span>"
   `);
 });
 

@@ -48,7 +48,7 @@ export function Style(props: IStyleProps): ReactElement {
           return null;
         }
 
-        return <_StyleChild scope={scope} styleText={styleText} />;
+        return <_StyleChild _scope={scope} _styleText={styleText} />;
       })}
     </>
   );

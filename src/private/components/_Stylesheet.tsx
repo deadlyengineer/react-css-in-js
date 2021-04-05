@@ -7,14 +7,14 @@ import { _getConfig } from '../_getConfig';
 const refCounter = _getStyleRefCounter();
 
 export interface IStylesheetProps {
-  scope: string | undefined;
-  hash: string;
-  cssText: string;
+  _scope: string | undefined;
+  _hash: string;
+  _cssText: string;
 }
 
-function Stylesheet({ scope, hash, cssText }: IStylesheetProps): ReactElement | null {
+function Stylesheet({ _scope, _hash, _cssText }: IStylesheetProps): ReactElement | null {
   const { _styleManager } = _getConfig();
-  const cacheKey = cssText ? _getStyleCacheKey(scope, hash) : undefined;
+  const cacheKey = _cssText ? _getStyleCacheKey(_scope, _hash) : undefined;
   const cacheKeyRef = useRef<string>();
   const gc = useRef<() => void>();
 
@@ -22,7 +22,7 @@ function Stylesheet({ scope, hash, cssText }: IStylesheetProps): ReactElement | 
     // Rendering server side.
 
     return cacheKey && refCounter.ref(cacheKey) ? (
-      <style {...{ [_styleAttributeName]: cacheKey }}>{cssText}</style>
+      <style {...{ [_styleAttributeName]: cacheKey }}>{_cssText}</style>
     ) : null;
   }
 
@@ -34,7 +34,7 @@ function Stylesheet({ scope, hash, cssText }: IStylesheetProps): ReactElement | 
 
     if (cacheKey) {
       if (refCounter.ref(cacheKey)) {
-        _styleManager.register(cacheKey, cssText, cacheKeyRef.current);
+        _styleManager.register(cacheKey, _cssText, cacheKeyRef.current);
       }
 
       gc.current = () => requestAnimationFrame(() => refCounter.unref(cacheKey) && _styleManager.unregister(cacheKey));

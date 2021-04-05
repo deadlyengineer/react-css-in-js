@@ -40,8 +40,8 @@ export interface IStyledProps {
  * ```
  */
 export function Styled(props: IStyledProps): ReactElement {
-  const { children, ...otherProps } = props;
+  const { scope, className, children } = props;
 
-  return <_StyledWrapper {...otherProps}>{children}</_StyledWrapper>;
+  return <_StyledWrapper _scope={scope} _className={className} _children={children} />;
 }
 Styled.displayName = 'Styled';

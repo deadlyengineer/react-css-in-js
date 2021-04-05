@@ -1,22 +1,32 @@
 import React, { Children, isValidElement, ReactElement, ReactNode } from 'react';
 import { _StyledChild } from './_StyledChild';
 import { _useStyledClassName } from '../_useStyledClassName';
+import { _useTokens } from '../_useTokens';
 import { _getCssElementStyleText } from '../_getCssComponentValue';
 import { StyledClassName } from '../types/StyledClassName';
+import { Token } from '../types/Token';
 
 export interface IStyledWrapperProps {
-  scope?: string;
-  styleText?: string;
-  className?: StyledClassName;
-  children: ReactNode;
+  _scope?: string;
+  _inheritedTokens?: readonly Token[];
+  _styleText?: string;
+  _className?: StyledClassName;
+  _children: ReactNode;
 }
 
-export function _StyledWrapper({ scope, styleText, className, children }: IStyledWrapperProps): ReactElement {
+export function _StyledWrapper({
+  _scope,
+  _inheritedTokens,
+  _styleText,
+  _className,
+  _children,
+}: IStyledWrapperProps): ReactElement {
   // HACK: While this component is mounted, styleText will either
   // always be nullish or always be non-nullish. That's why this hook
   // can be used conditionally.
-  const styledClassName = styleText == null ? className : _useStyledClassName(styleText, scope, className);
-  const arrChildren = Children.toArray(children);
+  const tokens = _styleText != null ? _useTokens(_styleText, _inheritedTokens) : _inheritedTokens;
+  const styledClassName = tokens == null ? _className : _useStyledClassName(tokens, _scope, _className);
+  const arrChildren = Children.toArray(_children);
   const newChildren: (React.ReactChild | React.ReactFragment | React.ReactPortal)[] = [];
 
   let child: React.ReactChild | React.ReactFragment | React.ReactPortal | undefined;
@@ -31,9 +41,14 @@ export function _StyledWrapper({ scope, styleText, className, children }: IStyle
 
       if (styleText != null) {
         newChildren.push(
-          <_StyledWrapper key={child.key} scope={scope} styleText={styleText} className={styledClassName}>
-            {arrChildren.splice(0)}
-          </_StyledWrapper>
+          <_StyledWrapper
+            key={child.key}
+            _scope={_scope}
+            _inheritedTokens={tokens}
+            _styleText={styleText}
+            _className={_className}
+            _children={arrChildren.splice(0)}
+          />
         );
         break;
       }
@@ -44,7 +59,7 @@ export function _StyledWrapper({ scope, styleText, className, children }: IStyle
       continue;
     }
 
-    newChildren.push(<_StyledChild key={element.key} className={styledClassName} child={element} />);
+    newChildren.push(<_StyledChild key={element.key} _className={styledClassName} _child={element} />);
   }
 
   return <>{newChildren}</>;
