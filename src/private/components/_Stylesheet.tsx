@@ -1,4 +1,4 @@
-import React, { memo, ReactElement, useLayoutEffect, useRef } from 'react';
+import React, { ReactElement, useLayoutEffect, useRef } from 'react';
 import { _isBrowser, _styleAttributeName } from '../_constants';
 import { _getStyleCacheKey } from '../_getStyleCacheKey';
 import { _getStyleRefCounter } from '../_getStyleRefCounter';
@@ -12,11 +12,7 @@ export interface IStylesheetProps {
   _cssText: string;
 }
 
-export const _Stylesheet = memo(function _Stylesheet({
-  _scope,
-  _hash,
-  _cssText,
-}: IStylesheetProps): ReactElement | null {
+export function _Stylesheet({ _scope, _hash, _cssText }: IStylesheetProps): ReactElement | null {
   const { _styleManager } = _getConfig();
   const cacheKey = _cssText ? _getStyleCacheKey(_scope, _hash) : undefined;
 
@@ -51,5 +47,5 @@ export const _Stylesheet = memo(function _Stylesheet({
   }
 
   return null;
-});
+}
 _Stylesheet.displayName = 'Stylesheet';
