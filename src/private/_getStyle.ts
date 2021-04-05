@@ -2,7 +2,6 @@ import { _getConfig } from './_getConfig';
 import { _getCssText } from './_getCssText';
 import { IStyle } from './types/IStyle';
 import { Token } from './types/Token';
-import { defaultHashFunction } from '../defaultHashFunction';
 
 /**
  * Decorate a tokens array with memoized hash and cssText getters.
@@ -12,7 +11,7 @@ export function _getStyle(tokens: readonly Token[]): IStyle {
     return tokens;
   }
 
-  const getHash = _getConfig().customHashFunction ?? defaultHashFunction;
+  const { _hashFunction } = _getConfig();
 
   let hash: string | undefined;
   let cssText: string | undefined;
@@ -20,7 +19,7 @@ export function _getStyle(tokens: readonly Token[]): IStyle {
   return Object.assign(tokens, {
     get _hash(): string {
       if (hash == null) {
-        hash = getHash(tokens);
+        hash = _hashFunction(tokens);
       }
 
       return hash;

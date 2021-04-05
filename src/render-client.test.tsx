@@ -8,8 +8,17 @@ import { Styled } from './components/Styled';
 
 type TestFC = FC<{ styles?: ReactElement; className?: string }>;
 
+beforeEach(() => {
+  jest.useFakeTimers();
+});
+
+afterEach(() => {
+  jest.useRealTimers();
+});
+
 it('should insert styles into the head', () => {
   ReactDOM.render(getJsx(), document.getElementById('root'));
+  jest.runAllTimers();
   expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
     "<!DOCTYPE html>
     <html>
@@ -104,3 +113,98 @@ function getJsx() {
     </>
   );
 }
+
+it('should regenerate styles which were previously removed', async () => {
+  ReactDOM.render(
+    <Styled>
+      {css`
+        color: red;
+      `}
+      <div />
+    </Styled>,
+    document.getElementById('root')
+  );
+  jest.runAllTimers();
+  expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
+    "<!DOCTYPE html>
+    <html>
+
+      <head>
+        <style data-rcij=\\"g0zrt6\\">
+          .rcij-g0zrt6 {
+            color: red;
+          }
+        </style>
+      </head>
+
+      <body>
+        <div id=\\"root\\">
+          <div class=\\"rcij-g0zrt6\\"></div>
+        </div>
+      </body>
+
+    </html>"
+  `);
+
+  ReactDOM.render(
+    <Styled>
+      {css`
+        color: blue;
+      `}
+      <div />
+    </Styled>,
+    document.getElementById('root')
+  );
+  jest.runAllTimers();
+  expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
+    "<!DOCTYPE html>
+    <html>
+
+      <head>
+        <style data-rcij=\\"cilhif\\">
+          .rcij-cilhif {
+            color: blue;
+          }
+        </style>
+      </head>
+
+      <body>
+        <div id=\\"root\\">
+          <div class=\\"rcij-cilhif\\"></div>
+        </div>
+      </body>
+
+    </html>"
+  `);
+
+  ReactDOM.render(
+    <Styled>
+      {css`
+        color: red;
+      `}
+      <div />
+    </Styled>,
+    document.getElementById('root')
+  );
+  jest.runAllTimers();
+  expect(pretty(jsdom.serialize())).toMatchInlineSnapshot(`
+    "<!DOCTYPE html>
+    <html>
+
+      <head>
+        <style data-rcij=\\"g0zrt6\\">
+          .rcij-g0zrt6 {
+            color: red;
+          }
+        </style>
+      </head>
+
+      <body>
+        <div id=\\"root\\">
+          <div class=\\"rcij-g0zrt6\\"></div>
+        </div>
+      </body>
+
+    </html>"
+  `);
+});

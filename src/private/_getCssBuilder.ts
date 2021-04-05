@@ -4,14 +4,13 @@ import { _getTokenProperty } from './_getTokenProperty';
 import { _getConfig } from './_getConfig';
 import { ICssBlock, _AtRuleConditional, _AtRuleNested, _AtRuleNone, _AtRuleSimple } from './types/ICssBlock';
 import { ICssBuilder } from './types/ICssBuilder';
-import { defaultCssPrinter } from '../defaultCssPrinter';
 
 const atRuleConditionalTypes: readonly string[] = ['media', 'supports', 'document'];
 const atRuleNestedTypes: readonly string[] = ['keyframes', 'font-feature-values'];
 
 export function _getCssBuilder(className?: string): ICssBuilder {
   const rootSelectors = [className ? '.' + className : ':root'];
-  const printer = _getConfig().customCssPrinter ?? defaultCssPrinter;
+  const { _cssPrinter } = _getConfig();
   const blocks: ICssBlock[] = [];
 
   __openBlock('', rootSelectors, { _isVirtual: true });
@@ -27,7 +26,7 @@ export function _getCssBuilder(className?: string): ICssBuilder {
     const indent = currentBlock._indent + (allowNesting ? '  ' : '');
 
     if (currentBlock._isWritten && !allowNesting) {
-      result += printer.closeBlock(currentBlock._indent);
+      result += _cssPrinter.closeBlock(currentBlock._indent);
       currentBlock._isWritten = false;
     }
 
@@ -40,7 +39,7 @@ export function _getCssBuilder(className?: string): ICssBuilder {
           ? _AtRuleNested
           : _AtRuleSimple;
 
-      __openBlock(indent, [printer.csv(values)], { _atRuleGroupLevel });
+      __openBlock(indent, [_cssPrinter.csv(values)], { _atRuleGroupLevel });
 
       if (_atRuleGroupLevel >= _AtRuleConditional) {
         __openBlock(indent + '  ', parentSelectors, { _isVirtual: true });
@@ -69,7 +68,7 @@ export function _getCssBuilder(className?: string): ICssBuilder {
 
       if (token[1] === 'import') {
         // Hoist @import rules to the top of the CSS text.
-        imports += printer.property('', printer.csv(_getTokenValues(token)));
+        imports += _cssPrinter.property('', _cssPrinter.csv(_getTokenValues(token)));
         return;
       }
 
@@ -100,10 +99,10 @@ export function _getCssBuilder(className?: string): ICssBuilder {
       }
     }
 
-    const key = printer.csv(property[0]);
-    const value = printer.csv(property[1], key);
+    const key = _cssPrinter.csv(property[0]);
+    const value = _cssPrinter.csv(property[1], key);
 
-    result += printer.property(indent, key, value);
+    result += _cssPrinter.property(indent, key, value);
   }
 
   function _build() {
@@ -120,8 +119,8 @@ export function _getCssBuilder(className?: string): ICssBuilder {
     }: Partial<Pick<ICssBlock, '_isVirtual' | '_atRuleGroupLevel'>> = {}
   ) {
     blocks.unshift({
-      _prefix: printer.openBlock(_indent, _selectors),
-      _suffix: printer.closeBlock(_indent),
+      _prefix: _cssPrinter.openBlock(_indent, _selectors),
+      _suffix: _cssPrinter.closeBlock(_indent),
       _indent,
       _isWritten: false,
       _isVirtual,
