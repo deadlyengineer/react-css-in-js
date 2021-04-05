@@ -15,7 +15,7 @@ import { Token } from './types/Token';
  * It should be safe to concatenate token arrays.
  */
 export function _getTokens(styleText: string): Token[] {
-  const re = /\\[\s\S]|[@:]|(?:\s*([,;{}])\s*)|(['"])(?:[\s\S]*?\2|[\s\S]*$)|((\s+)?\/\*(?:[\s\S]*?\*\/(\s+)?|[\s\S]*$))|(\s+)/g;
+  const re = /\\[\s\S]|[@:]|(?:\s*([,;{}])\s*)|(['"])(?:[\s\S]*?\2|[\s\S]*$)|((\s+)?\/\*(?:[\s\S]*?\*\/(\s+)?|[\s\S]*$))|(\/{2}(?:[\s\S]*?(?:(?=\n)|$)))|(\s+)/g;
 
   let match: RegExpExecArray | null;
   let lastIndex = 0;
@@ -92,10 +92,10 @@ export function _getTokens(styleText: string): Token[] {
 
     lastIndex = re.lastIndex;
 
-    const [token, terminator, , comment, commentLeader, commentTrailer, blank] = match;
+    const [token, terminator, , blockComment, blockCommentLeader, blockCommentTrailer, lineComment, blank] = match;
 
-    if (comment) {
-      if (commentLeader || commentTrailer) {
+    if (blockComment || lineComment) {
+      if (blockCommentLeader || blockCommentTrailer) {
         space();
       }
     } else if (blank) {

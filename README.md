@@ -152,6 +152,7 @@ It will have no effect if done after rendering, and a warning will be printed to
 ## Feature Highlights
 
 - Supports nested selectors with SCSS-like parent references (`&`)
+- Supports block (`/* ... */`) and line (`//`) comments.
 - Supports all CSS at-rules (eg. `@media`, `@font-face`, `@keyframes`, etc.)
 - Supports class name hash and style injection customization (See the [configure](https://react-css-in-js.com#configure) function).
 - Styles are injected on first render and de-duplicated (cached) when used repeatedly.

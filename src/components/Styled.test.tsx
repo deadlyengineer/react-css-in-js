@@ -24,11 +24,15 @@ it('should render to string', async () => {
       ReactDOMServer.renderToString(
         <Styled scope={'foo'}>
           {css`
+            // comment
+            // comment /* test */
+            /* comment // test */
             padding: 32px;
             background-color: hotpink;
             font-size: 24px;
             border-radius: 4px;
             &:hover {
+              // comment
               color: white;
             }
           `}
