@@ -1,5 +1,6 @@
-import React, { ReactElement, ReactNode } from 'react';
+import React, { ReactNode } from 'react';
 import { _getStyledWrapperChildren } from '../private/components/_StyledWrapper';
+import { _getInternalComponent } from '../private/_getInternalComponent';
 
 export interface IStyledProps {
   /**
@@ -39,8 +40,8 @@ export interface IStyledProps {
  * </Styled>
  * ```
  */
-export function Styled(props: IStyledProps): ReactElement {
+export const Styled = _getInternalComponent<IStyledProps>('styled', (props) => {
   const { scope, className, children } = props;
 
   return <>{_getStyledWrapperChildren(scope, className, children)}</>;
-}
+});

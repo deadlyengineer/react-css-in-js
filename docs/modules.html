@@ -63,16 +63,16 @@
 			<a href="interfaces/istyledprops.html" class="tsd-kind-icon">IStyled<wbr>Props</a>
 		</li>
 		<li class=" tsd-kind-variable">
+			<a href="modules.html#style" class="tsd-kind-icon">Style</a>
+		</li>
+		<li class=" tsd-kind-variable">
+			<a href="modules.html#styled" class="tsd-kind-icon">Styled</a>
+		</li>
+		<li class=" tsd-kind-variable">
 			<a href="modules.html#defaultcssprinter" class="tsd-kind-icon">default<wbr>Css<wbr>Printer</a>
 		</li>
 		<li class=" tsd-kind-variable">
 			<a href="modules.html#defaultstylemanager" class="tsd-kind-icon">default<wbr>Style<wbr>Manager</a>
-		</li>
-		<li class=" tsd-kind-function">
-			<a href="modules.html#style" class="tsd-kind-icon">Style</a>
-		</li>
-		<li class=" tsd-kind-function">
-			<a href="modules.html#styled" class="tsd-kind-icon">Styled</a>
 		</li>
 		<li class=" tsd-kind-function">
 			<a href="modules.html#configure" class="tsd-kind-icon">configure</a>
@@ -266,6 +266,8 @@
 					<section class="tsd-index-section ">
 						<h3>Variables</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-variable"><a href="modules.html#style" class="tsd-kind-icon">Style</a></li>
+							<li class="tsd-kind-variable"><a href="modules.html#styled" class="tsd-kind-icon">Styled</a></li>
 							<li class="tsd-kind-variable"><a href="modules.html#defaultcssprinter" class="tsd-kind-icon">default<wbr>Css<wbr>Printer</a></li>
 							<li class="tsd-kind-variable"><a href="modules.html#defaultstylemanager" class="tsd-kind-icon">default<wbr>Style<wbr>Manager</a></li>
 						</ul>
@@ -273,8 +275,6 @@
 					<section class="tsd-index-section ">
 						<h3>Functions</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-function"><a href="modules.html#style" class="tsd-kind-icon">Style</a></li>
-							<li class="tsd-kind-function"><a href="modules.html#styled" class="tsd-kind-icon">Styled</a></li>
 							<li class="tsd-kind-function"><a href="modules.html#configure" class="tsd-kind-icon">configure</a></li>
 							<li class="tsd-kind-function"><a href="modules.html#css" class="tsd-kind-icon">css</a></li>
 							<li class="tsd-kind-function"><a href="modules.html#defaulthashfunction" class="tsd-kind-icon">default<wbr>Hash<wbr>Function</a></li>
@@ -285,6 +285,52 @@
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Variables</h2>
+			<section class="tsd-panel tsd-member tsd-kind-variable">
+				<a name="style" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagConst">Const</span> Style</h3>
+				<div class="tsd-signature tsd-kind-icon">Style<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RCIJFC</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/istyleprops.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyleProps</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
+				<aside class="tsd-sources">
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A React component which injects a global stylesheet when rendered.
+							Changes to <code>css</code> tagged templates will take effect immediately.
+						The stylesheet is removed when the <code>Style</code> component is unmounted.</p>
+					</div>
+					<pre><code class="language-tsx"><span style="color: #808080">&lt;</span><span style="color: #4EC9B0">Style</span><span style="color: #808080">&gt;</span>
+<span style="color: #D4D4D4">  </span><span style="color: #569CD6">{</span><span style="color: #DCDCAA">css</span><span style="color: #CE9178">`</span>
+<span style="color: #CE9178">    html, body {</span>
+<span style="color: #CE9178">      padding: 0;</span>
+<span style="color: #CE9178">      margin: 0;</span>
+<span style="color: #CE9178">    }</span>
+<span style="color: #CE9178">  `</span><span style="color: #569CD6">}</span>
+<span style="color: #808080">&lt;/</span><span style="color: #4EC9B0">Style</span><span style="color: #808080">&gt;</span>
+</code></pre>
+				</div>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-variable">
+				<a name="styled" class="tsd-anchor"></a>
+				<h3><span class="tsd-flag ts-flagConst">Const</span> Styled</h3>
+				<div class="tsd-signature tsd-kind-icon">Styled<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RCIJFC</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/istyledprops.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyledProps</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
+				<aside class="tsd-sources">
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>A React component which applies styles to child components. Each
+							child component will be styled by <em>all</em> of the combined <code>css</code>
+							tagged templates which precede it. Changes to <code>css</code> tagged
+							templates will take effect immediately. All associated stylesheets
+						will be removed when the <code>Styled</code> component is unmounted.</p>
+					</div>
+					<pre><code class="language-tsx"><span style="color: #808080">&lt;</span><span style="color: #4EC9B0">Styled</span><span style="color: #808080">&gt;</span>
+<span style="color: #D4D4D4">  </span><span style="color: #569CD6">{</span><span style="color: #DCDCAA">css</span><span style="color: #CE9178">`</span>
+<span style="color: #CE9178">    color: red;</span>
+<span style="color: #CE9178">  `</span><span style="color: #569CD6">}</span>
+<span style="color: #D4D4D4">  </span><span style="color: #808080">&lt;</span><span style="color: #569CD6">div</span><span style="color: #808080">&gt;</span><span style="color: #D4D4D4">I am red.</span><span style="color: #808080">&lt;/</span><span style="color: #569CD6">div</span><span style="color: #808080">&gt;</span>
+<span style="color: #808080">&lt;/</span><span style="color: #4EC9B0">Styled</span><span style="color: #808080">&gt;</span>
+</code></pre>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-member tsd-kind-variable">
 				<a name="defaultcssprinter" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagConst">Const</span> default<wbr>Css<wbr>Printer</h3>
@@ -312,78 +358,6 @@
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Functions</h2>
-			<section class="tsd-panel tsd-member tsd-kind-function">
-				<a name="style" class="tsd-anchor"></a>
-				<h3>Style</h3>
-				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">Style<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><a href="interfaces/istyleprops.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyleProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactElement</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>A React component which injects a global stylesheet when rendered.
-									Changes to <code>css</code> tagged templates will take effect immediately.
-								The stylesheet is removed when the <code>Style</code> component is unmounted.</p>
-							</div>
-							<pre><code class="language-tsx"><span style="color: #808080">&lt;</span><span style="color: #4EC9B0">Style</span><span style="color: #808080">&gt;</span>
-<span style="color: #D4D4D4">  </span><span style="color: #569CD6">{</span><span style="color: #DCDCAA">css</span><span style="color: #CE9178">`</span>
-<span style="color: #CE9178">    html, body {</span>
-<span style="color: #CE9178">      padding: 0;</span>
-<span style="color: #CE9178">      margin: 0;</span>
-<span style="color: #CE9178">    }</span>
-<span style="color: #CE9178">  `</span><span style="color: #569CD6">}</span>
-<span style="color: #808080">&lt;/</span><span style="color: #4EC9B0">Style</span><span style="color: #808080">&gt;</span>
-</code></pre>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>props: <a href="interfaces/istyleprops.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyleProps</a></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactElement</span></h4>
-					</li>
-				</ul>
-			</section>
-			<section class="tsd-panel tsd-member tsd-kind-function">
-				<a name="styled" class="tsd-anchor"></a>
-				<h3>Styled</h3>
-				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">Styled<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><a href="interfaces/istyledprops.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyledProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactElement</span></li>
-				</ul>
-				<ul class="tsd-descriptions">
-					<li class="tsd-description">
-						<aside class="tsd-sources">
-						</aside>
-						<div class="tsd-comment tsd-typography">
-							<div class="lead">
-								<p>A React component which applies styles to child components. Each
-									child component will be styled by <em>all</em> of the combined <code>css</code>
-									tagged templates which precede it. Changes to <code>css</code> tagged
-									templates will take effect immediately. All associated stylesheets
-								will be removed when the <code>Styled</code> component is unmounted.</p>
-							</div>
-							<pre><code class="language-tsx"><span style="color: #808080">&lt;</span><span style="color: #4EC9B0">Styled</span><span style="color: #808080">&gt;</span>
-<span style="color: #D4D4D4">  </span><span style="color: #569CD6">{</span><span style="color: #DCDCAA">css</span><span style="color: #CE9178">`</span>
-<span style="color: #CE9178">    color: red;</span>
-<span style="color: #CE9178">  `</span><span style="color: #569CD6">}</span>
-<span style="color: #D4D4D4">  </span><span style="color: #808080">&lt;</span><span style="color: #569CD6">div</span><span style="color: #808080">&gt;</span><span style="color: #D4D4D4">I am red.</span><span style="color: #808080">&lt;/</span><span style="color: #569CD6">div</span><span style="color: #808080">&gt;</span>
-<span style="color: #808080">&lt;/</span><span style="color: #4EC9B0">Styled</span><span style="color: #808080">&gt;</span>
-</code></pre>
-						</div>
-						<h4 class="tsd-parameters-title">Parameters</h4>
-						<ul class="tsd-parameters">
-							<li>
-								<h5>props: <a href="interfaces/istyledprops.html" class="tsd-signature-type" data-tsd-kind="Interface">IStyledProps</a></h5>
-							</li>
-						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactElement</span></h4>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-member tsd-kind-function">
 				<a name="configure" class="tsd-anchor"></a>
 				<h3>configure</h3>

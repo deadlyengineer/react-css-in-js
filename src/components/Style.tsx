@@ -1,6 +1,7 @@
-import React, { ReactNode, Children, ReactElement, useRef, isValidElement } from 'react';
+import React, { ReactNode, Children, useRef, isValidElement } from 'react';
 import { _StyleChild } from '../private/components/_StyleChild';
 import { _getCssElementStyleText } from '../private/_getCssElementStyleText';
+import { _getInternalComponent } from '../private/_getInternalComponent';
 
 export interface IStyleProps {
   /**
@@ -30,7 +31,7 @@ export interface IStyleProps {
  * </Style>
  * ```
  */
-export function Style(props: IStyleProps): ReactElement {
+export const Style = _getInternalComponent<IStyleProps>('style', (props) => {
   const { scope, children } = props;
   const hasWarned = useRef(false);
 
@@ -52,4 +53,4 @@ export function Style(props: IStyleProps): ReactElement {
       })}
     </>
   );
-}
+});
