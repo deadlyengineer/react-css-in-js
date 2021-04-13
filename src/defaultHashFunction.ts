@@ -1,29 +1,16 @@
-import { StyleTokens } from './types/StyleTokens';
-
 /**
  * Default hash function.
  *
  * Derived from https://github.com/darkskyapp/string-hash.
  */
-export function defaultHashFunction(str: StyleTokens): string {
-  return (hash(str) >>> 0).toString(36);
-}
+export function defaultHashFunction(tokens: readonly string[]): string {
+  let hash = 5381;
 
-function hash(tokens: StyleTokens, value = 5381): number {
-  let i = tokens.length;
-
-  if (typeof tokens === 'string') {
-    while (i) {
-      value = (value * 33) ^ tokens.charCodeAt(--i);
-    }
-  } else {
-    while (i) {
-      value = hash(tokens[--i], value);
+  for (let i = tokens.length - 1; i >= 0; --i) {
+    for (let str = tokens[i], j = str.length - 1; j >= 0; --j) {
+      hash = (hash * 33) ^ str.charCodeAt(j);
     }
   }
 
-  /* JavaScript does bitwise operations (like XOR, above) on 32-bit signed
-   * integers. Since we want the results to be always positive, convert the
-   * signed int to an unsigned by doing an unsigned bit shift. */
-  return value;
+  return (hash >>> 0).toString(36);
 }

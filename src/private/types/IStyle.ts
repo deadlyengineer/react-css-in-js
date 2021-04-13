@@ -1,6 +1,9 @@
 import { Token } from './Token';
 
+/**
+ * _MUST REMAIN STABLE BETWEEN VERSIONS!_
+ */
 export interface IStyle extends ReadonlyArray<Token> {
-  readonly _hash: string;
-  readonly _cssText: string;
+  readonly h: string;
+  readonly t: string;
 }

@@ -1,21 +1,24 @@
 import { IStyleConfig } from '../types/IStyleConfig';
+import { _metaKey } from './_constants';
 
-const keyStyleRefs = '__RCIJ_STYLE_REFS__';
-const keyConfig = '__RCIJ_CONFIG__';
+export interface IGlobals {
+  s: Map<string, number>;
+  c: IStyleConfig;
+}
 
 declare global {
   interface Window {
-    [keyStyleRefs]?: Map<string, number>;
-    [keyConfig]?: IStyleConfig;
+    /**
+     * _MUST REMAIN STABLE BETWEEN VERSIONS!_
+     */
+    [_metaKey]?: {
+      s: Map<string, number>;
+      c: IStyleConfig;
+    };
   }
 }
 
-/**
- * _MUST REMAIN STABLE BETWEEN VERSIONS!_
- */
-export const _styleRefCounts = (window[keyStyleRefs] = window[keyStyleRefs] ?? new Map());
-
-/**
- * _MUST REMAIN STABLE BETWEEN VERSIONS!_
- */
-export const _config: IStyleConfig = (window[keyConfig] = window[keyConfig] ?? {});
+export const _globals: IGlobals = (window[_metaKey] = window[_metaKey] ?? {
+  s: new Map(),
+  c: {},
+});

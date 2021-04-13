@@ -114,7 +114,7 @@ it('should allow for style overrides using Styled wrappers', async () => {
         color: blue;
       }
     </style>
-    <div class=\\"a b c render rcij-ezbhyn\\"></div>"
+    <div class=\\"a render c b rcij-ezbhyn\\"></div>"
   `);
 });
 

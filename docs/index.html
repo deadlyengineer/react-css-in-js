@@ -62,9 +62,6 @@
 		<li class=" tsd-kind-interface">
 			<a href="interfaces/istyledprops.html" class="tsd-kind-icon">IStyled<wbr>Props</a>
 		</li>
-		<li class=" tsd-kind-type-alias">
-			<a href="modules.html#styletokens" class="tsd-kind-icon">Style<wbr>Tokens</a>
-		</li>
 		<li class=" tsd-kind-variable">
 			<a href="modules.html#defaultcssprinter" class="tsd-kind-icon">default<wbr>Css<wbr>Printer</a>
 		</li>
@@ -234,6 +231,7 @@
 				<li>Supports block (<code>/* ... */</code>) and line (<code>//</code>) comments.</li>
 				<li>Supports all CSS at-rules (eg. <code>@media</code>, <code>@font-face</code>, <code>@keyframes</code>, etc.)</li>
 				<li>Supports class name hash and style injection customization (See the <a href="https://react-css-in-js.com#configure">configure</a> function).</li>
+				<li>Supports interoperability with previous version of itself (&gt;= v4.0.0).</li>
 				<li>Styles are injected on first render and de-duplicated (cached) when used repeatedly.</li>
 				<li>Styles are removed (GC-ed) when unused.</li>
 				<li>Class names are stable (deterministic) to support SSR and testing.</li>
@@ -249,20 +247,13 @@
 			<p>Like <a href="https://www.npmjs.com/package/@emotion/react">@emotion/react</a>, but you don&#39;t have to use a special JSX pragma or worry about <a href="https://emotion.sh/docs/css-prop#gotchas">css property gotchas</a>.</p>
 			<p>Like <a href="https://styled-components.com">styled-components</a> or <a href="https://www.npmjs.com/package/@emotion/styled">@emotion/styled</a>, except you still control the React markup, SSR works without any configuration, and you don&#39;t have to create multiple components to have styled component children.</p>
 			<p>Like <a href="https://www.npmjs.com/package/styled-jsx">styled-jsx</a>, but you don&#39;t need a babel plugin, styles precede styled components, and you can style more than one component at a time.</p>
-			<p>It can be used in component libraries, because it&#39;s small, has no dependencies, and requires no setup.</p>
+			<p>It can be used in component libraries, because it&#39;s small, has no dependencies, works when multiple versions are resolved, and requires no setup.</p>
 		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h1>API</h1>
 			<section class="tsd-panel tsd-index-panel">
 				<div class="tsd-index-content">
-					<section class="tsd-index-section ">
-						<h3>Namespaces</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-namespace"><a href="modules/style.html" class="tsd-kind-icon">Style</a></li>
-							<li class="tsd-kind-namespace"><a href="modules/styled.html" class="tsd-kind-icon">Styled</a></li>
-						</ul>
-					</section>
 					<section class="tsd-index-section ">
 						<h3>Interfaces</h3>
 						<ul class="tsd-index-list">
@@ -271,12 +262,6 @@
 							<li class="tsd-kind-interface"><a href="interfaces/istylemanager.html" class="tsd-kind-icon">IStyle<wbr>Manager</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/istyleprops.html" class="tsd-kind-icon">IStyle<wbr>Props</a></li>
 							<li class="tsd-kind-interface"><a href="interfaces/istyledprops.html" class="tsd-kind-icon">IStyled<wbr>Props</a></li>
-						</ul>
-					</section>
-					<section class="tsd-index-section ">
-						<h3>Type aliases</h3>
-						<ul class="tsd-index-list">
-							<li class="tsd-kind-type-alias"><a href="modules.html#styletokens" class="tsd-kind-icon">Style<wbr>Tokens</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -296,21 +281,6 @@
 							<li class="tsd-kind-function"><a href="modules.html#defaulthashfunction" class="tsd-kind-icon">default<wbr>Hash<wbr>Function</a></li>
 						</ul>
 					</section>
-				</div>
-			</section>
-		</section>
-		<section class="tsd-panel-group tsd-member-group ">
-			<h2>Type aliases</h2>
-			<section class="tsd-panel tsd-member tsd-kind-type-alias">
-				<a name="styletokens" class="tsd-anchor"></a>
-				<h3>Style<wbr>Tokens</h3>
-				<div class="tsd-signature tsd-kind-icon">Style<wbr>Tokens<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-symbol">readonly </span><a href="modules.html#styletokens" class="tsd-signature-type" data-tsd-kind="Type alias">StyleTokens</a><span class="tsd-signature-symbol">[]</span></div>
-				<aside class="tsd-sources">
-				</aside>
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>A string or nested arrays of strings.</p>
-					</div>
 				</div>
 			</section>
 		</section>
@@ -444,7 +414,7 @@
 				<a name="css" class="tsd-anchor"></a>
 				<h3>css</h3>
 				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">css<span class="tsd-signature-symbol">(</span>template<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TemplateStringsArray</span>, <span class="tsd-signature-symbol">...</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">_ICssProps</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li class="tsd-signature tsd-kind-icon">css<span class="tsd-signature-symbol">(</span>template<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TemplateStringsArray</span>, <span class="tsd-signature-symbol">...</span>values<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactElement</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
@@ -473,7 +443,7 @@
 								<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>values: <span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">[]</span></h5>
 							</li>
 						</ul>
-						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactElement</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">_ICssProps</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactElement</span></h4>
 					</li>
 				</ul>
 			</section>
@@ -481,7 +451,7 @@
 				<a name="defaulthashfunction" class="tsd-anchor"></a>
 				<h3>default<wbr>Hash<wbr>Function</h3>
 				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">default<wbr>Hash<wbr>Function<span class="tsd-signature-symbol">(</span>str<span class="tsd-signature-symbol">: </span><a href="modules.html#styletokens" class="tsd-signature-type" data-tsd-kind="Type alias">StyleTokens</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					<li class="tsd-signature tsd-kind-icon">default<wbr>Hash<wbr>Function<span class="tsd-signature-symbol">(</span>tokens<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
@@ -496,7 +466,7 @@
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5>str: <a href="modules.html#styletokens" class="tsd-signature-type" data-tsd-kind="Type alias">StyleTokens</a></h5>
+								<h5>tokens: <span class="tsd-signature-symbol">readonly </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>

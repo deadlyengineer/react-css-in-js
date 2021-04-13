@@ -1,3 +1,2 @@
-import { TokenTerminator } from './TokenTerminator';
-
-export type Token = TokenTerminator | readonly string[];
+// eslint-disable-next-line @typescript-eslint/ban-types
+export type Token = '@' | ',' | ':' | ';' | '{' | '}' | ' ' | (string & {});

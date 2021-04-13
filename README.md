@@ -155,6 +155,7 @@ It will have no effect if done after rendering, and a warning will be printed to
 - Supports block (`/* ... */`) and line (`//`) comments.
 - Supports all CSS at-rules (eg. `@media`, `@font-face`, `@keyframes`, etc.)
 - Supports class name hash and style injection customization (See the [configure](https://react-css-in-js.com#configure) function).
+- Supports interoperability with previous version of itself (>= v4.0.0).
 - Styles are injected on first render and de-duplicated (cached) when used repeatedly.
 - Styles are removed (GC-ed) when unused.
 - Class names are stable (deterministic) to support SSR and testing.
@@ -172,4 +173,4 @@ Like [styled-components](https://styled-components.com) or [@emotion/styled](htt
 
 Like [styled-jsx](https://www.npmjs.com/package/styled-jsx), but you don't need a babel plugin, styles precede styled components, and you can style more than one component at a time.
 
-It can be used in component libraries, because it's small, has no dependencies, and requires no setup.
+It can be used in component libraries, because it's small, has no dependencies, works when multiple versions are resolved, and requires no setup.

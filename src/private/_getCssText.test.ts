@@ -139,17 +139,20 @@ it('should correctly handle nested at-rules', () => {
     _getCssText(
       _getTokens(`
         @charset "utf-8";
+        @namespace foo;
         @import url('foo');
-        @media screen {
+        @media screen0 {
           @charset "utf-8";
+          @namespace bar;
           @import url('bar');
-          @media screen {
+          @media screen1 {
             color: blue;
           }
           .foo {
             color: green;
             @import url('baz');
-            @media screen {
+            @namespace baz;
+            @media screen2 {
               color: teal;
             }
             color: purple;
@@ -170,20 +173,26 @@ it('should correctly handle nested at-rules', () => {
     @import url('bar');
     @import url('baz');
 
-    @media screen {
-      @media screen {
-        :root {
-          color: blue;
-        }
+    @namespace foo;
+    @namespace bar;
+    @namespace baz;
+
+    @media screen1 {
+      :root {
+        color: blue;
       }
+    }
+    @media screen0 {
       .foo {
         color: green;
       }
-      @media screen {
-        .foo {
-          color: teal;
-        }
+    }
+    @media screen2 {
+      .foo {
+        color: teal;
       }
+    }
+    @media screen0 {
       .foo {
         color: purple;
       }
@@ -226,6 +235,30 @@ it('should merge comma separated selectors', () => {
     .zip .zot,
     .zip .zow {
       color: blue;
+    }
+    "
+  `);
+});
+
+it('should print other at-rule properties', () => {
+  expect(
+    _getCssText(
+      _getTokens(`
+        @foo bar baz;
+        @font-feature-values Font {
+          @styleset {
+            nice-style: 12;
+          }
+        }
+      `)
+    )
+  ).toMatchInlineSnapshot(`
+    "@foo bar baz;
+
+    @font-feature-values Font {
+      @styleset {
+        nice-style: 12;
+      }
     }
     "
   `);

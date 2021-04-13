@@ -1,11 +1,14 @@
+import { _metaKey } from '../_constants';
 import { IStyle } from './IStyle';
 
+/**
+ * _MUST REMAIN STABLE BETWEEN VERSIONS!_
+ */
 export type StyledClassName = string & {
-  readonly _styled?: {
-    readonly _style: IStyle;
-    readonly _scope: string | undefined;
-    readonly _className: string;
-    readonly _otherClassName: string | undefined;
-    readonly _cssText: string;
+  readonly [_metaKey]?: {
+    readonly s: IStyle;
+    readonly n: string | undefined;
+    readonly c: string | undefined;
+    readonly t: string;
   };
 };

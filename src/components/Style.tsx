@@ -1,6 +1,6 @@
 import React, { ReactNode, Children, ReactElement, useRef, isValidElement } from 'react';
 import { _StyleChild } from '../private/components/_StyleChild';
-import { _getCssElementStyleText } from '../private/_getCssComponentValue';
+import { _getCssElementStyleText } from '../private/_getCssElementStyleText';
 
 export interface IStyleProps {
   /**
@@ -53,4 +53,3 @@ export function Style(props: IStyleProps): ReactElement {
     </>
   );
 }
-Style.displayName = 'Style';

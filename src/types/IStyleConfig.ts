@@ -1,6 +1,5 @@
 import { ICssPrinter } from './ICssPrinter';
 import { IStyleManager } from './IStyleManager';
-import { StyleTokens } from './StyleTokens';
 
 /**
  * Configuration options for `react-css-in-js`.
@@ -30,5 +29,5 @@ export interface IStyleConfig {
    * class names, and to generate the style cache keys passed to
    * style managers.
    */
-  customHashFunction?: (tokens: StyleTokens) => string;
+  customHashFunction?: (tokens: readonly string[]) => string;
 }

@@ -1,4 +1,4 @@
-import { _config } from './private/_globals';
+import { _globals } from './private/_globals';
 import { _getConfig } from './private/_getConfig';
 import { IStyleConfig } from './types/IStyleConfig';
 
@@ -8,8 +8,7 @@ import { IStyleConfig } from './types/IStyleConfig';
 export function configure(options: IStyleConfig = {}): void {
   if (_getConfig._locked) {
     console.warn('react-css-in-js: The configure() method must be called before rendering.');
-    return;
+  } else {
+    Object.assign(_globals.c, options);
   }
-
-  Object.assign(_config, options);
 }

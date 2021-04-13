@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import { _getStyle } from './_getStyle';
 import { IStyle } from './types/IStyle';
-import { Token } from './types/Token';
+import { Tokens } from './types/Tokens';
 
-export function _useStyle(tokens: readonly Token[], overrideTokens?: readonly Token[]): IStyle {
+export function _useStyle(tokens: Tokens, overrideTokens?: Tokens): IStyle {
   return useMemo(() => _getStyle(overrideTokens && overrideTokens.length ? [...tokens, ...overrideTokens] : tokens), [
     tokens,
     overrideTokens,

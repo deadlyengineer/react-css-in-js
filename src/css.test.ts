@@ -1,4 +1,5 @@
 import { css } from './css';
+import { _metaKey } from './private/_constants';
 import { _getCssText } from './private/_getCssText';
 import { _getTokens } from './private/_getTokens';
 
@@ -16,7 +17,7 @@ it('should work with nested css tagged templates', () => {
               color: green;
             `}
           }
-        `.props.reactCssInJsStyleText
+        `.props[_metaKey]
       )
     )
   ).toMatchInlineSnapshot(`

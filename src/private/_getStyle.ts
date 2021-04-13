@@ -1,35 +1,27 @@
 import { _getConfig } from './_getConfig';
 import { _getCssText } from './_getCssText';
 import { IStyle } from './types/IStyle';
-import { Token } from './types/Token';
+import { Tokens } from './types/Tokens';
 
 /**
  * Decorate a tokens array with memoized hash and cssText getters.
  */
-export function _getStyle(tokens: readonly Token[]): IStyle {
-  if ('_hash' in tokens && '_cssText' in tokens) {
+export function _getStyle(tokens: Tokens | IStyle, overrideTokens?: Tokens): IStyle {
+  if (overrideTokens) {
+    tokens = [...tokens, ...overrideTokens];
+  } else if ('h' in tokens && 't' in tokens) {
     return tokens;
   }
-
-  const { _hashFunction } = _getConfig();
 
   let hash: string | undefined;
   let cssText: string | undefined;
 
   return Object.assign(tokens, {
-    get _hash(): string {
-      if (hash == null) {
-        hash = _hashFunction(tokens);
-      }
-
-      return hash;
+    get h(): string {
+      return hash ?? (hash = _getConfig()._hashFunction(tokens));
     },
-    get _cssText(): string {
-      if (cssText == null) {
-        cssText = _getCssText(tokens);
-      }
-
-      return cssText;
+    get t(): string {
+      return cssText ?? (cssText = _getCssText(tokens));
     },
   });
 }

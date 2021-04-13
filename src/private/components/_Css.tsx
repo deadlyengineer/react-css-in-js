@@ -1,9 +1,8 @@
+import { _metaKey } from '../_constants';
+import { _getInternalComponent } from '../_getInternalComponent';
+
 export interface _ICssProps {
-  readonly reactCssInJsStyleText: string;
+  readonly [_metaKey]: string;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export function _Css(_props: _ICssProps): null {
-  return null;
-}
-_Css.displayName = 'Css';
+export const _Css = _getInternalComponent<_ICssProps>('t');

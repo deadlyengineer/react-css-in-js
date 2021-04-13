@@ -1,35 +1,50 @@
-import React, { Children, isValidElement, ReactElement, ReactNode } from 'react';
+import React, { Children, isValidElement, ReactElement, ReactNode, useMemo } from 'react';
 import { _StyledChild } from './_StyledChild';
-import { _useStyledClassName } from '../_useStyledClassName';
+import { _metaKey } from '../_constants';
 import { _useTokens } from '../_useTokens';
-import { _getCssElementStyleText } from '../_getCssComponentValue';
+import { _useStyle } from '../_useStyle';
+import { _getInternalComponent } from '../_getInternalComponent';
+import { _getCssElementStyleText } from '../_getCssElementStyleText';
+import { _getStyledClassName } from '../_getStyledClassName';
 import { StyledClassName } from '../types/StyledClassName';
-import { Token } from '../types/Token';
+import { Tokens } from '../types/Tokens';
 
-export interface IStyledWrapperProps {
-  _scope?: string;
-  _inheritedTokens?: readonly Token[];
-  _styleText?: string;
-  _className?: StyledClassName;
+export interface _IStyledWrapperProps {
+  _styleText: string;
+  _inheritedTokens: Tokens | undefined;
+  _scope: string | undefined;
+  _className: StyledClassName | undefined;
   _children: ReactNode;
 }
 
-export function _StyledWrapper({
-  _scope,
-  _inheritedTokens,
-  _styleText,
-  _className,
-  _children,
-}: IStyledWrapperProps): ReactElement {
-  // HACK: While this component is mounted, styleText will either
-  // always be nullish or always be non-nullish. That's why this hook
-  // can be used conditionally.
-  const tokens = _styleText != null ? _useTokens(_styleText, _inheritedTokens) : _inheritedTokens;
-  const styledClassName = tokens == null ? _className : _useStyledClassName(tokens, _scope, _className);
-  const arrChildren = Children.toArray(_children);
-  const newChildren: (React.ReactChild | React.ReactFragment | React.ReactPortal)[] = [];
+export const _StyledWrapper = _getInternalComponent<_IStyledWrapperProps>(
+  'w',
+  ({ _styleText, _inheritedTokens, _scope, _className, _children }) => {
+    const tokens = _useTokens(_styleText, _inheritedTokens);
+    const meta = _className?.[_metaKey];
+    const style = _useStyle(tokens, meta?.s);
+    const styledClassName = useMemo(() => _getStyledClassName(style, meta?.n || _scope, meta ? meta.c : _className), [
+      style,
+      _scope,
+      _className,
+    ]);
+    const styledChildren = _getStyledWrapperChildren(_scope, _className, _children, tokens, styledClassName);
 
-  let child: React.ReactChild | React.ReactFragment | React.ReactPortal | undefined;
+    return <>{styledChildren}</>;
+  }
+);
+
+export function _getStyledWrapperChildren(
+  scope: string | undefined,
+  className: StyledClassName | undefined,
+  children: ReactNode,
+  tokens?: Tokens,
+  styledClassName = className
+): (React.ReactChild | React.ReactFragment)[] {
+  const arrChildren = Children.toArray(children);
+  const styledChildren: (React.ReactChild | React.ReactFragment)[] = [];
+
+  let child: React.ReactChild | React.ReactFragment | undefined;
 
   while (null != (child = arrChildren.shift())) {
     let element: ReactElement;
@@ -40,13 +55,13 @@ export function _StyledWrapper({
       const styleText = _getCssElementStyleText(child);
 
       if (styleText != null) {
-        newChildren.push(
+        styledChildren.push(
           <_StyledWrapper
             key={child.key}
-            _scope={_scope}
+            _scope={scope}
             _inheritedTokens={tokens}
             _styleText={styleText}
-            _className={_className}
+            _className={className}
             _children={arrChildren.splice(0)}
           />
         );
@@ -55,13 +70,12 @@ export function _StyledWrapper({
 
       element = child;
     } else {
-      newChildren.push(child);
+      styledChildren.push(child);
       continue;
     }
 
-    newChildren.push(<_StyledChild key={element.key} _className={styledClassName} _child={element} />);
+    styledChildren.push(<_StyledChild key={element.key} _className={styledClassName} _child={element} />);
   }
 
-  return <>{newChildren}</>;
+  return styledChildren;
 }
-_StyledWrapper.displayName = 'StyledWrapper';

@@ -1,4 +1,5 @@
 import { Token } from './types/Token';
+import { Tokens } from './types/Tokens';
 
 /**
  * Tokenize the style string.
@@ -14,64 +15,58 @@ import { Token } from './types/Token';
  *
  * It should be safe to concatenate token arrays.
  */
-export function _getTokens(styleText: string): Token[] {
+export function _getTokens(styleText: string): Tokens {
   const re = /\\[\s\S]|[@:]|(?:\s*([,;{}])\s*)|(['"])(?:[\s\S]*?\2|[\s\S]*$)|((\s+)?\/\*(?:[\s\S]*?\*\/(\s+)?|[\s\S]*$))|(\/{2}(?:[\s\S]*?(?:(?=\n)|$)))|(\s+)/g;
+  const tokens: Token[] = [];
 
   let match: RegExpExecArray | null;
   let lastIndex = 0;
+  let colonIndex: null | number = null;
   let separator = '';
   let depth = 0;
-  let chunks: string[] = [];
-  const tokens: Token[] = [];
+  let buffer: Token[] = [];
 
-  function chunk(value: string) {
-    if (separator) {
-      chunks.push(separator, value);
-      separator = '';
-    } else {
-      chunks.push(value);
+  function space() {
+    buffer.length && !separator && (separator = ' ');
+  }
+
+  function comma() {
+    if (buffer.length) {
+      separator = ',';
     }
   }
 
-  function selector() {
+  function colon() {
+    colonIndex = colonIndex ?? buffer.length;
+    other(':');
+  }
+
+  function other(value: string) {
+    buffer.push(...(buffer.length && separator ? [separator] : []), value);
     separator = '';
-    tokens.push(chunks.length ? chunks : ['&']);
-    chunks = [];
   }
 
   function property() {
-    separator = '';
-
-    if (!chunks.length) {
-      // Empty.
-      return;
+    if (buffer.length) {
+      if (colonIndex != null) {
+        tokens.push(
+          ...buffer.slice(0, colonIndex + (buffer[colonIndex - 1] === ' ' ? -1 : 0)),
+          ':',
+          ...buffer.slice(colonIndex + 1 + (buffer[colonIndex + 1] === ' ' ? 1 : 0)),
+          ';'
+        );
+      } else {
+        tokens.push(...buffer, ';');
+      }
     }
 
-    const i = chunks.indexOf(':');
-
-    if (i >= 0) {
-      // Remove spaces around key:value separator.
-      [i + 1, i - 1].forEach((j) => {
-        if (chunks[j] === ' ') {
-          chunks.splice(j, 1);
-        }
-      });
-    }
-
-    tokens.push(chunks.length ? chunks : ['&'], ';');
-    chunks = [];
-  }
-
-  function space() {
-    if (chunks.length && !separator) {
-      separator = ' ';
-    }
+    reset();
   }
 
   function openBlock() {
-    // Record the block start index (including selector).
     depth++;
-    tokens.push('{');
+    tokens.push(...(buffer.length ? buffer : ['&']), '{');
+    reset();
   }
 
   function closeBlock() {
@@ -85,43 +80,37 @@ export function _getTokens(styleText: string): Token[] {
     }
   }
 
-  while (null != (match = re.exec(styleText))) {
-    if (match.index > lastIndex) {
-      chunk(styleText.substring(lastIndex, match.index));
-    }
+  function reset() {
+    colonIndex = null;
+    separator = '';
+    buffer = [];
+  }
 
+  while (null != (match = re.exec(styleText))) {
+    match.index > lastIndex && other(styleText.substring(lastIndex, match.index));
     lastIndex = re.lastIndex;
 
     const [token, terminator, , blockComment, blockCommentLeader, blockCommentTrailer, lineComment, blank] = match;
 
-    if (blockComment || lineComment) {
-      if (blockCommentLeader || blockCommentTrailer) {
-        space();
-      }
+    if (blockComment) {
+      (blockCommentLeader || blockCommentTrailer) && space();
     } else if (blank) {
       space();
+    } else if (token === ':') {
+      colon();
     } else if (terminator === ',') {
-      if (chunks.length) {
-        separator = terminator;
-      }
+      comma();
     } else if (terminator === '{') {
-      selector();
       openBlock();
     } else if (terminator) {
       property();
-
-      if (terminator === '}') {
-        closeBlock();
-      }
-    } else {
-      chunk(token);
+      terminator === '}' && closeBlock();
+    } else if (!lineComment) {
+      other(token);
     }
   }
 
-  if (lastIndex < styleText.length) {
-    chunk(styleText.substring(lastIndex));
-  }
-
+  lastIndex < styleText.length && other(styleText.substring(lastIndex));
   property();
 
   for (; depth > 0; depth--) {

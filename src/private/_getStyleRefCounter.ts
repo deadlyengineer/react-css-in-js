@@ -1,4 +1,4 @@
-import { _styleRefCounts } from './_globals';
+import { _globals } from './_globals';
 
 export interface IStyleRefCounter {
   /**
@@ -24,27 +24,25 @@ export function _getStyleRefCounter(): IStyleRefCounter {
   if (!_getStyleRefCounter._instance) {
     _getStyleRefCounter._instance = {
       ref(key) {
-        const count = _styleRefCounts.get(key) ?? 0;
-        _styleRefCounts.set(key, count + 1);
+        const count = _globals.s.get(key) ?? 0;
+        _globals.s.set(key, count + 1);
         return count === 0;
       },
       unref(key) {
-        const count = _styleRefCounts.get(key) ?? 0;
-        count > 0 && _styleRefCounts.set(key, count - 1);
+        const count = _globals.s.get(key) ?? 0;
+        count > 0 && _globals.s.set(key, count - 1);
 
         if (count === 1) {
-          _styleRefCounts.delete(key);
+          _globals.s.delete(key);
           return true;
         }
 
-        if (count > 0) {
-          _styleRefCounts.set(key, count - 1);
-        }
+        count > 0 && _globals.s.set(key, count - 1);
 
         return false;
       },
       exists(key) {
-        return _styleRefCounts.has(key);
+        return _globals.s.has(key);
       },
     };
   }
