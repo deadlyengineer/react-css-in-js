@@ -1,3 +1,4 @@
+export * from './types/Css';
 export * from './types/ICssPrinter';
 export * from './types/IStyleConfig';
 export * from './types/IStyleManager';

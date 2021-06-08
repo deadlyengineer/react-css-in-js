@@ -16,7 +16,8 @@ import { Tokens } from './types/Tokens';
  * It should be safe to concatenate token arrays.
  */
 export function _getTokens(styleText: string): Tokens {
-  const re = /\\[\s\S]|[@:]|(?:\s*([,;{}])\s*)|(['"])(?:[\s\S]*?\2|[\s\S]*$)|((\s+)?\/\*(?:[\s\S]*?\*\/(\s+)?|[\s\S]*$))|(\/{2}(?:[\s\S]*?(?:(?=\n)|$)))|(\s+)/g;
+  const re =
+    /\\[\s\S]|[@:]|(?:\s*([,;{}])\s*)|(['"])(?:[\s\S]*?\2|[\s\S]*$)|((\s+)?\/\*(?:[\s\S]*?\*\/(\s+)?|[\s\S]*$))|(\/{2}(?:[\s\S]*?(?:(?=\n)|$)))|(\s+)/g;
   const tokens: Token[] = [];
 
   let match: RegExpExecArray | null;

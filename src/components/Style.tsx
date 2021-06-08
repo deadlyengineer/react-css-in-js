@@ -1,6 +1,6 @@
-import React, { ReactNode, Children, useRef, isValidElement } from 'react';
+import React, { ReactNode, Children, useRef } from 'react';
 import { _StyleChild } from '../private/components/_StyleChild';
-import { _getCssElementStyleText } from '../private/_getCssElementStyleText';
+import { _getCssStyle } from '../private/_getCssStyle';
 import { _getInternalComponent } from '../private/_getInternalComponent';
 
 export interface IStyleProps {
@@ -38,9 +38,9 @@ export const Style = _getInternalComponent<IStyleProps>('style', (props) => {
   return (
     <>
       {Children.map(children, (child) => {
-        const styleText = isValidElement(child) ? _getCssElementStyleText(child) : undefined;
+        const style = _getCssStyle(child);
 
-        if (styleText == null) {
+        if (style == null) {
           if (!hasWarned.current) {
             hasWarned.current = true;
             console.warn(Error('Style components should only have css tagged template children.'));
@@ -49,7 +49,7 @@ export const Style = _getInternalComponent<IStyleProps>('style', (props) => {
           return null;
         }
 
-        return <_StyleChild _scope={scope} _styleText={styleText} />;
+        return <_StyleChild _scope={scope} _styleText={style._text} />;
       })}
     </>
   );

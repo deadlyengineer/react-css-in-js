@@ -4,8 +4,8 @@ import { IStyle } from './types/IStyle';
 import { Tokens } from './types/Tokens';
 
 export function _useStyle(tokens: Tokens, overrideTokens?: Tokens): IStyle {
-  return useMemo(() => _getStyle(overrideTokens && overrideTokens.length ? [...tokens, ...overrideTokens] : tokens), [
-    tokens,
-    overrideTokens,
-  ]);
+  return useMemo(
+    () => _getStyle(overrideTokens && overrideTokens.length ? [...tokens, ...overrideTokens] : tokens),
+    [tokens, overrideTokens]
+  );
 }

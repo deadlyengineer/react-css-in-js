@@ -4,7 +4,7 @@ import { _metaKey } from '../_constants';
 import { _useTokens } from '../_useTokens';
 import { _useStyle } from '../_useStyle';
 import { _getInternalComponent } from '../_getInternalComponent';
-import { _getCssElementStyleText } from '../_getCssElementStyleText';
+import { _getCssStyle } from '../_getCssStyle';
 import { _getStyledClassName } from '../_getStyledClassName';
 import { StyledClassName } from '../types/StyledClassName';
 import { Tokens } from '../types/Tokens';
@@ -23,11 +23,10 @@ export const _StyledWrapper = _getInternalComponent<_IStyledWrapperProps>(
     const tokens = _useTokens(_styleText, _inheritedTokens);
     const meta = _className?.[_metaKey];
     const style = _useStyle(tokens, meta?.s);
-    const styledClassName = useMemo(() => _getStyledClassName(style, meta?.n || _scope, meta ? meta.c : _className), [
-      style,
-      _scope,
-      _className,
-    ]);
+    const styledClassName = useMemo(
+      () => _getStyledClassName(style, meta?.n || _scope, meta ? meta.c : _className),
+      [style, _scope, _className]
+    );
     const styledChildren = _getStyledWrapperChildren(_scope, _className, _children, tokens, styledClassName);
 
     return <>{styledChildren}</>;
@@ -51,16 +50,16 @@ export function _getStyledWrapperChildren(
 
     if (typeof child === 'string' || typeof child === 'number') {
       element = <span>{child}</span>;
-    } else if (isValidElement(child)) {
-      const styleText = _getCssElementStyleText(child);
+    } else {
+      const style = _getCssStyle(child);
 
-      if (styleText != null) {
+      if (style != null) {
         styledChildren.push(
           <_StyledWrapper
-            key={child.key}
+            key={style._key}
             _scope={scope}
             _inheritedTokens={tokens}
-            _styleText={styleText}
+            _styleText={style._text}
             _className={className}
             _children={arrChildren.splice(0)}
           />
@@ -68,10 +67,12 @@ export function _getStyledWrapperChildren(
         break;
       }
 
+      if (!isValidElement(child)) {
+        styledChildren.push(child);
+        continue;
+      }
+
       element = child;
-    } else {
-      styledChildren.push(child);
-      continue;
     }
 
     styledChildren.push(<_StyledChild key={element.key} _className={styledClassName} _child={element} />);

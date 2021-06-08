@@ -13,7 +13,8 @@ interface IBlock {
 }
 
 const singleIndent = '  ';
-const reAtRuleBlockNames = /^(?:(media|supports|document)|page|font-face|keyframes|viewport|counter-style|font-feature-values|property|color-profile)/;
+const reAtRuleBlockNames =
+  /^(?:(media|supports|document)|page|font-face|keyframes|viewport|counter-style|font-feature-values|property|color-profile)/;
 const blockTemplate: IBlock = {
   _prefix: '',
   _suffix: '',

@@ -1,7 +1,8 @@
-import React, { isValidElement, ReactElement } from 'react';
+import React from 'react';
+import { Css } from './types/Css';
 import { _metaKey } from './private/_constants';
 import { _Css } from './private/components/_Css';
-import { _getCssElementStyleText } from './private/_getCssElementStyleText';
+import { _getCssStyle } from './private/_getCssStyle';
 
 /**
  * Style string tagged template function.
@@ -18,19 +19,13 @@ import { _getCssElementStyleText } from './private/_getCssElementStyleText';
  * </Styled>
  * ```
  */
-export function css(template: TemplateStringsArray, ...values: unknown[]): ReactElement {
+export function css(template: TemplateStringsArray, ...values: unknown[]): Css {
   return (
     <_Css
       {...{
         [_metaKey]: String.raw(
           template,
-          ...values.map((value) =>
-            value == null
-              ? ''
-              : typeof value === 'object' && isValidElement(value)
-              ? _getCssElementStyleText(value) ?? value
-              : value
-          )
+          ...values.map((value) => (value == null ? '' : _getCssStyle(value)?._text ?? value))
         ),
       }}
     />
