@@ -52,11 +52,12 @@ export function _getCssText(tokens: Tokens, className?: string): string {
       const at = getTokenValues(indexStart, indexEnd);
 
       if (isKnown) {
+        const conditions = blocks[0]._conditions;
+
         blocks.unshift({
           ...blockTemplate,
           _prefix: printer.openBlock('', at),
           _suffix: printer.closeBlock(''),
-          _conditions: blocks[0]._conditions,
           _deferred: blocks.splice(0),
           _isParent: true,
         });
@@ -64,10 +65,10 @@ export function _getCssText(tokens: Tokens, className?: string): string {
         isConditionalGroup &&
           blocks.unshift({
             ...blockTemplate,
-            _prefix: printer.openBlock(singleIndent, blocks[0]._conditions),
+            _prefix: printer.openBlock(singleIndent, conditions),
             _suffix: printer.closeBlock(singleIndent),
             _indent: singleIndent,
-            _conditions: blocks[0]._conditions,
+            _conditions: conditions,
             _isVirtual: true,
           });
       } else {
@@ -92,9 +93,11 @@ export function _getCssText(tokens: Tokens, className?: string): string {
       const selectors = getTokenValues(indexStart, indexEnd).reduce<string[]>(
         (acc, child) => [
           ...acc,
-          ...parentSelectors.map((parent) =>
-            /&/.test(child) ? child.replace(/&/g, parent) : parent === ':root' ? child : parent + ' ' + child
-          ),
+          ...(parentSelectors.length
+            ? parentSelectors.map((parent) =>
+                /&/.test(child) ? child.replace(/&/g, parent) : parent === ':root' ? child : parent + ' ' + child
+              )
+            : [child]),
         ],
         []
       );

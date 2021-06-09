@@ -263,3 +263,55 @@ it('should print other at-rule properties', () => {
     "
   `);
 });
+
+it('should not inherit parent selectors inside non-conditional-group at rules', () => {
+  expect(
+    _getCssText(
+      _getTokens(`
+        @keyframes foo {
+          from {
+            color: black;
+          }
+          to {
+            color: white;
+          }
+        }
+        @media screen {
+          color: red;
+          .bar {
+            color: blue;
+          }
+        }
+        @font-feature-values Font {
+          @styleset {
+            nice-style: 12;
+          }
+        }
+      `),
+      'foo'
+    )
+  ).toMatchInlineSnapshot(`
+    "@keyframes foo {
+      from {
+        color: black;
+      }
+      to {
+        color: white;
+      }
+    }
+    @media screen {
+      .foo {
+        color: red;
+      }
+      .foo .bar {
+        color: blue;
+      }
+    }
+    @font-feature-values Font {
+      @styleset {
+        nice-style: 12;
+      }
+    }
+    "
+  `);
+});
